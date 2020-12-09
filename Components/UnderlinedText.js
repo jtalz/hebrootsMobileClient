@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, Modal} from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {normalize} from '../Actions/Normalize'
 const UnderlinedText = (props) => {
     const [showBubble, setShowBubble] = useState(props.bubbleVisible)
 
@@ -60,10 +61,10 @@ const UnderlinedText = (props) => {
                 
                 <View style={styles.centeredView}><TouchableWithoutFeedback onPress={()=>setShowBubble(!showBubble)}>
                 <View style={styles.modalView}>
-
-            <Text>{props.translation} </Text>
+            <Text style={{fontFamily: 'Rubik_300Light', fontSize: normalize(15), marginVertical: 5}}>{props.word}</Text>
+            <Text style={{fontFamily: 'Nunito_300Light', fontSize: normalize(14), marginVertical: 5}}>{props.translation} </Text>
              
-            <Text>Tap to close</Text> 
+            <Text style={{fontFamily:'Nunito_300Light'}}>Tap to close</Text> 
             
             </View></TouchableWithoutFeedback></View>
         </Modal>

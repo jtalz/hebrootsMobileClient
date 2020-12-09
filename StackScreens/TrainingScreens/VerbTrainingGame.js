@@ -178,10 +178,6 @@ const VerbTrainingGame = ({ route, navigation }) => {
           //arcSweepAngle = {280}
           rotation={180}
         />
-        {/* <View style={styles.rowLong}>
-          <Text style={{ fontSize: 14, marginRight: 5 }}>00:00</Text>
-          <MaterialCommunityIcons name="speedometer" size={24} color="black" />
-        </View> */}
         <View style={styles.rowLong}>
           <Text style={{ fontSize: 30 }}>{title}</Text>
         </View>

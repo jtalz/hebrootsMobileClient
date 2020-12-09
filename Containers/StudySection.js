@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Text, View} from 'react-native'
 import CardsCarousel from './CardsCarousel'
+import {requestInfinitiveTranslation} from '../Actions/APIRequests'
 
 const StudySection = ({tableStatus, tableData}) => {
+
+  const [translatedInfinitive, setTranslatedInfinitive] = useState('')
+
+  const getTranslatedInfinitive = async (infinitive) => {
+    const translation = await requestInfinitiveTranslation(infinitive)
+    setTranslatedInfinitive(translation.translation) 
+  }
+
+  useEffect(()=> {
+    if (tableStatus == "Found"){
+      getTranslatedInfinitive(tableData.infinitive)
+    }
+  }, [tableData.infinitive])
+
     if (tableStatus == "Loading") {
       return (
         <CardsCarousel
@@ -26,6 +41,7 @@ const StudySection = ({tableStatus, tableData}) => {
           pattern={tableData.pattern}
           infinitive={tableData.infinitive}
           root={tableData.root}
+          translatedInfinitive={translatedInfinitive}
         />
       );
     }

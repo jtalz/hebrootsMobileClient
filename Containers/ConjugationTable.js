@@ -34,7 +34,8 @@ const getPossessionWithGender = (possession) => {
 }
 
 const _renderConjugations = ({ item, index }) => {
-    var {pattern, tense, root} = item;
+    var {pattern, tense, root, translatedInfinitive} = item;
+    console.log(translatedInfinitive)
     const renderItem = ({ item }) => {
       var { conjugation, possession } = item;
       return (
@@ -49,7 +50,7 @@ const _renderConjugations = ({ item, index }) => {
                   />
               </View>
                 <View style={{width: 100, alignItems: 'flex-end', justifyContent: 'center'}}>
-                  <UnderlinedText bubbleVisible={false} translation={'Pronoun for "'+ possession.en_pronoun+'"'}>
+                  <UnderlinedText bubbleVisible={false} translation={'pronoun meaning "'+ possession.en_pronoun +'"'} word={possession.possession}>
                     <Text style={styles.conjugationText}>
                         {getPossessionWithGender(possession)}
                     </Text>
@@ -70,7 +71,7 @@ const _renderConjugations = ({ item, index }) => {
             ListHeaderComponent={
               <>
                 <View style={{ ...styles.headerRow, marginBottom: 0 }}>
-                  
+                  <UnderlinedText bubbleVisible={false} translation={'The word for "' + item.tense.en.toLowerCase() + '" tense'} word={item.tense.he}>
                   <Text
                     style={{
                       fontSize: 22,
@@ -79,6 +80,7 @@ const _renderConjugations = ({ item, index }) => {
                   >
                     {item.tense["he"]}
                   </Text>
+                  </UnderlinedText>
                 </View>
                 <View
                   style={{
@@ -95,7 +97,7 @@ const _renderConjugations = ({ item, index }) => {
                     }
                   </Text>
                   <TouchableWithoutFeedback onPress={() => item.toggle(item.showTranslation)}>
-                    <UnderlinedText bubbleVisible={false} translation={"translating..."}>
+                    <UnderlinedText bubbleVisible={false} translation={'The infinitive form of a verb meaning [to] "' + translatedInfinitive + '"'} word={item.infinitive}>
                       <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>
                         {item.infinitive}
                       </Text>

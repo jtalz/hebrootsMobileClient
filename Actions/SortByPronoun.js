@@ -1,11 +1,11 @@
-const sortByPronoun = (verbFamily, pattern, infinitive, root) =>
+const sortByPronoun = (verbFamily, pattern, infinitive, root, translatedInfinitive) =>
 {
     const sortedFamily = verbFamily.map(
         (subFamily) =>{
             let sortedSubData = subFamily.data.slice(0).sort(function(a,b) {
                 return pronounOrder.indexOf(a.possession.morphology) - pronounOrder.indexOf(b.possession.morphology);
             })
-            return {tense: subFamily.tense, data: sortedSubData, pattern, infinitive, root}
+            return {tense: subFamily.tense, data: sortedSubData, pattern, infinitive, root, translatedInfinitive}
         }
     );
     return sortedFamily;

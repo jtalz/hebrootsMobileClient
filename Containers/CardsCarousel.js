@@ -74,7 +74,8 @@ class CardsCarousel extends Component {
           carouselItems,
           this.props.pattern,
           this.props.infinitive,
-          this.props.root
+          this.props.root,
+          this.props.translatedInfinitive
         );
         var self = this;
         carouselData.data.forEach(c => { c.translation = self.props.translation;c.toggle = self.toggleTranslation.bind(self); c.showTranslation = self.state.showTranslation})
