@@ -1,4 +1,4 @@
-import getConsonantCodes from './GetConsonantCodes.js'
+import getConsonantCodes from './GetMethods/GetConsonantCodes'
 const arraysEqual = (a, b) => {
     if (a === b) return true;
     if (a == null || b == null) return false;
@@ -15,9 +15,10 @@ const arraysEqual = (a, b) => {
     return true;
 }
 
-const checkAnswer = (text, correctCodes) => {
+const isCorrectConsonants = (text, conjugation) => {
   let attCodes = getConsonantCodes(text);
+  let correctCodes = getConsonantCodes(conjugation)
   return arraysEqual(correctCodes, attCodes);
 };
 
-export default checkAnswer;
+export default isCorrectConsonants;

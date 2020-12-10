@@ -16,7 +16,7 @@ export const requestRandomVerbOfPattern = async (pattern_id) => {
 
 export const requestInfinitiveTranslation = async (infinitive) => {
     try {
-        const response = await fetch(`http://192.168.1.162:9000/search/translate?infinitive=${infinitive}`);
+        const response = await fetch(`https://hebroots-api.herokuapp.com/search/translate?infinitive=${infinitive}`);
         const response_1 = await response.json();
         if (response_1 == "") {
             console.log('We didnt recieve a valid response');

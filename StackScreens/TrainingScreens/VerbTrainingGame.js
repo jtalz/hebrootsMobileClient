@@ -175,7 +175,6 @@ const VerbTrainingGame = ({ route, navigation }) => {
           tintColor="#1CDE52"
           backgroundColor="#3d5875"
           style={{ position: "absolute", left: "10%", top: "30%" }}
-          //arcSweepAngle = {280}
           rotation={180}
         />
         <View style={styles.rowLong}>

@@ -5,6 +5,7 @@ import SelectTrainingType from '../StackScreens/TrainingScreens/SelectTrainingTy
 //import VerbTrainingGame from '../StackScreens/VerbTrainingGame.js'
 import MultiChoiceTraining from '../StackScreens/TrainingScreens/MultiChoiceTraining'
 import MatchingTraining from '../StackScreens/TrainingScreens/MatchingTraining'
+import WritingTraining from '../StackScreens/TrainingScreens/WritingTraining'
 import styleHeaderFor from '../Actions/headerOptions';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 const Stack = createStackNavigator();
@@ -14,6 +15,8 @@ function getHeaderTitle(route) {
     if (routeName == 'MultiChoiceTraining'){
         return false;
     }else if(routeName == 'MatchingTraining'){
+        return false;
+    }else if(routeName == 'WritingTraining'){
         return false;
     }else{
         return true;
@@ -42,6 +45,13 @@ const TrainingStack = ({navigation, route}) => {
                 }} 
                 name="MatchingTraining"
                 component={MatchingTraining}
+                />
+                <Stack.Screen options={{ 
+                    headerShown: false,
+                    
+                }} 
+                name="WritingTraining"
+                component={WritingTraining}
                 />
             </Stack.Navigator>
     )  

@@ -53,7 +53,7 @@ const SearchScreen = ({ navigation }) => {
                 noun_phrase: state.tableData.noun_phrase
               })
             }
-            disabled={state==null}
+            disabled={state.tableStatus=="Loading"}
           />
           <SmallYellowButton
             name="Learn Binyan"
@@ -66,7 +66,7 @@ const SearchScreen = ({ navigation }) => {
                     pattern_id: state.tableData.pattern._id
               })
             }
-            disabled={state==null}
+            disabled={state.tableStatus=="Loading"}
           />
         </View>
     </View>
