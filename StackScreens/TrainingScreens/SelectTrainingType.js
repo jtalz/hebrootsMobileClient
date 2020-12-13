@@ -1,7 +1,6 @@
 import React, {useReducer, useState} from 'react';
-import { Image, FlatList, SafeAreaView, StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput, Button,  Animated } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Animated } from 'react-native';
 import Bird from '../../Components/Characters/Bird.js'
-import RoundCustomButton from '../../Components/Buttons/RoundCustomButton.js'
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Actions/ScreenDimensions'
 import {normalize} from '../../Actions/Normalize'
 import SmallYellowButton from '../../Components/Buttons/SmallYellowButton.js';
@@ -158,8 +157,8 @@ const SelectTrainingType = ({ route, navigation }) => {
           
           <_3DButton 
           width ={SCREEN_WIDTH-60}
-          height = {SCREEN_HEIGHT/11} 
-          textSize = {24}
+          height = {SCREEN_HEIGHT/8} 
+          textSize = {normalize(30)}
           color = {'black'}
           backgroundColor = {isSelected(item.name)}
           borderWidth = {1}
@@ -173,18 +172,10 @@ const SelectTrainingType = ({ route, navigation }) => {
           name = {item.name}
           /* details = {[item.transliteration, item.aspects[0]]} */
           enabled = {state.clickable}
-          style = {{marginVertical: SCREEN_HEIGHT/50}}
-          fontSize = {SCREEN_HEIGHT/55}
+          style = {{marginVertical: SCREEN_HEIGHT/80}}
+          fontSize = {normalize(24)}
           />
           );
-
-            {/* <TouchableOpacity style={{marginVertical: SCREEN_HEIGHT/50}} onPress={() => state.selectionGroups[state.page.nActivePage].onSelect(item.name, dispatch)}>
-              <View style={{height: SCREEN_HEIGHT*.1, width: SCREEN_WIDTH, borderColor: '#5ce9ff', backgroundColor: item.color, borderWidth: isSelected(item.name), alignItems: 'center'}}>
-                  <Text style={{...styles.rowTitle}}>{item.name}</Text>
-              </View>
-            </TouchableOpacity> */}
-        
-
         const isSelected = (name) => {
           if (name == state.game || name == state.tense){
             return '#99CC66'

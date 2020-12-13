@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native'
-import { PaalVerb, PielVerb, HitpaelVerb, NifalVerb, HefilVerb } from '../Actions/PatternFormats/PatternConjugation'
+import {PaalInflection} from '../Actions/TextFormats/InflectionFormats/PaalInflection'
+import {NifalInflection} from '../Actions/TextFormats/InflectionFormats/NifalInflection'
+import {PielInflection} from '../Actions/TextFormats/InflectionFormats/PielInflection'
+import {HitpaelInflection} from '../Actions/TextFormats/InflectionFormats/HitpaelInflection'
+import {HefilInflection} from '../Actions/TextFormats/InflectionFormats/HefilInflection'
 
 const Conjugation = (props) => {
     const verb = generateVerb(props)
@@ -23,11 +27,11 @@ const Conjugation = (props) => {
 export default Conjugation;
 
 const VERB_TYPES = {
-    A : PaalVerb,
-    B : NifalVerb,
-    C : PielVerb,
-    E : HitpaelVerb,
-    F : HefilVerb
+    A : PaalInflection,
+    B : NifalInflection,
+    C : PielInflection,
+    E : HitpaelInflection,
+    F : HefilInflection
 }
 
 const generateVerb = ({conjugation, morphology, pattern, tense, fontSize}) => {
