@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TextInput} from 'react-native';
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../Actions/GetMethods/ScreenDimensions';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../Actions/ScreenDimensions';
 import Conjugation from './Conjugation'
 
 import {normalize} from '../Actions/Normalize'

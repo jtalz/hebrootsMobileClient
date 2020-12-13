@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {TouchableOpacity, Text, Animated, StyleSheet} from 'react-native'
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../Actions/ScreenDimensions'
 
 const appropriateCardOpacity = (visible, justSubmittedAndIsCorrect) => {
     if (justSubmittedAndIsCorrect){

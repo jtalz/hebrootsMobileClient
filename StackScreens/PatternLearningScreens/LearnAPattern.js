@@ -1,7 +1,7 @@
 import React,{useEffect, useState} from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import SmallYellowButton from '../../Components/Buttons/SmallYellowButton.js'
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/GetMethods/ScreenDimensions'
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/ScreenDimensions'
 import ExampleVerb from '../../Components/ExampleVerb'
 
 const LearnAPattern = ({ route, navigation }) => {

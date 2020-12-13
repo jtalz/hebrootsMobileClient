@@ -1,4 +1,4 @@
-const getSeperatedConjugationsAndPossessions = ( originalVerbData ) => {
+const seperateInflectionsFromPronouns = ( originalVerbData ) => {
     var dataLength = originalVerbData.length;
     var seperatedData = [];
     originalVerbData.forEach((verb, index) => {
@@ -23,4 +23,4 @@ const getSeperatedConjugationsAndPossessions = ( originalVerbData ) => {
     return seperatedData;
 };
 
-export default getSeperatedConjugationsAndPossessions;
+export default seperateInflectionsFromPronouns;

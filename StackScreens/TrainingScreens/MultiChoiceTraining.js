@@ -6,13 +6,13 @@ import XButton from "../../Components/Buttons/XButton";
 import SentenceWithVerb from "../../Components/SentenceWithVerb";
 import MultipleChoices from "../../Containers/MultipleChoices";
 import HebrootsModal from "../../Components/HebrootsModal";
-import getVerbFamilyStyle from "../../Actions/GetMethods/GetGameplayWords.js";
+import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
 import shuffleArray from "../../Actions/ShuffleArray";
 import compose from "../../Actions/Compose";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-} from "../../Actions/GetMethods/ScreenDimensions";
+} from "../../Actions/ScreenDimensions";
 import getNRandomUniqueElements from "../../Actions/GetMethods/GetNRandomUniqueElements";
 import multiChoiceReducer from "../../Actions/Reducers/MultiChoiceReducer";
 import getAllChoices from "../../Actions/GetMethods/GetAllChoices";
@@ -73,7 +73,7 @@ const MultiChoiceTraining = ({ route, navigation }) => {
 
   const [state, dispatch] = useReducer(
     multiChoiceReducer,
-    getVerbFamilyStyle(gameStyle, family),
+    getGameplayWords(family),
     getInitialState
   );
 

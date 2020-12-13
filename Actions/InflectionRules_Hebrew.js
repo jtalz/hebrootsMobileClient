@@ -1,3 +1,7 @@
+export const checkInflectionRule = (char_code, position, conjugation_Char_Codes) => (fn) => {
+    return fn(char_code, position, conjugation_Char_Codes);
+};
+
 export const isVowel = (signCode) => signCode < 1488 || signCode > 1514
 
 export const isConsonant = (signCode) => signCode >= 1488 && signCode <= 1514;
@@ -45,8 +49,8 @@ const isFirstInstanceOf = (letter) => (attempt, position, base_form) => {
     }
 }
 
-export const isFirstHey = isFirstInstanceOf('ה');
-export const isFirstTuff = isFirstInstanceOf('ת')
+export const isFirstHey = isFirstInstanceOf('ה'.charCodeAt(0));
+export const isFirstTuff = isFirstInstanceOf('ת'.charCodeAt(0))
 const isFirstTuffCode = isFirstInstanceOf('ת'.charCodeAt(0))
 
 export const isSecondToLastConsonant = isNthConsonant(-2)

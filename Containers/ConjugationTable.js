@@ -4,14 +4,13 @@ import {
     View,
     FlatList,
     TouchableWithoutFeedback,
-    StyleSheet,
-    SafeAreaView
+    StyleSheet
 } from 'react-native';
 import Card from "../Components/Card.js";
 import Conjugation from '../Components/Conjugation'
-import {extractTrueRoot} from '../Actions/GetMethods/ExtractTrueRoot'
-import {SCREEN_WIDTH } from '../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_WIDTH } from '../Actions/ScreenDimensions'
 import UnderlinedText from '../Components/UnderlinedText'
+import Root from '../Components/Root'
 
 const getPossessionWithGender = (possession) => {
     switch (possession["morphology"]) {
@@ -35,7 +34,6 @@ const getPossessionWithGender = (possession) => {
 
 const _renderConjugations = ({ item, index }) => {
     var {pattern, tense, root, translatedInfinitive} = item;
-    console.log(translatedInfinitive)
     const renderItem = ({ item }) => {
       var { conjugation, possession } = item;
       return (
@@ -90,12 +88,7 @@ const _renderConjugations = ({ item, index }) => {
                   <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>
                     {pattern.name}
                   </Text>
-                  <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>
-                    {/* {root} */}
-                    {
-                      extractTrueRoot(root, pattern.pattern)
-                    }
-                  </Text>
+                  <Root base_form={root} pattern={pattern.pattern} />
                   <TouchableWithoutFeedback onPress={() => item.toggle(item.showTranslation)}>
                     <UnderlinedText bubbleVisible={false} translation={'The infinitive form of a verb meaning [to] "' + translatedInfinitive + '"'} word={item.infinitive}>
                       <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>

@@ -14,7 +14,7 @@ import DashedCircle from "../../Components/DashedCircle";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-} from "../../Actions/GetMethods/ScreenDimensions";
+} from "../../Actions/ScreenDimensions";
 import {Ionicons, Entypo, AntDesign} from '@expo/vector-icons';
 const SettingsHome = (props) => {
 

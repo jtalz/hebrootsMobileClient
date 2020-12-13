@@ -1,6 +1,6 @@
 import React, {useReducer, useState} from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Animated, TextInput } from "react-native";
-import getVerbFamilyStyle from "../../Actions/GetMethods/GetGameplayWords.js";
+import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
 import isCorrectConsonants from "../../Actions/CheckAnswer.js";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import LivesIndicator from "../../Components/LivesIndicator";
@@ -9,7 +9,7 @@ import HebrootsModal from "../../Components/HebrootsModal";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-} from "../../Actions/GetMethods/ScreenDimensions";
+} from "../../Actions/ScreenDimensions";
 import { navigateToPattern } from "../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
 import _3DButton from "../../Components/Buttons/_3DButton";
@@ -123,7 +123,7 @@ const WritingTraining = ({ route, navigation }) => {
 
     const [state, dispatch] = useReducer(
         writingReducer,
-        getVerbFamilyStyle(gameStyle, family),
+        getGameplayWords(family),
         getInitialState
       );
 

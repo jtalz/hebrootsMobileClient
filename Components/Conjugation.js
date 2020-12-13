@@ -36,5 +36,4 @@ const generateVerb = ({conjugation, morphology, pattern, tense, fontSize}) => {
             return new verbType({conjugation, morphology, tense, fontSize})
         }
     }
-
 }

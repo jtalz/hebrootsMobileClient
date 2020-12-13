@@ -11,8 +11,9 @@ import {
   isFirstConsonant,
   isSecondConsonant,
   isSecondToLastConsonant,
-  isFirstTuffDeep
-} from "../GetMethods/GetFormattedConjugation";
+  isFirstTuffDeep,
+  isLetterConsonant
+} from "../InflectionRules_Hebrew";
 
 const morphologyGroup1 = [
   "FIRST+MF+SINGULAR",

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/GetMethods/ScreenDimensions';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
 
 const RoundCustomButton = ({ name, onPress, imgUrl }) => {
     return (

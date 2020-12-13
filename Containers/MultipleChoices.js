@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import {SCREEN_WIDTH} from '../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_WIDTH} from '../Actions/ScreenDimensions'
 import _3DButton from '../Components/Buttons/_3DButton';
 
 const MultipleChoices = ({ choices, setSelected, selected, enabled, style }) => {

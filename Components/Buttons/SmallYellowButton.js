@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
-import {SCREEN_WIDTH,SCREEN_HEIGHT} from '../../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_WIDTH,SCREEN_HEIGHT} from '../../Actions/ScreenDimensions'
 
 const SmallYellowButton = props => {
     return (

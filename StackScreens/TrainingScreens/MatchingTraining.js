@@ -6,14 +6,14 @@ import {
   FlatList,
 } from "react-native";
 import XButton from "../../Components/Buttons/XButton";
-import getVerbFamilyStyle from "../../Actions/GetMethods/GetGameplayWords.js";
+import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
 import shuffleArray from "../../Actions/ShuffleArray";
 import compose from "../../Actions/Compose";
 import {
   SCREEN_WIDTH
-} from "../../Actions/GetMethods/ScreenDimensions";
+} from "../../Actions/ScreenDimensions";
 import getNRandomUniqueElements from "../../Actions/GetMethods/GetNRandomUniqueElements";
-import getSeperatedConjugationsAndPossessions from "../../Actions/GetMethods/GetSeperatedConjugationsAndPossessions";
+import seperateInflectionsFromPronouns from "../../Actions/SeperateInflectionsFromPronouns";
 import { matchingReducer } from "../../Actions/Reducers/MatchingReducer";
 import HebrootsModal from "../../Components/HebrootsModal";
 
@@ -31,7 +31,7 @@ const getFreshDeck = (data) => {
   return compose(
     getDeck,
     shuffleArray,
-    getSeperatedConjugationsAndPossessions,
+    seperateInflectionsFromPronouns,
     getNRandomUniqueElements
   )({
     usedElements: [],
@@ -53,7 +53,7 @@ const MatchingTraining = ({ route, navigation }) => {
   const { family, infinitive, gameStyle } = route.params;
   const [state, dispatch] = useReducer(
     matchingReducer,
-    getVerbFamilyStyle(gameStyle, family),
+    getGameplayWords(family),
     getInitialState
   );
 

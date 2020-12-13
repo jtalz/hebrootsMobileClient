@@ -1,9 +1,10 @@
-import getCharacterCodes from "../GetMethods/GetCharacterCodes";
+import getCharCodes from "../GetMethods/GetCharCodes";
 import { rules } from "./Subgroups";
 import React from "react";
 import { Text } from "react-native";
 import BlueLetter from '../../Components/BlueLetter'
 import GreenLetter from '../../Components/GreenLetter'
+import { checkInflectionRule } from '../InflectionRules_Hebrew'
 
 const getConjugationRule = (verb, ruleGroups) => {
   const applicableConditionGroup = ruleGroups[verb.tense]
@@ -18,14 +19,10 @@ class PatternConjugation {
     this.conjugation = verb.conjugation;
     this.morphology = verb.morphology;
     this.tense = verb.tense;
-    this.conjugation_Char_Codes = getCharacterCodes(verb.conjugation);
+    this.conjugation_Char_Codes = getCharCodes(verb.conjugation);
     this.conjugationRules = getConjugationRule(verb, ruleGroups);
     this.fontSize = verb.fontSize;
   }
-
-  checkRule = (char_code, position) => (fn) => {
-    return fn(char_code, position, this.conjugation_Char_Codes);
-  };
 
   getFormattedText = () => {
     const formattedText = (
@@ -34,7 +31,7 @@ class PatternConjugation {
           let isRoot = false; 
           this.conjugationRules.forEach(
             (rule) => {
-              if (rule.conditions.some(this.checkRule(char_code, position))){
+              if (rule.conditions.some(checkInflectionRule(char_code, position,this.conjugation_Char_Codes))){
                 isRoot = true;
               }
             }

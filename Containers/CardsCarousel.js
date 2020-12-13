@@ -1,28 +1,23 @@
 import React, { Component } from "react";
 import sortByPronoun from "../Actions/SortByPronoun.js";
-import {
-  View,
-  SafeAreaView,
-  ActivityIndicator,
-} from "react-native";
+import { View, SafeAreaView, ActivityIndicator, Text } from "react-native";
 import Card from "../Components/Card.js";
 import Carousel, { Pagination } from "react-native-snap-carousel";
-import _renderConjugations from './ConjugationTable';
-import _renderLesson from '../Components/CardLayouts/Lesson'
-import { SCREEN_WIDTH } from '../Actions/GetMethods/ScreenDimensions'
-
+import _renderConjugations from "./ConjugationTable";
+import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
+import { normalize } from "../Actions/Normalize.js";
 
 class CardsCarousel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeIndex: 0,
-      showTranslation: false
+      showTranslation: false,
     };
   }
 
   toggleTranslation(show) {
-    this.setState({showTranslation: !show})
+    this.setState({ showTranslation: !show });
   }
 
   _renderLoading({ item, index }) {
@@ -38,14 +33,15 @@ class CardsCarousel extends Component {
   get pagination() {
     const { activeIndex } = this.state;
     const { carouselItems } = this.props;
+    console.log();
     return (
       <Pagination
         dotsLength={carouselItems.length}
         activeDotIndex={activeIndex}
         containerStyle={{
           backgroundColor: "transparent",
-          flex: 0.1,
-          marginTop: 10
+          flex: 1,
+          marginTop: 10,
         }}
         dotStyle={{
           width: 12,
@@ -57,10 +53,49 @@ class CardsCarousel extends Component {
           marginBottom: -10,
         }}
         inactiveDotStyle={{
-          backgroundColor: "#C4C4C4"
+          backgroundColor: "#C4C4C4",
         }}
         inactiveDotOpacity={1}
         inactiveDotScale={0.9}
+        /* dotElement={<Text style={{fontSize: 24, color: 'blue'}}>{carouselItems[activeIndex].tense.he}</Text>}
+        inactiveDotElement={<Text style={{fontSize: 24}}>{carouselItems[activeIndex].tense.he}</Text>} */
+        renderDots={(activeIndex, total, context) => {
+          //console.log('active index: ', activeIndex, 'total: ', total, 'context: ', context);
+          return (
+            <>
+              <Text
+                style={{
+                  color: activeIndex == 0 ? "blue" : "black",
+                  fontSize: activeIndex == 0 ? normalize(20) : normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: "Rubik_300Light",
+                }}
+              >
+                עבר
+              </Text>
+              <Text
+                style={{
+                  color: activeIndex == 1 ? "blue" : "black",
+                  fontSize: activeIndex == 1 ? normalize(20) : normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: "Rubik_300Light",
+                }}
+              >
+                הווה
+              </Text>
+              <Text
+                style={{
+                  color: activeIndex == 2 ? "blue" : "black",
+                  fontSize: activeIndex == 2 ? normalize(20) : normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: "Rubik_300Light",
+                }}
+              >
+                עתיד
+              </Text>
+            </>
+          );
+        }}
       />
     );
   }
@@ -70,28 +105,29 @@ class CardsCarousel extends Component {
     let carouselData = {};
     switch (type) {
       case "Conjugations":
-        carouselData.data = sortByPronoun(
-          carouselItems,
-          this.props.pattern,
-          this.props.infinitive,
-          this.props.root,
-          this.props.translatedInfinitive
-        );
+        //apply a compose function here -> compose ((verbFamily, ...)=> {tense: subFamily.tense, data: sortedSubData, pattern, infinitive, root, translatedInfinitive}, sortByPronoun)(verbFamily)
+        const sortedFamilies = carouselItems.map((family) => {
+          let sorted = sortByPronoun(family.data);
+          return {
+            tense: family.tense,
+            data: sorted,
+            pattern: this.props.pattern,
+            infinitive: this.props.infinitive,
+            root: this.props.root,
+            translatedInfinitive: this.props.translatedInfinitive,
+          };
+        });
+        carouselData.data = sortedFamilies
         var self = this;
-        carouselData.data.forEach(c => { c.translation = self.props.translation;c.toggle = self.toggleTranslation.bind(self); c.showTranslation = self.state.showTranslation})
+        carouselData.data.forEach((c) => {
+          c.translation = self.props.translation;
+          c.toggle = self.toggleTranslation.bind(self);
+          c.showTranslation = self.state.showTranslation;
+        });
         carouselData.renderFn = _renderConjugations;
         carouselData.style = {
           width: "100%",
           height: "108%",
-          marginBottom: -50
-        };
-        break;
-      case "Lesson":
-        carouselData.data = carouselItems;
-        carouselData.renderFn = _renderLesson;
-        carouselData.style = {
-          width: "100%",
-          height: "105%",
           marginBottom: -50,
         };
         break;
@@ -123,7 +159,7 @@ class CardsCarousel extends Component {
             ref={(ref) => (this.carousel = ref)}
             data={carouselData.data}
             sliderWidth={390}
-            itemWidth={SCREEN_WIDTH/1.1}
+            itemWidth={SCREEN_WIDTH / 1.1}
             containerCustomStyle={carouselData.style}
             slideStyle={{ height: "100%" }}
             renderItem={carouselData.renderFn}
@@ -131,6 +167,7 @@ class CardsCarousel extends Component {
             removeClippedSubviews={false}
           />
         </View>
+
         {this.pagination}
       </SafeAreaView>
     );

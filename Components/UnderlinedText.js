@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, Modal, TouchableOpacity} from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { SCREEN_WIDTH } from '../Actions/GetMethods/ScreenDimensions';
+import { SCREEN_WIDTH } from '../Actions/ScreenDimensions';
 import {normalize} from '../Actions/Normalize'
 const UnderlinedText = (props) => {
     const [showBubble, setShowBubble] = useState(props.bubbleVisible)

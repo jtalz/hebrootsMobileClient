@@ -2,24 +2,84 @@ import React, {useReducer, useState} from 'react';
 import { Image, FlatList, SafeAreaView, StyleSheet, ScrollView, Text, TouchableOpacity, View, TextInput, Button,  Animated } from 'react-native';
 import Bird from '../../Components/Characters/Bird.js'
 import RoundCustomButton from '../../Components/Buttons/RoundCustomButton.js'
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Actions/ScreenDimensions'
 import {normalize} from '../../Actions/Normalize'
 import SmallYellowButton from '../../Components/Buttons/SmallYellowButton.js';
 import HebrootsModal from "../../Components/HebrootsModal";
+import _3DButton from '../../Components/Buttons/_3DButton'
+
+const slideInLeft = (dispatch, slidingContainerX, tense) => {
+  dispatch({type: 'selectTense', payload: tense})
+  /* disableBtns(dispatch) */
+  Animated.sequence([
+    Animated.timing(slidingContainerX, {
+      toValue: 2,
+      duration: 300,
+      useNativeDriver: true,
+    }),
+    Animated.timing(slidingContainerX, {
+      toValue: 0,
+      duration: 0,
+      useNativeDriver: true,
+    }),
+  ]).start(() => {
+    nextPage(dispatch);
+    Animated.spring(slidingContainerX, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  });
+};
+
+const slideInRight = (dispatch, slidingContainerX) => {
+  
+  disableBtns(dispatch)
+  Animated.sequence([
+    Animated.timing(slidingContainerX, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }),
+    Animated.timing(slidingContainerX, {
+      toValue: 2,
+      duration: 0,
+      useNativeDriver: true,
+    }),
+  ]).start(() => {
+    lastPage(dispatch);
+    Animated.spring(slidingContainerX, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  });
+};
+const disableBtns = (dispatch) => {
+  dispatch({type: "disableBtns"})
+}
+
+const nextPage = (dispatch) => {
+  dispatch({type: 'nextPage'})
+}
+
+const lastPage = (dispatch) => {
+  dispatch({type: 'lastPage'})
+}
 
 const selectTense = (tense, dispatch) => {
   dispatch({type: 'selectTense', payload: tense})
   console.log('tense selected')
 }
 
-const selectGame = (game, dispatch) => {
+const selectGame = (dispatch, game) => {
   dispatch({type: 'selectGame', payload: game})
 }
 
 const SELECTION_GROUPS = [
   {
     title: "Select a tense",
-    onSelect: selectTense,
+    onSelect: (dispatch, tense, answerContainerX) => slideInLeft(dispatch, answerContainerX, tense),
     options: [
       {
         name: "Past",
@@ -37,7 +97,7 @@ const SELECTION_GROUPS = [
   },
   {
     title: "Select a game",
-    onSelect: selectGame,
+    onSelect: (dispatch, game) => selectGame(dispatch, game),
     options: [
       {
         name: 'Quiz',
@@ -56,8 +116,8 @@ const SELECTION_GROUPS = [
 ]
 
 const initialState = {
-  tense: "Past",
-  game: "Quiz",
+  tense: "",
+  game: "",
   page: {
     nActivePage: 0,
     activePageTitle: SELECTION_GROUPS[0].title
@@ -66,18 +126,19 @@ const initialState = {
   readyToStart: false,
   modalVisibility: false,
   allowNextBtn: true,
-  allowPrevBtn: false
+  allowPrevBtn: false,
+  clickable: true
 }
 
 const selectionReducer = (state, action) => {
   if (action.type == "selectTense"){
-    return {...state, tense: action.payload}
+    return {...state, tense: action.payload, allowNextBtn: false, allowPrevBtn: false, clickable: false}
   }else if (action.type == "selectGame"){
     return {...state, game: action.payload, readyToStart: true}
   }else if (action.type == "nextPage"){
-    return {...state, page: { nActivePage: state.page.nActivePage+1, activePageTitle: state.selectionGroups[state.page.nActivePage+1].title}, allowNextBtn: state.page.nActivePage+1 < state.selectionGroups.length - 1, allowPrevBtn:  state.page.nActivePage + 1 > 0}
+    return {...state, page: { nActivePage: state.page.nActivePage+1, activePageTitle: state.selectionGroups[state.page.nActivePage+1].title}, allowPrevBtn:  state.page.nActivePage + 1 > 0, clickable: true}
   }else if (action.type == "lastPage"){
-    return {...state, page: { nActivePage: state.page.nActivePage-1, activePageTitle: state.selectionGroups[state.page.nActivePage-1].title }, allowNextBtn: state.page.nActivePage-1 < state.selectionGroups.length - 1, allowPrevBtn:  state.page.nActivePage - 1 > 0}
+    return {...state, page: { nActivePage: state.page.nActivePage-1, activePageTitle: state.selectionGroups[state.page.nActivePage-1].title }, allowPrevBtn:  state.page.nActivePage - 1 > 0, clickable: true}
   }else if (action.type == "pleaseSelectGameAndTense"){
     return {...state, modalVisibility: true}
   }else if (action.type == "close"){
@@ -92,26 +153,43 @@ const SelectTrainingType = ({ route, navigation }) => {
 /*     const [verbSet, setVerbSet] = useState([]) */
     const [state, dispatch] = useReducer(selectionReducer, initialState)
 
-    const nextPage = () => {
-      dispatch({type: 'nextPage'})
-    }
 
-    const lastPage = () => {
-      dispatch({type: 'lastPage'})
-    }
         const renderItem = ({ item }) => (
-            <TouchableOpacity style={{marginVertical: SCREEN_HEIGHT/50}} onPress={() => state.selectionGroups[state.page.nActivePage].onSelect(item.name, dispatch)}>
+          
+          <_3DButton 
+          width ={SCREEN_WIDTH-60}
+          height = {SCREEN_HEIGHT/11} 
+          textSize = {24}
+          color = {'black'}
+          backgroundColor = {isSelected(item.name)}
+          borderWidth = {1}
+          borderRadius = {5}
+          borderColor = {'#C0C0C0'}
+          backgroundShadow = {'white'}
+          backgroundDarker = {'#C0C0C0'}
+          backgroundActive = {'#99CC66'}
+          onPress = {() => 
+            state.selectionGroups[state.page.nActivePage].onSelect(dispatch, item.name, answerContainerX)} 
+          name = {item.name}
+          /* details = {[item.transliteration, item.aspects[0]]} */
+          enabled = {state.clickable}
+          style = {{marginVertical: SCREEN_HEIGHT/50}}
+          fontSize = {SCREEN_HEIGHT/55}
+          />
+          );
+
+            {/* <TouchableOpacity style={{marginVertical: SCREEN_HEIGHT/50}} onPress={() => state.selectionGroups[state.page.nActivePage].onSelect(item.name, dispatch)}>
               <View style={{height: SCREEN_HEIGHT*.1, width: SCREEN_WIDTH, borderColor: '#5ce9ff', backgroundColor: item.color, borderWidth: isSelected(item.name), alignItems: 'center'}}>
                   <Text style={{...styles.rowTitle}}>{item.name}</Text>
               </View>
-            </TouchableOpacity>
-        );
+            </TouchableOpacity> */}
+        
 
         const isSelected = (name) => {
           if (name == state.game || name == state.tense){
-            return 2
+            return '#99CC66'
           }else
-            return 0
+            return 'white'
         }
 
 
@@ -146,58 +224,12 @@ const SelectTrainingType = ({ route, navigation }) => {
     const allowStartBtn = (nav) => nav.readyToStart
 //loop through 
 
-const disableBtns = () => {
-  dispatch({type: "disableBtns"})
-}
+
 
 
 const answerContainerX = useState(new Animated.Value(1))[0];
 
-const slideInLeft = () => {
-  disableBtns()
-  Animated.sequence([
-    Animated.timing(answerContainerX, {
-      toValue: 2,
-      duration: 300,
-      useNativeDriver: true,
-    }),
-    Animated.timing(answerContainerX, {
-      toValue: 0,
-      duration: 0,
-      useNativeDriver: true,
-    }),
-  ]).start(() => {
-    nextPage();
-    Animated.spring(answerContainerX, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  });
-};
 
-const slideInRight = () => {
-  disableBtns()
-  Animated.sequence([
-    Animated.timing(answerContainerX, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }),
-    Animated.timing(answerContainerX, {
-      toValue: 2,
-      duration: 0,
-      useNativeDriver: true,
-    }),
-  ]).start(() => {
-    lastPage();
-    Animated.spring(answerContainerX, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  });
-};
 
     return (
       <View style={styles.container}>
@@ -269,16 +301,16 @@ const slideInRight = () => {
             scrollEnabled={false}
           />
           </Animated.View>
-          <View style={{flex: 1, flexDirection: 'row', borderWidth: 1, justifyContent: 'space-around', alignItems: 'center'}}>
-            <SmallYellowButton onClick={slideInRight} name="Previous" disabled={!state.allowPrevBtn} />
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+            <SmallYellowButton onClick={() => slideInRight(dispatch, answerContainerX)} name="Previous" disabled={!state.allowPrevBtn} />
           
 
-            <SmallYellowButton onClick={slideInLeft} name="Continue" disabled={!state.allowNextBtn} />
-
+            {/* <SmallYellowButton onClick={()=>slideInLeft(dispatch, answerContainerX)} name="Continue" disabled={!state.allowNextBtn} /> */}
+  <SmallYellowButton onClick={() => navigateToTraining(state)} name="Start" disabled={!allowStartBtn(state)} />
           </View>
-          <View style={{borderWidth: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <SmallYellowButton onClick={() => navigateToTraining(state)} name="Start" disabled={!allowStartBtn(state)} />
-            </View>
+          {/* <View style={{borderWidth: 1, justifyContent: 'center', alignItems: 'center'}}>
+            
+            </View> */}
       </View>
     );
 }

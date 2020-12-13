@@ -5,7 +5,7 @@ import RoundCustomButton from '../../Components/Buttons/RoundCustomButton';
 import Bird from '../../Components/Characters/Bird';
 import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from '../../Components/Buttons/_3DButton'
-import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../Actions/GetMethods/ScreenDimensions'
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../Actions/ScreenDimensions'
 
 const SelectAPattern = ({navigation, route}) => {
 
@@ -48,25 +48,6 @@ const SelectAPattern = ({navigation, route}) => {
         enabled = {true}
         style = {{marginVertical: 10}}
         fontSize = {SCREEN_HEIGHT/55}
-        /* style = {} */
-        /* margins,  */
-        /* children  */
-
-
-
-
-            /* bgColor ='white' 
-            imgUrl={item.icon} 
-            name={{name: item.name}} 
-            onPress={() => 
-                navigation.navigate('LearnAPattern', {
-                    pattern: item.pattern,
-                    name: item.name,
-                    aspects: item.aspects,
-                    infinitive_form: item.infinitive_form,
-                    pattern_id: item._id,
-                    transliteration: item.transliteration
-                })}  */
         />
     );
     return (
