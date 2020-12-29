@@ -10,19 +10,6 @@ import { normalize } from "../Actions/Normalize";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import SmallYellowButton from "../Components/Buttons/SmallYellowButton";
 import AuthContext from "../Actions/context/AuthContext";
-/* import * as Google from 'expo-google-app-auth'; */
-
-/* const googlesignIn = async () => {
-    const { type, accessToken, user } = await Google.logInAsync({
-        iosClientId: `<YOUR_IOS_CLIENT_ID_FOR_EXPO>`,
-        androidClientId: `<YOUR_ANDROID_CLIENT_ID_FOR_EXPO>`,
-      });
-
-      if (type === 'success') {
-        
-        console.log(user);
-      }
-  }; */
 
 const LoginForm = ({
   signUpInstead,
@@ -142,12 +129,14 @@ const initialState = {
 
 const LoginRegister = ({ noLogin, noUserFound }) => {
   const [state, setState] = useState(initialState);
+
+  const { attemptRegister, attemptLogin } = React.useContext(AuthContext);
+  
   const toggleLoginStatus = () => {
     state.loginStatus == "login"
       ? setState({ ...state, loginStatus: "signUp" })
       : setState({ ...state, loginStatus: "login" });
   };
-  const { attemptRegister, attemptLogin } = React.useContext(AuthContext);
 
   const handleChange = (field, text) => {
     switch (field) {

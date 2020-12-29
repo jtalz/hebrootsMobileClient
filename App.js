@@ -2,7 +2,6 @@ import "react-native-gesture-handler";
 import React, { useReducer, useMemo } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
 import SplashScreen from "./StackScreens/AuthStack/SplashScreen";
 import PatternStack from "./TabStacks/PatternStack";
 import SearchStack from "./TabStacks/SearchStack";
@@ -18,9 +17,13 @@ import {
 import can_load_fonts from "./Actions/LoadFonts";
 import { AppLoading } from "expo";
 import remove_token from "./Actions/Authentication/remove_token";
+import HebrootsTabNav from "./Navigators/HebrootsTabNav";
 
+const showSplashScreen_ = (userToken, continueWithoutSignin) => {
+  if (userToken !== null || continueWithoutSignin !== false) return false;
+  else return true;
+};
 const Tab = createBottomTabNavigator();
-
 const App = () => {
   const [state, dispatch] = useReducer(authenticationReducer, initialAuthState);
 
@@ -31,16 +34,21 @@ const App = () => {
   const authContext = useMemo(
     () => ({
       attemptLogin: async (form_data) => {
-        await requestLogin(form_data)
-          .then((res) => res.token ? storeTokenLogin(res.token) : dispatch({ type: "NO_USER_FOUND" }))
-      },
-      signOut: async () => {
-        await remove_token();
-        dispatch({ type: "LOGOUT" });
+        await requestLogin(form_data).then((res) =>
+          res.token
+            ? storeTokenLogin(res.token)
+            : dispatch({ type: "NO_USER_FOUND" })
+        );
       },
       attemptRegister: async (form_data) => {
-        await requestRegister(form_data)
-          .then((res) => res.token ? storeTokenLogin(res.token) : dispatch({ type: "NO_USER_FOUND" }))
+        await requestRegister(form_data).then((res) =>
+          res.token
+            ? storeTokenLogin(res.token)
+            : dispatch({ type: "NO_USER_FOUND" })
+        );
+      },
+      signOut: async () => {
+        await remove_token().then((res) => dispatch({ type: "LOGOUT" }));
       },
       signInAgain: () => {
         dispatch({ type: "BACK2SPLASH" });
@@ -50,15 +58,7 @@ const App = () => {
   );
 
   const storeTokenLogin = async (token) => {
-      await store_token(token)
-        .then(success => {login(token)})
-  }
-
-  const showSplashScreen_ = (userToken, continueWithoutSignin) => {
-    if (userToken !== null || continueWithoutSignin !== false) 
-      return false;
-    else 
-      return true;
+    await store_token(token).then((success) => login(token));
   };
 
   return can_load_fonts() ? (
@@ -69,41 +69,19 @@ const App = () => {
         {showSplashScreen_(state.userToken, state.continueWithoutSignin) ? (
           <SplashScreen
             isSignedIn={state.userToken !== null}
-            noLogin={()=>{dispatch({ type: "NOLOGIN" })}}
+            noLogin={() => {
+              dispatch({ type: "NOLOGIN" });
+            }}
             noUserFound={state.noUserFound}
             login={login}
           />
         ) : (
-          <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-
-                if (route.name === "Explore") {
-                  iconName = "ios-search";
-                } else if (route.name === "Learn") {
-                  iconName = "ios-school";
-                } else if (route.name === "Progress") {
-                  iconName = "ios-flash";
-                } else if (route.name === "Settings") {
-                  iconName = "ios-settings";
-                }
-
-                // You can return any component that you like here!
-                return <Ionicons name={iconName} size={size} color={color} />;
-              },
-            })}
-            tabBarOptions={{
-              activeTintColor: "#2B78EC",
-              inactiveTintColor: "gray",
-            }}
-          >
+          <HebrootsTabNav Tab={Tab}>
             <Tab.Screen name="Explore" component={SearchStack} />
             <Tab.Screen name="Learn" component={PatternStack} />
             <Tab.Screen name="Progress" component={TrainingStack} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
-          </Tab.Navigator>
+          </HebrootsTabNav>
         )}
       </NavigationContainer>
     </AuthContext.Provider>
