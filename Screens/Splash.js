@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { View, ImageBackground, StyleSheet, Animated } from "react-native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../Actions/ScreenDimensions";
-import HebrootsLogo from "../../Components/HebrootsLogo";
-import { normalize } from "../../Actions/Normalize";
-import LoginRegister from "../../Containers/LoginRegister";
-import check_for_token from "../../Actions/Authentication/check_for_token";
-import timedAnimation from "../../Actions/Animations/timedAnimation";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
+import HebrootsLogo from "../Components/HebrootsLogo";
+import { normalize } from "../Actions/Normalize";
+import LoginRegister from "../Containers/LoginRegister";
+import check_for_token from "../Actions/Authentication/check_for_token";
+import timedAnimation from "../Actions/Animations/timedAnimation";
 
 const backgroundGradient = {
   uri:
     "https://user-images.githubusercontent.com/31594943/102720496-ad173500-42c2-11eb-85eb-0363288e546c.png",
 };
 
-const SplashScreen = ({ noLogin, noUserFound, login }) => {
+const Splash = ({ noLogin, noUserFound, login }) => {
 
   useEffect(() => {
     attemptAutomaticSignIn();
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SplashScreen;
+export default Splash;

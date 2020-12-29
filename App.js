@@ -2,11 +2,11 @@ import "react-native-gesture-handler";
 import React, { useReducer, useMemo } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import SplashScreen from "./StackScreens/AuthStack/SplashScreen";
-import PatternStack from "./TabStacks/PatternStack";
-import SearchStack from "./TabStacks/SearchStack";
-import SettingsScreen from "./TabStacks/SettingsScreen";
-import TrainingStack from "./TabStacks/TrainingStack";
+import Splash from "./Screens/Splash";
+import PatternStack from "./Navigators/TabStacks/PatternStack";
+import SearchStack from "./Navigators/TabStacks/SearchStack";
+import SettingsScreen from "./Navigators/TabStacks/SettingsScreen";
+import TrainingStack from "./Navigators/TabStacks/TrainingStack";
 import AuthContext from "./Actions/context/AuthContext";
 import { requestLogin, requestRegister } from "./Actions/APIRequests";
 import store_token from "./Actions/Authentication/store_token";
@@ -19,7 +19,7 @@ import { AppLoading } from "expo";
 import remove_token from "./Actions/Authentication/remove_token";
 import HebrootsTabNav from "./Navigators/HebrootsTabNav";
 
-const showSplashScreen_ = (userToken, continueWithoutSignin) => {
+const showSplash_ = (userToken, continueWithoutSignin) => {
   if (userToken !== null || continueWithoutSignin !== false) return false;
   else return true;
 };
@@ -66,8 +66,8 @@ const App = () => {
   ) : (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {showSplashScreen_(state.userToken, state.continueWithoutSignin) ? (
-          <SplashScreen
+        {showSplash_(state.userToken, state.continueWithoutSignin) ? (
+          <Splash
             isSignedIn={state.userToken !== null}
             noLogin={() => {
               dispatch({ type: "NOLOGIN" });

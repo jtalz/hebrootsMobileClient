@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Bird from '../../Components/Characters/Bird'
 
-const UserTrainingMap = ({ route, navigation }) => {
+const UserProgress = ({ route, navigation }) => {
     const [prefill, setPrefill] = useState(0)
     const [fill, setFill] = useState(50)
 
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default UserTrainingMap;
+export default UserProgress;

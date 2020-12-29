@@ -6,7 +6,7 @@ import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from '../../Components/Buttons/_3DButton'
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from '../../Actions/ScreenDimensions'
 
-const SelectAPattern = ({navigation, route}) => {
+const LessonSelection = ({navigation, route}) => {
 
     const [patterns, setPatterns] = useState(null)
 
@@ -34,7 +34,7 @@ const SelectAPattern = ({navigation, route}) => {
         backgroundDarker = {'#C0C0C0'}
         backgroundActive = {'#FFD350'}
         onPress = {() => 
-            navigation.navigate('LearnAPattern', {
+            navigation.navigate('PatternLesson', {
                 pattern: item.pattern,
                 name: item.name,
                 aspects: item.aspects,
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SelectAPattern;
+export default LessonSelection;

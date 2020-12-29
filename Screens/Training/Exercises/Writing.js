@@ -1,22 +1,22 @@
 import React, {useReducer, useState} from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Animated, TextInput } from "react-native";
-import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
-import isCorrectConsonants from "../../Actions/CheckAnswer.js";
+import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords.js";
+import isCorrectConsonants from "../../../Actions/CheckAnswer.js";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
-import LivesIndicator from "../../Components/LivesIndicator";
-import XButton from "../../Components/Buttons/XButton";
-import HebrootsModal from "../../Components/HebrootsModal";
+import LivesIndicator from "../../../Components/LivesIndicator";
+import XButton from "../../../Components/Buttons/XButton";
+import HebrootsModal from "../../../Components/HebrootsModal";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-} from "../../Actions/ScreenDimensions";
-import { navigateToPattern } from "../../Actions/NavigateTo";
+} from "../../../Actions/ScreenDimensions";
+import { navigateToPattern } from "../../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
-import _3DButton from "../../Components/Buttons/_3DButton";
+import _3DButton from "../../../Components/Buttons/_3DButton";
 import { AntDesign, Feather, Ionicons  } from '@expo/vector-icons'; 
-import SmallYellowButton from '../../Components/Buttons/SmallYellowButton'
-import {normalize} from '../../Actions/Normalize'
-import SentenceWithVerb from "../../Components/SentenceWithVerb";
+import SmallYellowButton from '../../../Components/Buttons/SmallYellowButton'
+import {normalize} from '../../../Actions/Normalize'
+import SentenceWithVerb from "../../../Components/SentenceWithVerb";
 
 function getInitialState(verbFamily) {
     return {
@@ -110,7 +110,7 @@ const writingReducer = (state, action) => {
     }
 }
 
-const WritingTraining = ({ route, navigation }) => {
+const Writing = ({ route, navigation }) => {
 
     const {
         family,
@@ -179,7 +179,7 @@ const WritingTraining = ({ route, navigation }) => {
               name: "Yes I'm sure",
               callback: () => {
                 dispatch({ type: "close" });
-                navigation.navigate("UserTrainingMap");
+                navigation.navigate("UserProgress");
               },
             },
             {
@@ -198,7 +198,7 @@ const WritingTraining = ({ route, navigation }) => {
               name: "Go back to study",
               callback: () => {
                 dispatch({ type: "close" });
-                navigateToPattern(navigation, "SelectAPattern", {});
+                navigateToPattern(navigation, "LessonSelection", {});
               },
             },
             {
@@ -218,7 +218,7 @@ const WritingTraining = ({ route, navigation }) => {
               callback: () => {
                 dispatch({ type: "close" });
                 navigation.dispatch(StackActions.popToTop());
-                navigateToPattern(navigation, "SelectAPattern", {});
+                navigateToPattern(navigation, "LessonSelection", {});
               },
             },
           ]}
@@ -403,4 +403,4 @@ const styles = StyleSheet.create({
   }
   });
  
-export default WritingTraining;
+export default Writing;

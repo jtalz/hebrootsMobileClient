@@ -10,8 +10,8 @@ import {
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import * as Animatable from "react-native-animatable";
-import SmallYellowButton from "../../Components/Buttons/SmallYellowButton.js";
-import checkAnswer from "../../Actions/CheckAnswer.js";
+import SmallYellowButton from "../../../Components/Buttons/SmallYellowButton.js";
+import checkAnswer from "../../../Actions/CheckAnswer.js";
 
 const initialState = {
   x: 0,
@@ -133,7 +133,7 @@ const VerbTrainingGame = ({ route, navigation }) => {
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
-                navigation.navigate("UserTrainingMap");
+                navigation.navigate("UserProgress");
               }}
             >
               <Text style={styles.textStyle}>Return to Training screen</Text>

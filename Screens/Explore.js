@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import SearchBar from "../Components/SearchBar.js";
 import Card from "../Components/Card";
 import SmallYellowButton from "../Components/Buttons/SmallYellowButton";
-import {navigateToPattern, navigateToTraining} from "../Actions/NavigateTo";
+import { navigateToPattern } from "../Actions/NavigateTo";
 import Bird from '../Components/Characters/Bird';
 import {
   conjugationTableReducer,
@@ -13,7 +13,7 @@ import {
 import { requestVerbFromValue } from "../Actions/APIRequests";
 import StudySection from '../Containers/StudySection'
 
-const SearchScreen = ({ navigation }) => {
+const Explore = ({ navigation }) => {
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
   
     const handleSearchRequest = async (text) => {
@@ -46,7 +46,7 @@ const SearchScreen = ({ navigation }) => {
           <SmallYellowButton
             name="Practice Verb"
             onClick={() =>
-              navigation.push("SelectTrainingType", { 
+              navigation.push("ExerciseSelection", { 
                 family: state.tableData.family,
                 infinitive: state.tableData.infinitive,
                 pattern: state.tableData.pattern.pattern,
@@ -58,7 +58,7 @@ const SearchScreen = ({ navigation }) => {
           <SmallYellowButton
             name="Learn Binyan"
             onClick={() =>
-              navigateToPattern(navigation, "LearnAPattern", {
+              navigateToPattern(navigation, "PatternLesson", {
                 pattern: state.tableData.pattern.pattern,
                     name: state.tableData.pattern.name,
                     aspects: state.tableData.pattern.aspects,
@@ -101,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default Explore;

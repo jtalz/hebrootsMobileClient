@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import StudySection from '../../Containers/StudySection'
 import SmallYellowButton from "../../Components/Buttons/SmallYellowButton.js";
 import Bird from "../../Components/Characters/Bird";
-import { navigateToTraining } from "../../Actions/NavigateTo";
 import {
   conjugationTableReducer,
   initialState,
@@ -11,7 +10,7 @@ import {
 } from "../../Actions/Reducers/ConjugationTableReducer";
 import { requestRandomVerbOfPattern } from "../../Actions/APIRequests";
 
-const RandomVerbSpawn = ({ route, navigation }) => {
+const ExampleExplore = ({ route, navigation }) => {
   const { pattern_id } = route.params;
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
 
@@ -53,7 +52,7 @@ const RandomVerbSpawn = ({ route, navigation }) => {
         <SmallYellowButton
           name="Practice This"
           onClick={() =>
-            navigation.push("SelectTrainingType", { 
+            navigation.push("ExerciseSelection", { 
               family: state.tableData.family,
               infinitive: state.tableData.infinitive,
               pattern: state.tableData.pattern.pattern,
@@ -96,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default RandomVerbSpawn;
+export default ExampleExplore;

@@ -147,7 +147,7 @@ const selectionReducer = (state, action) => {
   }
 }
 
-const SelectTrainingType = ({ route, navigation }) => {
+const ExerciseSelection = ({ route, navigation }) => {
     const {pattern, family, infinitive, noun_phrase} = route.params;
 /*     const [verbSet, setVerbSet] = useState([]) */
     const [state, dispatch] = useReducer(selectionReducer, initialState)
@@ -193,11 +193,11 @@ const SelectTrainingType = ({ route, navigation }) => {
             }else{
             let gameType;
             if (state.game == 'Matching'){
-              gameType = "MatchingTraining";
+              gameType = "Matching";
             }else if (state.game == "Quiz"){
-              gameType = "MultiChoiceTraining"
+              gameType = "MultipleChoice"
             }else{
-              gameType = "WritingTraining"
+              gameType = "Writing"
             }
             let newFamily = family.filter((subFamily)=> state.tense.toUpperCase() == subFamily.tense.en)
             navigation.navigate("Progress", {screen: gameType,initial: false, params : {
@@ -330,4 +330,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default SelectTrainingType;
+export default ExerciseSelection;

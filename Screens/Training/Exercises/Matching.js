@@ -5,22 +5,20 @@ import {
   View,
   FlatList,
 } from "react-native";
-import XButton from "../../Components/Buttons/XButton";
-import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
-import shuffleArray from "../../Actions/ShuffleArray";
-import compose from "../../Actions/Compose";
+import XButton from "../../../Components/Buttons/XButton";
+import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords.js";
+import shuffleArray from "../../../Actions/ShuffleArray";
+import compose from "../../../Actions/Compose";
 import {
   SCREEN_WIDTH
-} from "../../Actions/ScreenDimensions";
-import getNRandomUniqueElements from "../../Actions/GetMethods/GetNRandomUniqueElements";
-import seperateInflectionsFromPronouns from "../../Actions/SeperateInflectionsFromPronouns";
-import { matchingReducer } from "../../Actions/Reducers/MatchingReducer";
-import HebrootsModal from "../../Components/HebrootsModal";
-
+} from "../../../Actions/ScreenDimensions";
+import getNRandomUniqueElements from "../../../Actions/GetMethods/GetNRandomUniqueElements";
+import seperateInflectionsFromPronouns from "../../../Actions/SeperateInflectionsFromPronouns";
+import { matchingReducer } from "../../../Actions/Reducers/MatchingReducer";
+import HebrootsModal from "../../../Components/HebrootsModal";
 import { StackActions } from "@react-navigation/native";
-import MatchingCard from '../../Components/MatchingCard'
-import { Stopwatch } from "react-native-stopwatch-timer";
-import StopwatchTimer from "../../Components/StopwatchTimer"
+import MatchingCard from '../../../Components/MatchingCard'
+import StopwatchTimer from "../../../Components/StopwatchTimer"
 
 const getDeck = (deck) => deck;
 
@@ -49,7 +47,7 @@ const getInitialState = (data) => {
   };
 };
 
-const MatchingTraining = ({ route, navigation }) => {
+const Matching = ({ route, navigation }) => {
   const { family, infinitive, gameStyle } = route.params;
   const [state, dispatch] = useReducer(
     matchingReducer,
@@ -80,7 +78,7 @@ const MatchingTraining = ({ route, navigation }) => {
             name: "Yes I'm sure",
             callback: () => {
               dispatch({ type: "close" });
-              navigation.navigate("UserTrainingMap");
+              navigation.navigate("UserProgress");
             },
           },
           {
@@ -101,7 +99,7 @@ const MatchingTraining = ({ route, navigation }) => {
             callback: () => {
               dispatch({ type: "close" });
               navigation.dispatch(StackActions.popToTop());
-              /* navigateToPattern(navigation, 'SelectAPattern', {}); */
+              /* navigateToPattern(navigation, 'LessonSelection', {}); */
               navigation.goBack();
             },
           },
@@ -165,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MatchingTraining;
+export default Matching;

@@ -2,26 +2,26 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, View, Animated } from "react-native";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
-import LivesIndicator from "../../Components/LivesIndicator";
-import XButton from "../../Components/Buttons/XButton";
-import SentenceWithVerb from "../../Components/SentenceWithVerb";
-import MultipleChoices from "../../Containers/MultipleChoices";
-import HebrootsModal from "../../Components/HebrootsModal";
-import getGameplayWords from "../../Actions/GetMethods/GetGameplayWords.js";
-import shuffleArray from "../../Actions/ShuffleArray";
-import compose from "../../Actions/Compose";
+import LivesIndicator from "../../../Components/LivesIndicator";
+import XButton from "../../../Components/Buttons/XButton";
+import SentenceWithVerb from "../../../Components/SentenceWithVerb";
+import MultipleChoices from "../../../Containers/MultipleChoices";
+import HebrootsModal from "../../../Components/HebrootsModal";
+import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords.js";
+import shuffleArray from "../../../Actions/ShuffleArray";
+import compose from "../../../Actions/Compose";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
-} from "../../Actions/ScreenDimensions";
-import getNRandomUniqueElements from "../../Actions/GetMethods/GetNRandomUniqueElements";
-import multiChoiceReducer from "../../Actions/Reducers/MultiChoiceReducer";
-import getAllChoices from "../../Actions/GetMethods/GetAllChoices";
-import { navigateToPattern } from "../../Actions/NavigateTo";
+} from "../../../Actions/ScreenDimensions";
+import getNRandomUniqueElements from "../../../Actions/GetMethods/GetNRandomUniqueElements";
+import multiChoiceReducer from "../../../Actions/Reducers/MultiChoiceReducer";
+import getAllChoices from "../../../Actions/GetMethods/GetAllChoices";
+import { navigateToPattern } from "../../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
-import _3DButton from "../../Components/Buttons/_3DButton";
+import _3DButton from "../../../Components/Buttons/_3DButton";
 import { AntDesign } from '@expo/vector-icons'; 
-import { normalize } from "../../Actions/Normalize";
+import { normalize } from "../../../Actions/Normalize";
 
 function getInitialState(verbFamily) {
   return {
@@ -62,7 +62,7 @@ function get3Choices(verbFamily) {
   });
 }
 
-const MultiChoiceTraining = ({ route, navigation }) => {
+const MultipleChoice = ({ route, navigation }) => {
   const {
     family,
     infinitive,
@@ -154,7 +154,7 @@ const MultiChoiceTraining = ({ route, navigation }) => {
               name: "Yes I'm sure",
               callback: () => {
                 dispatch({ type: "close" });
-                navigation.navigate("UserTrainingMap");
+                navigation.navigate("UserProgress");
               },
             },
             {
@@ -173,7 +173,7 @@ const MultiChoiceTraining = ({ route, navigation }) => {
               name: "Go back to study",
               callback: () => {
                 dispatch({ type: "close" });
-                navigateToPattern(navigation, "SelectAPattern", {});
+                navigateToPattern(navigation, "LessonSelection", {});
               },
             },
             {
@@ -193,7 +193,7 @@ const MultiChoiceTraining = ({ route, navigation }) => {
               callback: () => {
                 dispatch({ type: "close" });
                 navigation.dispatch(StackActions.popToTop());
-                navigateToPattern(navigation, "SelectAPattern", {});
+                navigateToPattern(navigation, "LessonSelection", {});
               },
             },
           ]}
@@ -364,4 +364,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MultiChoiceTraining;
+export default MultipleChoice;
