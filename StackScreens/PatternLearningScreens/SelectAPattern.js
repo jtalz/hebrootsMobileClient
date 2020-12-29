@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Text, FlatList, StyleSheet, View } from 'react-native';
 import * as Animatable from "react-native-animatable";
-import RoundCustomButton from '../../Components/Buttons/RoundCustomButton';
 import Bird from '../../Components/Characters/Bird';
 import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from '../../Components/Buttons/_3DButton'
@@ -58,8 +57,11 @@ const SelectAPattern = ({navigation, route}) => {
                     birdType = 'Old'
                     style={{ top: 20, left: -25}}
                 />
-                <Text style={{width: '65%', fontSize: SCREEN_HEIGHT/35, textAlign: 'center', fontFamily: 'Nunito_400Regular',}}>
-                    Learn about one of the following topics then practice it!
+                <Text style={{width: '65%', fontSize: SCREEN_HEIGHT/35, textAlign: 'center', fontFamily: 'Nunito_300Light',}}>
+                    hi josh!
+                </Text>
+                <Text style={{width: '65%', fontSize: SCREEN_HEIGHT/35, textAlign: 'center', fontFamily: 'Nunito_300Light',}}>
+                    let's learn about one of the following topics
                 </Text>
             </View>
             <Animatable.View 

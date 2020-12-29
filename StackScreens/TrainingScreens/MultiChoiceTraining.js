@@ -1,3 +1,4 @@
+
 import React, { useEffect, useReducer, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, View, Animated } from "react-native";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
@@ -19,8 +20,8 @@ import getAllChoices from "../../Actions/GetMethods/GetAllChoices";
 import { navigateToPattern } from "../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
 import _3DButton from "../../Components/Buttons/_3DButton";
-import Bird from "../../Components/Characters/Bird";
 import { AntDesign } from '@expo/vector-icons'; 
+import { normalize } from "../../Actions/Normalize";
 
 function getInitialState(verbFamily) {
   return {
@@ -78,7 +79,7 @@ const MultiChoiceTraining = ({ route, navigation }) => {
   );
 
   const selectChoice = (nChoice) => {
-    dispatch({ type: "selectChoice", payload: nChoice });
+    nChoice == null ? dispatch({type: "disableCheck"}) : dispatch({ type: "selectChoice", payload: nChoice });
   };
 
   const disableCheck = () => {
@@ -87,10 +88,11 @@ const MultiChoiceTraining = ({ route, navigation }) => {
 
   const checkPlease = () => {
     dispatch({ type: "checkPlease" });
+    animateSolutionContainerIn()
   };
 
   const moveToNextQuestion = () => {
-    dispatch({ type: "moveToNextQuestion" });
+    animateSolutionContainerOut()
   };
 
   const replay = () => {
@@ -99,8 +101,29 @@ const MultiChoiceTraining = ({ route, navigation }) => {
 
   const answerContainerX = useState(new Animated.Value(1))[0];
 
+  const solutionContainerY = useState(new Animated.Value(0))[0];
+
+  const animateSolutionContainerIn = () => {
+    Animated.timing(solutionContainerY, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true
+    }).start();
+  }
+
+  const animateSolutionContainerOut = () => {
+    Animated.timing(solutionContainerY, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true
+    }).start(()=>{
+      dispatch({ type: "moveToNextQuestion" });
+    })
+  }
+
   const slideInLeft = () => {
     disableCheck();
+    moveToNextQuestion();
     Animated.sequence([
       Animated.timing(answerContainerX, {
         toValue: 2,
@@ -113,7 +136,6 @@ const MultiChoiceTraining = ({ route, navigation }) => {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      moveToNextQuestion();
       Animated.spring(answerContainerX, {
         toValue: 1,
         duration: 500,
@@ -210,28 +232,20 @@ const MultiChoiceTraining = ({ route, navigation }) => {
           />
           <LivesIndicator nLives={state.lives} />
         </View>
-
+        <View style={{flex: 2}}>
         <Text
           style={{
-            flex: 1,
-            fontSize: 40,
-            fontFamily: "Rubik_300Light",
+            fontSize: normalize(18),
+            fontFamily: "Rubik_400Regular",
             margin: 10,
+            width: SCREEN_WIDTH,
+            alignSelf: 'center',
+            textAlign: 'left',
+            padding: 20
           }}
         >
-          {infinitive}
+          Fill in the blank
         </Text>
-        <View style={{
-              flex: 1,
-              flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'
-            }}>
-          <Text
-            style={{fontSize: 30, marginHorizontal: 5,
-              fontFamily: "Rubik_300Light"}}
-          >
-            {state.verbData[state.activeVerb.nActiveVerb].tense}
-          </Text>
-          <AntDesign name="clockcircleo" size={20} color="black" />
         </View>
         <Animated.View
           style={[
@@ -245,12 +259,20 @@ const MultiChoiceTraining = ({ route, navigation }) => {
                 },
               ],
               flex: 9,
+              width: SCREEN_WIDTH
             },
           ]}
         >
-          <SentenceWithVerb
+          
+
+          <MultipleChoices
+            style={{  }}
+            choices={state.allChoices}
+            selected={state.selectedChoice}
+            setSelected={selectChoice}
+            enabled={state.choicesEnabled}
+
             gameStyle={"MultiChoiceQuiz"}
-            style={{ flex: 4 }}
             possession={
               state.verbData[state.activeVerb.nActiveVerb].possessionInfo
                 .possession
@@ -265,14 +287,9 @@ const MultiChoiceTraining = ({ route, navigation }) => {
             tense_en={tense_en}
             pattern={pattern}
             noun_phrase={noun_phrase}
-          />
+            pronoun_en={state.verbData[state.activeVerb.nActiveVerb].possessionInfo.possession_en}
 
-          <MultipleChoices
-            style={{ flex: 5 }}
-            choices={state.allChoices}
-            selected={state.selectedChoice}
-            setSelected={selectChoice}
-            enabled={state.choicesEnabled}
+
           />
         </Animated.View>
       </SafeAreaView>
@@ -304,8 +321,8 @@ const MultiChoiceTraining = ({ route, navigation }) => {
           paddingBottom: SCREEN_HEIGHT / 20,
         }}
       >
-        {state.questionStatus == "unanswered" ? null : (
-          <View
+        {/* {state.questionStatus == "unanswered" ? null : ( */}
+          <Animated.View
             style={{
               position: "absolute",
               bottom: 0,
@@ -316,6 +333,12 @@ const MultiChoiceTraining = ({ route, navigation }) => {
               justifyContent: "flex-start",
               backgroundColor:
                 state.questionStatus == "correct" ? "#89F678" : "#FF8080",
+              transform: [{
+                translateY: solutionContainerY.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [SCREEN_HEIGHT/5, 0]
+                })
+              }]
             }}
           >
             <View style={{ marginLeft: 10, marginTop: 10 }}>
@@ -325,8 +348,8 @@ const MultiChoiceTraining = ({ route, navigation }) => {
                   : "Oops! Thats not right. Try again."}
               </Text>
             </View>
-          </View>
-        )}
+          </Animated.View>
+        
       </_3DButton>
     </View>
   );

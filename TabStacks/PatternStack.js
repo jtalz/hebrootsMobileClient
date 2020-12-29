@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 const PatternStack = () => {
     return (
             <Stack.Navigator initialRouteName="SelectAPattern">
-                <Stack.Screen options={styleHeaderFor('Select a Pattern')} name="SelectAPattern" component={SelectAPattern} />
+                <Stack.Screen options={styleHeaderFor("let's learn something")} name="SelectAPattern" component={SelectAPattern} />
                 <Stack.Screen options={styleHeaderFor('Learn a Pattern')} name="LearnAPattern" component={LearnAPattern} />
                 <Stack.Screen options={styleHeaderFor('Pattern Conjugations')} name="RandomVerbSpawn" component={RandomVerbSpawn} />
                 <Stack.Screen options={styleHeaderFor('Training Selection')} name="SelectTrainingType" component={SelectTrainingType} />

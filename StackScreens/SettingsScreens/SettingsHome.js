@@ -1,146 +1,65 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
-  Image,
   FlatList,
   TouchableOpacity,
-  Switch,
-  Share
+  Switch
 } from "react-native";
 import DashedCircle from "../../Components/DashedCircle";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,
 } from "../../Actions/ScreenDimensions";
-import {Ionicons, Entypo, AntDesign} from '@expo/vector-icons';
+import check_for_token from "../../Actions/Authentication/check_for_token";
+import SETTINGS_STATIC from "../../Constants/SETTINGS_STATIC";
+import { requestUserSettings } from "../../Actions/APIRequests";
+import AuthContext from "../../Actions/context/AuthContext";
+import SmallYellowButton from '../../Components/Buttons/SmallYellowButton'
+
 const SettingsHome = (props) => {
 
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          'Hebroots | A helpful tool for learning Hebrew conjugations. Add link.',
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+const [settingsOptions, setSettingsOptions] = useState(null)
+const { signOut, signInAgain } = React.useContext( AuthContext );
 
-const SETTINGS_OPTIONS = [
-  {
-    name: "My Account",
-    items: [
-      {
-        name: "account type",
-        status: "basic",
-        type: "read-only"
-      },
-      {
-        name: "email",
-        status: "josh.tal27@gmail.com",
-        type: "read-only"
-      },
-      {
-        name: "password",
-        status: "**********",
-        type: "pressable",
-        onPress: "navigate to changepasswordScreen"
-      },
-      {
-        name: "daily reminder",
-        status: false,
-        type: "toggle"
-      },
-      {
-        name: "teaching language",
-        status: "English",
-        type: "read-only"
-      },
-    ],
-  },
-  {
-    name: "Support Us",
-    items: [
-      {
-        name: "share with a friend",
-        status: <Entypo name="share" size={24} color="black" />,
-        type: "pressable",
-        onPress: onShare
-      },
-      {
-        name: "follow us on instagram",
-        status: <AntDesign name="instagram" size={24} color="black" />,
-        type: "pressable",
-        onPress: "redirect to instagram"
-      },
-      {
-        name: "rate us on the App Store",
-        type: "read-only"
-      },
-      {
-        name: "Donate",
-        type: "read-only"
+
+useEffect(()=>{
+  const onLoad = async () => {
+    const userProfile = await getDynamicSettings()
+    const USER_SETTINGS = { 
+      email: userProfile.email, 
+      firstName:userProfile.firstName, 
+      options: [userProfile.options, ...SETTINGS_STATIC]
+    };
+  setSettingsOptions(USER_SETTINGS);
+  }
+  onLoad()
+}, []);
+
+const getDynamicSettings = async () => {
+  //check if user is logged in then return appropriate settings
+  const token = await check_for_token()
+  if(token !== undefined){
+    const customUserSettings = await requestUserSettings(token, signOut);
+    return customUserSettings;
+  }else{
+    return {
+      firstName: '',
+      email: '',
+      options: {
+        name: 'My Account',
+        items: [
+          {
+            name: "sign in/register",
+            type: 'pressable',
+            onPress: signInAgain
+          }
+        ]
       }
-    ],
-  },
-  {
-    name: "Get in Touch",
-    items: [
-      {
-        name: "Give feedback",
-        type: "pressable",
-        onPress: "redirect to mailing me"
-      },
-      {
-        name: "Report a Bug",
-        type: "pressable",
-        onPress: "redirect to emailing me"
-      },
-      {
-        name: "FAQs",
-        type: "read-only"
-      },
-    ],
-  },
-  {
-    name: "About",
-    items: [
-      {
-        name: "about us",
-        type: "pressable",
-        onPress: "redirect to aboutusscreen"
-        //description: "My name is Joshua and I've been learning Hebrew in Israel over the past 4 years. I've found that verb conjugation is essential to building a strong foundation when developing Hebrew. I hope this app helps you build your skills and please feel free to reach out. I'd be glad to hear from you."
-      },
-      {
-        name: "version",
-        type: "read-only",
-        status: "1.0.1",
-      },
-    ],
-  },
-  {
-    name: "Logout",
-    items: [
-      {
-        name: "logout",
-        type: "pressable",
-        onPress: "logout"
-      },
-    ],
-  },
-];
+    }
+  }
+}
 
 const renderOption = (option) => {
   if(option.type == "read-only"){
@@ -173,8 +92,6 @@ const renderOption = (option) => {
   }else{
     return (
       <View style={{...styles.optionRow}}>
-        {/* <Text>{option.name}</Text>
-        <Text>{option.status}</Text> */}
       </View>
     )
   }
@@ -196,16 +113,11 @@ const settingsGroup = ({ item }) => {
         <Text>{item.name}</Text>
       </View>
       {item.items.map((subItem) => {
+        //console.log(subItem)
         return (<View key={subItem.name}>
           {
           renderOption(subItem)
-          /* <TouchableOpacity
-            style={{
-              
-            }}
-          >
-            <Text>{subItem.name} </Text>
-          </TouchableOpacity> */}
+          }
           <View style={{borderWidth: 0.5, width: SCREEN_WIDTH/1.1, alignSelf: 'flex-end', borderColor: '#f2f2f2'}}></View>
           </View>
         );
@@ -217,17 +129,20 @@ const settingsGroup = ({ item }) => {
 
   return (
     <View>
-      <FlatList
+      {
+        settingsOptions == null? 
+        null :
+        <FlatList
         renderItem={settingsGroup}
-        data={SETTINGS_OPTIONS}
+        data={settingsOptions.options}
         ListHeaderComponent={
           <View style={{ ...styles.header }}>
             <View>
               <Text style={{ ...styles.firstName, ...styles.whiteText }}>
-                Joshua
+                {settingsOptions.firstName}
               </Text>
               <Text style={{ ...styles.userName, ...styles.whiteText }}>
-                josh.tal27@gmail.com
+                {settingsOptions.email}
               </Text>
             </View>
             <View>
@@ -237,7 +152,7 @@ const settingsGroup = ({ item }) => {
         }
         keyExtractor={(item) => item.name}
         showsVerticalScrollIndicator={false}
-      />
+      />}
     </View>
   );
 };

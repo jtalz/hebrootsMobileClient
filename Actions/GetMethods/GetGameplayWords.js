@@ -10,6 +10,7 @@ const getGameplayWords = (verbFamily) => {
 const getGameplayWordFormat = (verb) => {
     return {
         possessionInfo: {
+            possession_en: verb.possession.en_pronoun,
             possession: verb.possession.possession,
             morphology: verb.possession.morphology,
           },

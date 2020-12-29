@@ -153,29 +153,31 @@ const SelectTrainingType = ({ route, navigation }) => {
     const [state, dispatch] = useReducer(selectionReducer, initialState)
 
 
-        const renderItem = ({ item }) => (
-          
-          <_3DButton 
-          width ={SCREEN_WIDTH-60}
-          height = {SCREEN_HEIGHT/8} 
-          textSize = {normalize(30)}
-          color = {'black'}
-          backgroundColor = {isSelected(item.name)}
-          borderWidth = {1}
-          borderRadius = {5}
-          borderColor = {'#C0C0C0'}
-          backgroundShadow = {'white'}
-          backgroundDarker = {'#C0C0C0'}
-          backgroundActive = {'#99CC66'}
-          onPress = {() => 
-            state.selectionGroups[state.page.nActivePage].onSelect(dispatch, item.name, answerContainerX)} 
-          name = {item.name}
-          /* details = {[item.transliteration, item.aspects[0]]} */
-          enabled = {state.clickable}
-          style = {{marginVertical: SCREEN_HEIGHT/80}}
-          fontSize = {normalize(24)}
-          />
-          );
+        const renderItem = ({ item }) => {
+            if (state.tense == 'Present' && item.name == 'Matching'){
+              return null
+            }else{
+            return <_3DButton 
+              width ={SCREEN_WIDTH-60}
+              height = {SCREEN_HEIGHT/8} 
+              textSize = {normalize(30)}
+              color = {'black'}
+              backgroundColor = {isSelected(item.name)}
+              borderWidth = {1}
+              borderRadius = {5}
+              borderColor = {'#C0C0C0'}
+              backgroundShadow = {'white'}
+              backgroundDarker = {'#C0C0C0'}
+              backgroundActive = {'#99CC66'}
+              onPress = {() => 
+                state.selectionGroups[state.page.nActivePage].onSelect(dispatch, item.name, answerContainerX)} 
+              name = {item.name}
+              enabled = {state.clickable}
+              style = {{marginVertical: SCREEN_HEIGHT/80}}
+              fontSize = {normalize(24)}
+            />
+            }
+          };
         const isSelected = (name) => {
           if (name == state.game || name == state.tense){
             return '#99CC66'
@@ -209,18 +211,11 @@ const SelectTrainingType = ({ route, navigation }) => {
           }
     }
 
-
     const allowNextBtn = (nav) => nav.page.nActivePage < nav.selectionGroups.length - 1
     const allowPrevBtn = (nav) => nav.page.nActivePage > 0
     const allowStartBtn = (nav) => nav.readyToStart
-//loop through 
-
-
-
 
 const answerContainerX = useState(new Animated.Value(1))[0];
-
-
 
     return (
       <View style={styles.container}>
@@ -287,8 +282,8 @@ const answerContainerX = useState(new Animated.Value(1))[0];
             horizontal={false}
             numColumns={1}
             data={state.selectionGroups[state.page.nActivePage].options}
+            keyExtractor={item=>item.name}
             renderItem={renderItem}
-            keyExtractor={(item) => item.imgUrl}
             scrollEnabled={false}
           />
           </Animated.View>
