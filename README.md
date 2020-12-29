@@ -1,22 +1,52 @@
 # Hebroots
 
-## Getting Started
-
-## Front-End 
-
-## API Service
-
 ## Introduction
 
-The purpose of this software is to provide Hebrew language students with an efficient and enjoyable way of practicing verb conjugations. In addition, developers may access the API which provides data relating to over 100k conjugated Hebrew verbs and related information.
+The purpose of this software is to provide Hebrew language students with an efficient and enjoyable way of practicing verb conjugations. 
+<!-- Hebroots recognizes the difficulties of learning verb conjugations and leverages its tabular nature together with mobile technology to teach it in the most effective, accessible way possible.  -->
+<!---In addition, developers may access the API which provides data relating to over 100k conjugated Hebrew verbs and related information. --->
 
-Hebroots recognizes the difficulties of learning verb conjugations and leverages its structural/mathematical nature together with mobile technology to teach it in the most effective, accessible way possible. 
+## For Students
+### What are verb conjugations?
 
-### Why practice verb conjugations? 
+*Oxford Languages* defines [verb] conjugation as “changing the form of (a word) to express a particular grammatical function or attribute, typically tense, mood, person, number, case, and gender.” 
 
-Hebrew is just one of the many languages in which verb conjugation confuses its speakers. As a reference, *Oxford Languages* defines [verb] conjugation as “changing the form of (a word) to express a particular grammatical function or attribute, typically tense, mood, person, number, case, and gender.” With Hebrew (along with several other languages), verb conjugation is taught and reviewed at nearly every academic level. It is a topic that for a long time has stumbled the minds of its learners, but once understood its power is hardly dismissed. 
+### Why learn Hebrew verb conjugations? 
 
-Understanding verb conjugations enables Hebrew learners to improve at an exponential rate. Once a learner knows a pattern (explained below), she is equipped with the ability to identify and manipulate verbs in nearly every context.
+This basic skill equips learners with the ability to identify and manipulate verbs in nearly every context.
+
+Picture this: you are a new Hebrew learner and have never seen the verb התנדב before. You're reading a story in the paper about people coming from all over the world to volunteer in Israel's military. You catch sight of the word, look it up and remember its translation... *volunteered*. Later on, after being so inspired by the newspaper article you decide that you will volunteer for the military as well. You march back to your apartment, look your Israeli roommate square in the eye and say, 
+
+"אני התנדב לצה"ל". 
+
+wait... that's not right. Your kind roommate proceeds to show his admiration for your decision but explains to you that in order to use that verb in the way you intend, you should learn verb conjugations. 
+
+<!-- Hebrew verb conjugation is taught and reviewed at almost every academic level, especially the early on, but not nearly enough. 
+It is a concept that for a long time has stumbled the minds of its speakers. However, once understood its importance is rarely dismissed.  -->
+### How to learn verb conjugations
+
+Hebrew verb conjugation is taught and reviewed at almost every academic level. The first step is to enroll into some kind of Hebrew learning program and to start practicing. 
+
+For extra practice and to instill the concept in your mind in order to take full advantage of it, you may utilize hebroots. 
+
+## For Teachers
+
+Hebroots can be an excellent tool to consider recommending to your students. It should be thought of as a helper tool. Hebroots offers a way to search the full conjugations of most verbs, with or without vowel notation, and an interactive way of practicing them. Basic access is free but group pricing can be arranged for additional features.
+
+If you're interested in contacting or collaborating please contact josh.tal27@gmail.com
+
+### Scalability
+
+In the future, hebroots can be expanded to support more languages that require a conjugative understanding. It can also support more translation languages. In the meantime, a translation API might suffice. Additionally, more than just verb conjugation but number conjugation, gender, and other topics are being looked into.  
+
+## Licensing 
+
+
+### Background on learning conjugations 
+
+Before starting, there is **one** concept which must be understood - ROOTS (hence the name *hebroots*).
+> The vast majority of words in the Hebrew language can be boiled down to a three-consonant root word that contains the essence of the word's meaning.  For example, the first word of the Torah is "bereishit", meaning in the beginning.  The root is Resh-Alef-Shin, which means head or first.  (See Hebrew Alphabet to learn the letters).  It is the same root as the "Rosh" in "Rosh Hashanah" (first of the year, i.e., Jewish New Year).  
+> Author: https://www.mechon-mamre.org/jewfaq/root.htm
 
 >Hebrew Verbs can be classified into any one of the seven binyanim
 (בניינים (Each binyan portrays a particular aspect of the shoresh (שורש" (root".
@@ -27,12 +57,6 @@ is related to another shoresh: bet-yud-nun (בין (which means "understanding".
 Through structure we can understand Hebrew verbs.  
 > Author: Lon T, Cherryholmes  
 > Source: https://tzion.org/devarim/The%20Seven%20Binyanim.pdf
-
-### How to learn verb conjugations
-
-Before starting, there is **one** concept which must be understood - ROOTS (hence the name *hebroots*).
-> The vast majority of words in the Hebrew language can be boiled down to a three-consonant root word that contains the essence of the word's meaning.  For example, the first word of the Torah is "bereishit", meaning in the beginning.  The root is Resh-Alef-Shin, which means head or first.  (See Hebrew Alphabet to learn the letters).  It is the same root as the "Rosh" in "Rosh Hashanah" (first of the year, i.e., Jewish New Year).  
-> Author: https://www.mechon-mamre.org/jewfaq/root.htm
 
 Every verb in Hebrew has a 3-4 letter root which is essentially what I like to call *the variable inputted into the conjugation formula in each instance.* 
 This will become more clear as we move along. 
@@ -82,29 +106,3 @@ English - the verb remains the same
 Hebrew - the verb changes with the pronoun  
 - אני **דיברתי** עם המורה  
 - הם **דיברו** עם המורה 
-
-### How hebroots helps
-
-Hebroots is being developed to help Hebrew learners (and soon hopefully other language learners) around the globe practice and understand the full power of verb conjugation. 
-
-The goal is to combine traditional teaching methods together with interactive mobile learning techniques and other useful features like a search engine. 
-
-The client will possess the following features: 
-
-1. Search and see - a flexible search that provides the full conjugations of any verb in Hebrew
-
-2. Pattern lessons - professionally built and designed lessons that introduce learners to new patterns or concepts 
-
-3. Training Journey - a pre-built user-custom series of lessons and games for the user to capture all the app has to offer
-
-4. Specific Training Selection - a pre-game screen in which a user selects the style of her training
-
-5. Training Games - typing and speaking games in which users 
-
-6. Settings
-
-### Scalability
-
-In the future, hebroots can be expanded to support more languages that require a conjugative understanding. It can also support more translation languages. In the meantime, a translation API might suffice. Additionally, more than just verb conjugation but number conjugation, gender, and other topics are being looked into.  
-
-## Licensing 
