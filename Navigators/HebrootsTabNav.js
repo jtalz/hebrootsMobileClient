@@ -12,7 +12,7 @@ const HebrootsTabNav = ({ children, Tab }) => {
             iconName = "ios-search";
           } else if (route.name === "Learn") {
             iconName = "ios-school";
-          } else if (route.name === "Progress") {
+          } else if (route.name === "Play") {
             iconName = "ios-flash";
           } else if (route.name === "Settings") {
             iconName = "ios-settings";

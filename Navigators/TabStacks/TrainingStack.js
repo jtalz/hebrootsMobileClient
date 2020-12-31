@@ -2,9 +2,9 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserProgress from '../../Screens/Training/UserProgress.js'
 import ExerciseSelection from '../../Screens/Training/ExerciseSelection.js'
-import MultipleChoice from '../../Screens/Training/MultipleChoice'
-import Matching from '../../Screens/Training/Matching'
-import Writing from '../../Screens/Training/Writing'
+import MultipleChoice from '../../Screens/Training/Exercises/MultipleChoice'
+import Matching from '../../Screens/Training/Exercises/Matching'
+import Writing from '../../Screens/Training/Exercises/Writing'
 import styleHeaderFor from '../../Actions/headerOptions';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 const Stack = createStackNavigator();
@@ -27,7 +27,7 @@ const TrainingStack = ({navigation, route}) => {
     navigation.setOptions({ tabBarVisible: getHeaderTitle(route) })
     return (
             <Stack.Navigator initialRouteName="UserProgress">
-                <Stack.Screen options={styleHeaderFor('Progress')} name="UserProgress" component={UserProgress} />
+                <Stack.Screen options={styleHeaderFor('Play')} name="UserProgress" component={UserProgress} />
                 <Stack.Screen options={styleHeaderFor('Training Selection')} name="ExerciseSelection" component={ExerciseSelection} />
                 <Stack.Screen options={{ 
                     headerShown: false,

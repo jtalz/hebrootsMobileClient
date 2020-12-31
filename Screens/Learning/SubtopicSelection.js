@@ -5,34 +5,20 @@ import Bird from "../../Components/Characters/Bird";
 import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from "../../Components/Buttons/_3DButton";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
+import TENSES from "../../Constants/TENSES";
 
-const LessonSelection = ({ navigation, route }) => {
+const SubtopicSelection = ({ navigation, route }) => {
   const [topics, setTopics] = useState(null);
 
   useEffect(() => {
-    displayPatternsOnScreen();
+    setTopics(TENSES)
   }, []);
 
-  const displayPatternsOnScreen = async () => {
-    const patterns = await requestAllPatterns();
-    setTopics(patterns);
-  };
-
   const onLessonSelect = (lesson) => {
-    navToSubtopicSelection(lesson);
-  };
-
-  const navToSubtopicSelection = (lesson) => {
-      console.log("navigating")
-    navigation.navigate("SubtopicSelection", {
-      pattern: lesson.pattern,
-      name: lesson.name,
-      aspects: lesson.aspects,
-      infinitive_form: lesson.infinitive_form,
-      pattern_id: lesson._id,
-      transliteration: lesson.transliteration,
-      type: lesson.type
-    });
+    navigation.navigate("PatternLesson", {
+        ...route.params,
+        subtopic: lesson.name_en.toUpperCase()
+      });
   };
 
   const renderItem = ({ item }) => (
@@ -49,8 +35,8 @@ const LessonSelection = ({ navigation, route }) => {
       backgroundDarker={"#C0C0C0"}
       backgroundActive={"#FFD350"}
       onPress={() => onLessonSelect(item)}
-      name={item.name}
-      details={[item.transliteration, item.aspects[0]]}
+      name={item.name_en}
+      details={[item.name_he]}
       enabled={true}
       style={{ marginVertical: 10 }}
       fontSize={SCREEN_HEIGHT / 55}
@@ -69,7 +55,7 @@ const LessonSelection = ({ navigation, route }) => {
             fontFamily: "Nunito_300Light",
           }}
         >
-          hi josh!
+          {route.params.name}
         </Text>
         <Text
           style={{
@@ -79,7 +65,7 @@ const LessonSelection = ({ navigation, route }) => {
             fontFamily: "Nunito_300Light",
           }}
         >
-          let's learn about one of the following topics
+          please select a tense
         </Text>
       </View>
       <Animatable.View
@@ -97,7 +83,7 @@ const LessonSelection = ({ navigation, route }) => {
             horizontal={false}
             numColumns={1}
             renderItem={renderItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item.name_en}
             scrollEnabled={true}
           />
         ) : null}
@@ -127,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LessonSelection;
+export default SubtopicSelection;

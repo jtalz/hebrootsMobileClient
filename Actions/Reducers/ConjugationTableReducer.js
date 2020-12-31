@@ -14,6 +14,8 @@ export const conjugationTableReducer = (state, action) => {
         root: action.payload.root,
         noun_phrase: action.payload.noun_phrase  
       }} 
+    }else if(action.type == 'setActiveIndex'){
+      return { ...state, activeIndex: action.payload}
     }else{
       console.log('some other dispatch recieved')
     }
@@ -41,5 +43,6 @@ export const conjugationTableReducer = (state, action) => {
       infinitive: '',
       pattern: '',
       root: ''
-    }
+    },
+    activeIndex: 0
   }

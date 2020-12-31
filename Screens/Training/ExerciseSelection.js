@@ -76,7 +76,7 @@ const selectGame = (dispatch, game) => {
 }
 
 const SELECTION_GROUPS = [
-  {
+/*   {
     title: "Select a tense",
     onSelect: (dispatch, tense, answerContainerX) => slideInLeft(dispatch, answerContainerX, tense),
     options: [
@@ -93,7 +93,7 @@ const SELECTION_GROUPS = [
         color: "blue"
       }
     ]
-  },
+  }, */
   {
     title: "Select a game",
     onSelect: (dispatch, game) => selectGame(dispatch, game),
@@ -114,21 +114,6 @@ const SELECTION_GROUPS = [
   }
 ]
 
-const initialState = {
-  tense: "",
-  game: "",
-  page: {
-    nActivePage: 0,
-    activePageTitle: SELECTION_GROUPS[0].title
-  },
-  selectionGroups: SELECTION_GROUPS,
-  readyToStart: false,
-  modalVisibility: false,
-  allowNextBtn: true,
-  allowPrevBtn: false,
-  clickable: true
-}
-
 const selectionReducer = (state, action) => {
   if (action.type == "selectTense"){
     return {...state, tense: action.payload, allowNextBtn: false, allowPrevBtn: false, clickable: false}
@@ -148,7 +133,23 @@ const selectionReducer = (state, action) => {
 }
 
 const ExerciseSelection = ({ route, navigation }) => {
-    const {pattern, family, infinitive, noun_phrase} = route.params;
+
+    const {pattern, family, infinitive, noun_phrase, tense} = route.params;
+
+    const initialState = {
+      tense,
+      game: "",
+      page: {
+        nActivePage: 0,
+        activePageTitle: SELECTION_GROUPS[0].title
+      },
+      selectionGroups: SELECTION_GROUPS,
+      readyToStart: false,
+      modalVisibility: false,
+      allowNextBtn: true,
+      allowPrevBtn: false,
+      clickable: true
+    }
 /*     const [verbSet, setVerbSet] = useState([]) */
     const [state, dispatch] = useReducer(selectionReducer, initialState)
 
@@ -200,7 +201,7 @@ const ExerciseSelection = ({ route, navigation }) => {
               gameType = "Writing"
             }
             let newFamily = family.filter((subFamily)=> state.tense.toUpperCase() == subFamily.tense.en)
-            navigation.navigate("Progress", {screen: gameType,initial: false, params : {
+            navigation.navigate("Play", {screen: gameType,initial: false, params : {
               family: newFamily, 
               infinitive, 
               gameStyle: "MEDIUM_SINGLE_TENSE_PRACTICE", 

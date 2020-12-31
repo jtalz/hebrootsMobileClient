@@ -78,8 +78,8 @@ const App = () => {
         ) : (
           <HebrootsTabNav Tab={Tab}>
             <Tab.Screen name="Explore" component={SearchStack} />
+            <Tab.Screen name="Play" component={TrainingStack} />
             <Tab.Screen name="Learn" component={PatternStack} />
-            <Tab.Screen name="Progress" component={TrainingStack} />
             <Tab.Screen name="Settings" component={SettingsScreen} />
           </HebrootsTabNav>
         )}

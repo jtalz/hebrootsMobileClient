@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import SearchBar from "../Components/SearchBar.js";
 import Card from "../Components/Card";
@@ -16,10 +16,26 @@ import StudySection from '../Containers/StudySection'
 const Explore = ({ navigation }) => {
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
   
+  const setActiveIndex = (activeIndex) => dispatch({type: 'setActiveIndex', payload: activeIndex})
+
     const handleSearchRequest = async (text) => {
       dispatch({ type: "loadTableData" });
       let searchedVerb = await requestVerbFromValue(text);
       handleResponse(searchedVerb, dispatch);
+    }
+
+    const getTenseFromActiveIndex = (activeIndex) => {
+      switch(activeIndex){
+        case 0: 
+          return 'PAST';
+          break;
+        case 1: 
+        return 'PRESENT';
+        break;
+        case 2: 
+          return 'FUTURE';
+          break;
+      }
     }
 
     useEffect(()=> {
@@ -41,22 +57,25 @@ const Explore = ({ navigation }) => {
         <StudySection 
         tableStatus = {state.tableStatus}
         tableData = {state.tableData}
+        setActiveIndex = {setActiveIndex}
+        activeIndex = {state.activeIndex}
         />
         <View style={styles.btnArea}>
           <SmallYellowButton
-            name="Practice Verb"
+            name="play"
             onClick={() =>
               navigation.push("ExerciseSelection", { 
                 family: state.tableData.family,
                 infinitive: state.tableData.infinitive,
                 pattern: state.tableData.pattern.pattern,
-                noun_phrase: state.tableData.noun_phrase
+                noun_phrase: state.tableData.noun_phrase,
+                tense: getTenseFromActiveIndex(state.activeIndex)
               })
             }
             disabled={state.tableStatus=="Loading"}
           />
           <SmallYellowButton
-            name="Learn Binyan"
+            name="learn"
             onClick={() =>
               navigateToPattern(navigation, "PatternLesson", {
                 pattern: state.tableData.pattern.pattern,

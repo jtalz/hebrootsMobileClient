@@ -9,9 +9,10 @@ import {
   handleResponse
 } from "../../Actions/Reducers/ConjugationTableReducer";
 import { requestRandomVerbOfPattern } from "../../Actions/APIRequests";
+import { sub } from "react-native-reanimated";
 
 const ExampleExplore = ({ route, navigation }) => {
-  const { pattern_id } = route.params;
+  const { pattern_id, subtopic } = route.params;
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
 
   const handleRandomVerbRequest = async (pattern_id) => {
@@ -47,21 +48,23 @@ const ExampleExplore = ({ route, navigation }) => {
       <StudySection 
         tableStatus = {state.tableStatus}
         tableData = {state.tableData}
+        subtopic = {subtopic}
       />
       <View style={styles.btnArea}>
         <SmallYellowButton
-          name="Practice This"
+          name="play this"
           onClick={() =>
             navigation.push("ExerciseSelection", { 
               family: state.tableData.family,
               infinitive: state.tableData.infinitive,
               pattern: state.tableData.pattern.pattern,
-              noun_phrase: state.tableData.noun_phrase
+              noun_phrase: state.tableData.noun_phrase,
+              tense: subtopic
             })
           }
         />
         <SmallYellowButton
-          name="Different Verb"
+          name="another"
           onClick={() => {
             dispatch({ type: "loadTableData" });
             handleRandomVerbRequest(pattern_id);

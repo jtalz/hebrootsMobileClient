@@ -9,7 +9,7 @@ const Stack = createStackNavigator();
 const SearchStack = () => {
     return (
         <Stack.Navigator initialRouteName="Explore">
-            <Stack.Screen options={styleHeaderFor('Explore')} name="Explore" component={Explore} />
+            <Stack.Screen options={styleHeaderFor('Try searching for any Hebrew verb')} name="Explore" component={Explore} />
             <Stack.Screen options={styleHeaderFor('Training Selection')} name="ExerciseSelection" component={ExerciseSelection} />
         </Stack.Navigator>
     )

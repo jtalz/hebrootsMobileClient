@@ -4,9 +4,9 @@ import { View, SafeAreaView, ActivityIndicator, Text } from "react-native";
 import Card from "../Components/Card.js";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import _renderConjugations from "./ConjugationTable";
-import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import { normalize } from "../Actions/Normalize.js";
-
+import { MaterialIcons } from '@expo/vector-icons'; 
 class CardsCarousel extends Component {
   constructor(props) {
     super(props);
@@ -30,78 +30,8 @@ class CardsCarousel extends Component {
     );
   }
 
-  get pagination() {
-    const { activeIndex } = this.state;
-    const { carouselItems } = this.props;
-    console.log();
-    return (
-      <Pagination
-        dotsLength={carouselItems.length}
-        activeDotIndex={activeIndex}
-        containerStyle={{
-          backgroundColor: "transparent",
-          flex: 1,
-          marginTop: 10,
-        }}
-        dotStyle={{
-          width: 12,
-          height: 12,
-          borderRadius: 6,
-          marginHorizontal: 1,
-          backgroundColor: "#2C80FF",
-          marginVertical: 1,
-          marginBottom: -10,
-        }}
-        inactiveDotStyle={{
-          backgroundColor: "#C4C4C4",
-        }}
-        inactiveDotOpacity={1}
-        inactiveDotScale={0.9}
-        /* dotElement={<Text style={{fontSize: 24, color: 'blue'}}>{carouselItems[activeIndex].tense.he}</Text>}
-        inactiveDotElement={<Text style={{fontSize: 24}}>{carouselItems[activeIndex].tense.he}</Text>} */
-        renderDots={(activeIndex, total, context) => {
-          //console.log('active index: ', activeIndex, 'total: ', total, 'context: ', context);
-          return (
-            <>
-              <Text
-                style={{
-                  color: activeIndex == 0 ? "blue" : "black",
-                  fontSize: activeIndex == 0 ? normalize(20) : normalize(16),
-                  marginHorizontal: normalize(5),
-                  fontFamily: "Rubik_300Light",
-                }}
-              >
-                עבר
-              </Text>
-              <Text
-                style={{
-                  color: activeIndex == 1 ? "blue" : "black",
-                  fontSize: activeIndex == 1 ? normalize(20) : normalize(16),
-                  marginHorizontal: normalize(5),
-                  fontFamily: "Rubik_300Light",
-                }}
-              >
-                הווה
-              </Text>
-              <Text
-                style={{
-                  color: activeIndex == 2 ? "blue" : "black",
-                  fontSize: activeIndex == 2 ? normalize(20) : normalize(16),
-                  marginHorizontal: normalize(5),
-                  fontFamily: "Rubik_300Light",
-                }}
-              >
-                עתיד
-              </Text>
-            </>
-          );
-        }}
-      />
-    );
-  }
-
   render() {
-    const { type, carouselItems } = this.props;
+    const { type, carouselItems, setActiveIndex, activeIndex } = this.props;
     let carouselData = {};
     switch (type) {
       case "Conjugations":
@@ -125,33 +55,24 @@ class CardsCarousel extends Component {
           c.showTranslation = self.state.showTranslation;
         });
         carouselData.renderFn = _renderConjugations;
-        carouselData.style = {
-          width: "100%",
-          height: "108%",
-          marginBottom: -50,
-        };
         break;
       case "Loading":
-        carouselData.data = ["", "", ""];
+        carouselData.data = [""];
         carouselData.renderFn = this._renderLoading;
-        carouselData.style = {
-          width: "100%",
-          height: "108%",
-          marginBottom: -50,
-        };
         break;
       default:
         null;
     }
 
     return (
-      <SafeAreaView style={{ ...this.props.height }}>
+      <View style={{ ...this.props.height, alignItems: 'center', justifyContent: 'center' }}>
         <View
           style={{
-            flex: 10,
+            flex: 15,
             flexDirection: "row",
             justifyContent: "center",
-            alignItems: "flex-end",
+            alignItems: 'flex-start',
+            borderColor: 'blue'
           }}
         >
           <Carousel
@@ -160,16 +81,65 @@ class CardsCarousel extends Component {
             data={carouselData.data}
             sliderWidth={390}
             itemWidth={SCREEN_WIDTH / 1.1}
-            containerCustomStyle={carouselData.style}
-            slideStyle={{ height: "100%" }}
+            containerCustomStyle={{flex: 1, alignSelf: 'center'}}
+            slideStyle={{ }}
             renderItem={carouselData.renderFn}
-            onSnapToItem={(index) => this.setState({ activeIndex: index })}
+            onSnapToItem={(index) => setActiveIndex(index)}
             removeClippedSubviews={false}
           />
         </View>
 
-        {this.pagination}
-      </SafeAreaView>
+        {
+          this.props.subtopic ? 
+          <View style={{flexDirection: 'row', flex: 2, height: '100%', alignItems: 'flex-start', justifyContent: 'center'}}>
+            <Text
+                style={{
+                  color: "blue",
+                  fontSize: normalize(20),
+                  marginHorizontal: normalize(5),
+                  fontFamily: "Rubik_300Light",
+                }}
+              >
+                {this.props.subtopic}
+              </Text>
+            </View>
+            : 
+        <View style={{flexDirection: 'row', flex: 2, height: '100%', alignItems: 'flex-start', justifyContent: 'center'}}>
+              <MaterialIcons name="chevron-left" size={24} color="black" />
+              <Text
+                style={{
+                  color: activeIndex == 0 ? "blue" : "black",
+                  fontSize: normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: activeIndex == 0 ? "Rubik_400Regular" : "Rubik_300Light",
+                }}
+              >
+                עבר
+              </Text>
+              <Text
+                style={{
+                  color: activeIndex == 1 ? "blue" : "black",
+                  fontSize: normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: activeIndex == 1 ? "Rubik_400Regular" : "Rubik_300Light",
+                }}
+              >
+                הווה
+              </Text>
+              <Text
+                style={{
+                  color: activeIndex == 2 ? "blue" : "black",
+                  fontSize: normalize(16),
+                  marginHorizontal: normalize(5),
+                  fontFamily: activeIndex == 2 ? "Rubik_400Regular" : "Rubik_300Light",
+                }}
+              >
+                עתיד
+              </Text>
+              <MaterialIcons name="chevron-right" size={24} color="black" />
+            </View>
+    }
+      </View>
     );
   }
 }

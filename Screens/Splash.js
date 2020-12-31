@@ -15,14 +15,16 @@ const backgroundGradient = {
 const Splash = ({ noLogin, noUserFound, login }) => {
 
   useEffect(() => {
-    attemptAutomaticSignIn();
+    setTimeout(()=>{
+      attemptAutomaticSignIn();
+    }, 1000)
   }, []);
 
   const attemptAutomaticSignIn = async () => {
-    const token = await check_for_token();
-    setTimeout(() => {
+    await check_for_token()
+      .then((token) => {
         token ? login(token) : animateLoginForms().start()
-    }, 2000);
+      })
   };
 
   //Animated components

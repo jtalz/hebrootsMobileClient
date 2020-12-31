@@ -3,7 +3,7 @@ import {Text, View} from 'react-native'
 import CardsCarousel from './CardsCarousel'
 import {requestInfinitiveTranslation} from '../Actions/APIRequests'
 
-const StudySection = ({tableStatus, tableData}) => {
+const StudySection = ({tableStatus, tableData, subtopic, setActiveIndex, activeIndex}) => {
 
   const [translatedInfinitive, setTranslatedInfinitive] = useState('')
 
@@ -18,12 +18,14 @@ const StudySection = ({tableStatus, tableData}) => {
     }
   }, [tableData.infinitive])
 
+    
     if (tableStatus == "Loading") {
       return (
         <CardsCarousel
           type="Loading"
           height={{ flex: 8 }}
-          carouselItems={["", "", ""]}
+          carouselItems={subtopic ? [""] : ["", "", ""]}
+          subtopic={subtopic}
         />
       );
     } else if (tableStatus == "Not Found") {
@@ -37,11 +39,14 @@ const StudySection = ({tableStatus, tableData}) => {
         <CardsCarousel
           type="Conjugations"
           height={{ flex: 8 }}
-          carouselItems={tableData.family}
+          carouselItems={subtopic ? [tableData.family.find(obj=>obj.tense.en == subtopic)] : tableData.family}
           pattern={tableData.pattern}
           infinitive={tableData.infinitive}
           root={tableData.root}
           translatedInfinitive={translatedInfinitive}
+          subtopic={subtopic}
+          setActiveIndex = {setActiveIndex}
+          activeIndex = {activeIndex}
         />
       );
     }

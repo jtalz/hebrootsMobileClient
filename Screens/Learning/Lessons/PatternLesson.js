@@ -5,7 +5,7 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../../Actions/ScreenDimensions'
 import ExampleVerb from '../../../Components/ExampleVerb'
 
 const PatternLesson = ({ route, navigation }) => {
-    const { pattern, name, aspects, infinitive_form, pattern_id, transliteration } = route.params;
+    const { pattern, name, aspects, infinitive_form, pattern_id, transliteration, subtopic } = route.params;
 
     const Lesson = () => {
 
@@ -90,7 +90,7 @@ const PatternLesson = ({ route, navigation }) => {
                 <View style = {{flex: 1, margin: 10, width: '80%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                     <SmallYellowButton name='Continue' 
                     onClick={()=>
-                        navigation.navigate('ExampleExplore', {pattern_id})}
+                        navigation.navigate('ExampleExplore', {pattern_id, subtopic})}
                     />
             </View>
             </ScrollView>

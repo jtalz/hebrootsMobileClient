@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { normalize } from './Normalize';
 
 const styleHeaderFor = (name) => {
     return {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontWeight: 'normal',
         fontFamily: 'Nunito_300Light',
-        fontSize: 22
+        fontSize: normalize(15)
     }
   });
 
