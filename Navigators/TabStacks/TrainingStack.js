@@ -7,6 +7,7 @@ import Matching from '../../Screens/Training/Exercises/Matching'
 import Writing from '../../Screens/Training/Exercises/Writing'
 import styleHeaderFor from '../../Actions/headerOptions';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import Combo from '../../Screens/Training/Exercises/Combo.js';
 const Stack = createStackNavigator();
 
 function getHeaderTitle(route) {
@@ -34,7 +35,7 @@ const TrainingStack = ({navigation, route}) => {
                     
                 }} 
                 name="MultipleChoice"
-                component={MultipleChoice}
+                component={Combo}
                 />
                 <Stack.Screen options={{ 
                     headerShown: false,
@@ -50,6 +51,7 @@ const TrainingStack = ({navigation, route}) => {
                 name="Writing"
                 component={Writing}
                 />
+
             </Stack.Navigator>
     )  
 }

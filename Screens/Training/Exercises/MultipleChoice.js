@@ -1,27 +1,23 @@
-
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useReducer, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, View, Animated } from "react-native";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import LivesIndicator from "../../../Components/LivesIndicator";
 import XButton from "../../../Components/Buttons/XButton";
-import SentenceWithVerb from "../../../Components/SentenceWithVerb";
 import MultipleChoices from "../../../Containers/MultipleChoices";
 import HebrootsModal from "../../../Components/HebrootsModal";
 import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords.js";
 import shuffleArray from "../../../Actions/ShuffleArray";
 import compose from "../../../Actions/Compose";
-import {
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-} from "../../../Actions/ScreenDimensions";
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../../Actions/ScreenDimensions";
 import getNRandomUniqueElements from "../../../Actions/GetMethods/GetNRandomUniqueElements";
 import multiChoiceReducer from "../../../Actions/Reducers/MultiChoiceReducer";
 import getAllChoices from "../../../Actions/GetMethods/GetAllChoices";
 import { navigateToPattern } from "../../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
 import _3DButton from "../../../Components/Buttons/_3DButton";
-import { AntDesign } from '@expo/vector-icons'; 
 import { normalize } from "../../../Actions/Normalize";
+import timedAnimation from "../../../Actions/Animations/timedAnimation";
+import springAnimation from "../../../Actions/Animations/springAnimation";
 
 function getInitialState(verbFamily) {
   return {
@@ -63,14 +59,7 @@ function get3Choices(verbFamily) {
 }
 
 const MultipleChoice = ({ route, navigation }) => {
-  const {
-    family,
-    infinitive,
-    gameStyle,
-    tense_en,
-    pattern,
-    noun_phrase,
-  } = route.params;
+  const { family, infinitive, tense_en, pattern, noun_phrase } = route.params;
 
   const [state, dispatch] = useReducer(
     multiChoiceReducer,
@@ -79,20 +68,18 @@ const MultipleChoice = ({ route, navigation }) => {
   );
 
   const selectChoice = (nChoice) => {
-    nChoice == null ? dispatch({type: "disableCheck"}) : dispatch({ type: "selectChoice", payload: nChoice });
+    nChoice == null
+      ? dispatch({ type: "disableCheck" })
+      : dispatch({ type: "selectChoice", payload: nChoice });
   };
 
   const disableCheck = () => {
-    dispatch({type: "disableCheck"})
-  }
+    dispatch({ type: "disableCheck" });
+  };
 
   const checkPlease = () => {
     dispatch({ type: "checkPlease" });
-    animateSolutionContainerIn()
-  };
-
-  const moveToNextQuestion = () => {
-    animateSolutionContainerOut()
+    animateSolutionContainerIn();
   };
 
   const replay = () => {
@@ -104,43 +91,23 @@ const MultipleChoice = ({ route, navigation }) => {
   const solutionContainerY = useState(new Animated.Value(0))[0];
 
   const animateSolutionContainerIn = () => {
-    Animated.timing(solutionContainerY, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true
-    }).start();
-  }
+    timedAnimation(solutionContainerY, 300, 1).start();
+  };
 
   const animateSolutionContainerOut = () => {
-    Animated.timing(solutionContainerY, {
-      toValue: 0,
-      duration: 100,
-      useNativeDriver: true
-    }).start(()=>{
+    timedAnimation(solutionContainerY, 100, 0).start(() => {
       dispatch({ type: "moveToNextQuestion" });
-    })
-  }
+    });
+  };
 
   const slideInLeft = () => {
     disableCheck();
-    moveToNextQuestion();
+    animateSolutionContainerOut();
     Animated.sequence([
-      Animated.timing(answerContainerX, {
-        toValue: 2,
-        duration: 300,
-        useNativeDriver: true,
-      }),
-      Animated.timing(answerContainerX, {
-        toValue: 0,
-        duration: 0,
-        useNativeDriver: true,
-      }),
+      timedAnimation(answerContainerX, 300, 2),
+      timedAnimation(answerContainerX, 0, 0),
     ]).start(() => {
-      Animated.spring(answerContainerX, {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true,
-      }).start();
+      springAnimation(answerContainerX, 500, 1).start();
     });
   };
 
@@ -215,11 +182,7 @@ const MultipleChoice = ({ route, navigation }) => {
 
         <View
           style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-            width: SCREEN_WIDTH,
+            ...styles.gameHeader,
           }}
         >
           <XButton onPress={() => dispatch({ type: "exit" })} />
@@ -232,20 +195,14 @@ const MultipleChoice = ({ route, navigation }) => {
           />
           <LivesIndicator nLives={state.lives} />
         </View>
-        <View style={{flex: 2}}>
-        <Text
-          style={{
-            fontSize: normalize(18),
-            fontFamily: "Rubik_400Regular",
-            margin: 10,
-            width: SCREEN_WIDTH,
-            alignSelf: 'center',
-            textAlign: 'left',
-            padding: 20
-          }}
-        >
-          Fill in the blank
-        </Text>
+        <View style={{ flex: 2 }}>
+          <Text
+            style={{
+              ...styles.questionInstructions,
+            }}
+          >
+            Fill in the blank
+          </Text>
         </View>
         <Animated.View
           style={[
@@ -259,19 +216,15 @@ const MultipleChoice = ({ route, navigation }) => {
                 },
               ],
               flex: 9,
-              width: SCREEN_WIDTH
+              width: SCREEN_WIDTH,
             },
           ]}
         >
-          
-
           <MultipleChoices
-            style={{  }}
             choices={state.allChoices}
             selected={state.selectedChoice}
             setSelected={selectChoice}
             enabled={state.choicesEnabled}
-
             gameStyle={"MultiChoiceQuiz"}
             possession={
               state.verbData[state.activeVerb.nActiveVerb].possessionInfo
@@ -287,9 +240,10 @@ const MultipleChoice = ({ route, navigation }) => {
             tense_en={tense_en}
             pattern={pattern}
             noun_phrase={noun_phrase}
-            pronoun_en={state.verbData[state.activeVerb.nActiveVerb].possessionInfo.possession_en}
-
-
+            pronoun_en={
+              state.verbData[state.activeVerb.nActiveVerb].possessionInfo
+                .possession_en
+            }
           />
         </Animated.View>
       </SafeAreaView>
@@ -321,35 +275,28 @@ const MultipleChoice = ({ route, navigation }) => {
           paddingBottom: SCREEN_HEIGHT / 20,
         }}
       >
-        {/* {state.questionStatus == "unanswered" ? null : ( */}
-          <Animated.View
-            style={{
-              position: "absolute",
-              bottom: 0,
-              height: SCREEN_HEIGHT/5,
-              left: 0,
-              width: SCREEN_WIDTH,
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              backgroundColor:
-                state.questionStatus == "correct" ? "#89F678" : "#FF8080",
-              transform: [{
+        <Animated.View
+          style={{
+            ...styles.solutionContainer,
+            backgroundColor: state.questionStatus == "correct" ? "#89F678" : "#FF8080",
+            transform: [
+              {
                 translateY: solutionContainerY.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [SCREEN_HEIGHT/5, 0]
-                })
-              }]
-            }}
-          >
-            <View style={{ marginLeft: 10, marginTop: 10 }}>
-              <Text style={{ fontFamily: "Nunito_300Light", fontSize: 24 }}>
-                {state.questionStatus == "correct"
-                  ? "Great job! Keep going!"
-                  : "Oops! Thats not right. Try again."}
-              </Text>
-            </View>
-          </Animated.View>
-        
+                  outputRange: [SCREEN_HEIGHT / 5, 0],
+                }),
+              },
+            ],
+          }}
+        >
+          <View style={{ marginLeft: 10, marginTop: 10 }}>
+            <Text style={{ fontFamily: "Nunito_300Light", fontSize: 24 }}>
+              {state.questionStatus == "correct"
+                ? "Great job! Keep going!"
+                : "Oops! Thats not right. Try again."}
+            </Text>
+          </View>
+        </Animated.View>
       </_3DButton>
     </View>
   );
@@ -361,6 +308,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 8,
     backgroundColor: "white",
+  },
+  gameHeader: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: SCREEN_WIDTH,
+  },
+  questionInstructions: {
+    fontSize: normalize(18),
+    fontFamily: "Rubik_400Regular",
+    margin: 10,
+    width: SCREEN_WIDTH,
+    alignSelf: "center",
+    textAlign: "left",
+    padding: 20,
+  },
+  solutionContainer: {
+    position: "absolute",
+    bottom: 0,
+    height: SCREEN_HEIGHT / 5,
+    left: 0,
+    width: SCREEN_WIDTH,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    
   },
 });
 

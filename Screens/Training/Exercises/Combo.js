@@ -1,318 +1,191 @@
-import React, { useState, useRef } from "react";
-import {
-  Modal,
-  TouchableHighlight,
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-} from "react-native";
-import { Feather, Ionicons } from "@expo/vector-icons";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
-import * as Animatable from "react-native-animatable";
-import SmallYellowButton from "../../../Components/Buttons/SmallYellowButton.js";
-import checkAnswer from "../../../Actions/CheckAnswer.js";
+import React, { useState, useReducer, useEffect } from "react";
+import { Animated, SafeAreaView, StyleSheet, View } from "react-native";
+import timedAnimation from "../../../Actions/Animations/timedAnimation";
+import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords";
+import { normalize } from "../../../Actions/Normalize";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../../Actions/ScreenDimensions";
+import XButton from "../../../Components/Buttons/XButton";
+import LivesIndicator from "../../../Components/LivesIndicator";
+import MCQuestion from "./ComboComponents/MCQuestion";
+import ProgressBarAnimated from "react-native-progress-bar-animated";
+import { ScrollView } from "react-native-gesture-handler";
+import springAnimation from '../../../Actions/Animations/springAnimation'
+/* 
 
-const initialState = {
-  x: 0,
-  y: 0,
-  prefill: 0,
-  fill: 0,
-  value: "",
-  textInputStatus: true,
-  modalVisible: false
-}
+Goal of this exercise: 
+- take a combination of 2 verbs all in one pattern one tense
+- make a duolingo-like exercise using a combination of multiple choice, fill in the blank, writing, and matching games
+- how do we do it?
 
-const VerbTrainingGame = ({ route, navigation }) => {
-  const { title, tenses, verbSet } = route.params;
-  const [index, setIndex] = useState(initialState);
-  let subVerbSet = verbSet[index["x"]].data;
-  let tense = verbSet[index["x"]].tense;
-  let conj = verbSet[index["x"]].data[index["y"]];
-  let possession = conj["possession"]["possession"];
-  let consCodes = conj["consonantCodes"];
-  let modalVisible = index["modalVisible"];
-  let vocalizedInflection = conj["conjugation"];
-  let progressInc = 100 / (subVerbSet.length * verbSet.length);
+10 questions total
+each verb gets 5 questions - 2 writing 2 multi-choice 1 matching
 
-  const handleChange = (text) => {
-    setIndex({ ...index, value: text });
-    if (checkAnswer(text, consCodes)) {
-      handleCorrectAnswer();
-    }
-  };
+*/
 
-  const handleCorrectAnswer = () => {
-    let incrementer;
-    if(index.y < subVerbSet.length - 1){
-      incrementer = "possession"
-      console.log('incrementing y')
-    }else if(index.x < verbSet.length - 1){
-      incrementer = "tense"
-      console.log('incrementing x')
-    }else 
-      incrementer = "finished"
-    incrementVerb(incrementer)
-    //add animation...?
-  };
+const createComboTrainingDataset = ({
+  family,
+}) => {
+  let typeCounter = 0;
+  const ctds = family.map((inflectionObj, index) => {
 
-  const animatableView = useRef(null);
-  const gameInput = useRef(null);
-
-  const incrementVerb = (incrementer) => {
-    if (animatableView) {
-      setIndex({
-        ...index,
-        value: vocalizedInflection,
-        textInputStatus: false,
-      });
-      animatableView.current?.pulse(1000).then((endState) => {
-        if (endState.finished) {
-          switch(incrementer){
-            case "possession" : setIndex({
-                ...index,
-                y: index.y + 1,
-                prefill: index.fill,
-                fill: index.fill + progressInc,
-                value: "",
-                textInputStatus: true,
-              });break;
-            case "tense" : setIndex({
-              x: index.x + 1,
-              y: 0,
-              prefill: index.fill,
-              fill: index.fill + progressInc,
-              value: "",
-              textInputStatus: true,
-              modalVisible: false,
-            });break;
-            case "finished" : setIndex({
-              ...index,
-              fill: 100,
-              modalVisible: true,
-            });break;
-            default : setIndex({...index});break;
-          }
-          gameInput.current?.focus();
-        }
-      });
-    }
-  };
-
-  const giveHint = () => {
-    handleCorrectAnswer();
-  };
-
-  return (
-    <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>יפה מאוד!</Text>
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {setIndex(initialState);}}
-            >
-              <Text style={styles.textStyle}>Try again</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <Text style={styles.textStyle}>Try again with other tense</Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-              onPress={() => {
-                navigation.navigate("UserProgress");
-              }}
-            >
-              <Text style={styles.textStyle}>Return to Training screen</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </Modal>
-      <View style={styles.upperContainer}>
-        <Animatable.Image
-          animation="fadeIn"
-          delay={1000}
-          iterationCount={1}
-          direction="alternate"
-          style={{ width: 135, height: 125 }}
-          source={{
-            uri:
-              "https://user-images.githubusercontent.com/31594943/89093398-b874cd00-d3c2-11ea-8193-b95631208ba1.png",
-          }}
-        />
-        <View style={styles.instructionsContainer}>
-          <Text style={styles.instructions}>
-            {tenses.map((tense) => tense + " ")}
-          </Text>
-          <Text style={styles.instructions}>
-            enter the correct form of the verb as fast as possible!
-          </Text>
-        </View>
-      </View>
-      <Animatable.View
-        animation="fadeInUp"
-        direction="alternate"
-        style={styles.gameContainer}
-      >
-        <AnimatedCircularProgress
-          size={80}
-          width={10}
-          fill={index.fill}
-          prefill={index.prefill}
-          tintColor="#1CDE52"
-          backgroundColor="#3d5875"
-          style={{ position: "absolute", left: "10%", top: "30%" }}
-          rotation={180}
-        />
-        <View style={styles.rowLong}>
-          <Text style={{ fontSize: 30 }}>{title}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={{ fontSize: 16 }}>{tense}</Text>
-          <Feather name="clock" size={20} color="black" />
-        </View>
-        <View style={styles.row}>
-          <Text>{possession}</Text>
-          <Ionicons name="md-person" size={24} color="black" />
-        </View>
-        <Animatable.View ref={animatableView} style={styles.searchSection}>
-          <TextInput
-            style={styles.input}
-            placeholder=""
-            onChangeText={(text) => handleChange(text)}
-            underlineColorAndroid="transparent"
-            allowFontScaling={false}
-            value={index.value}
-            editable={index.textInputStatus}
-            autoFocus={true}
-            ref={gameInput}
-          />
-        </Animatable.View>
-      </Animatable.View>
-      <View style={{ flex: 2, alignItems: "center", marginTop: 10 }}>
-        <SmallYellowButton name="Need Help" onClick={giveHint} />
-      </View>
-    </View>
-  );
+    let question = {
+        type: typeCounter,
+        qComponent: getQComponent(typeCounter),
+    };
+    /* typeCounter++; */
+    return question;
+  });
+  return ctds;
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "white",
-  },
-  searchSection: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-    flex: 1,
-  },
-  input: {
-    width: "50%",
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    backgroundColor: "#fff",
-    color: "#424242",
-    borderRadius: 2,
-    borderBottomWidth: 2,
-    textAlign: "center",
-    fontSize: 24,
-    fontFamily: "Arial",
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    width: 60,
-    flex: 1,
-  },
-  rowLong: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    width: 70,
-    flex: 1,
-  },
-  upperContainer: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
-    marginTop: "5%",
-    flexDirection: "row",
-  },
-  instructionsContainer: {
-    width: "50%",
-  },
-  gameContainer: {
-    flex: 2,
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  instructions: {
-    fontFamily: "Bodoni 72",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: 20,
-    lineHeight: 24,
-    alignItems: "center",
-    textAlign: "center",
-    color: "#7A7A7A",
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginVertical: 10
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});
+const getQComponent = (
+  type
+) => {
+  //maybe here i can create disposable react components each with their own state
+  if (type == 0) {
+    //this will be a multiple choice question so it will need all the unique MC question properties
+    // like choices and solution
+    return MCQuestion
+  }
+};
 
-export default VerbTrainingGame;
+const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase }) => {
+    const verbFamily = getGameplayWords(family);
+    let trainingSet = createComboTrainingDataset({
+        family: verbFamily,
+    });
+
+    return {
+        verbFamily,
+      allQComponents: trainingSet,
+      progress: 0,
+      lives: 5,
+      slideValue: 0,
+      progressIncrementer: 100 / verbFamily.length,
+      modalVisibility: {
+        exit: false,
+        grade: false,
+        failed: false,
+        passed: false,
+        instructions: true,
+      },
+    };
+  }
+
+const comboReducer = (prevState, action) => {
+    if (action.type == 'updateProgress'){
+        return action.payload ?  
+            {...prevState, progress : prevState.progress+ prevState.progressIncrementer, slideValue: prevState.slideValue+1} :
+            prevState.lives - 1 == 0 ? 
+            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]),slideValue : prevState.slideValue+1, lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
+            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]),slideValue : prevState.slideValue+1, lives : prevState.lives-1 , slideValue: prevState.slideValue+1}                 
+    }
+}
+
+const Combo = ({ route, navigation }) => {
+    
+    const { family, infinitive, tense_en, pattern, noun_phrase } = route.params;
+
+    const [state, dispatch] = useReducer(comboReducer, getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }))
+
+      const sendResult = (result) => {
+          dispatch({type: 'updateProgress', payload: result})
+      }
+
+      const horizontalContainer = useState(new Animated.Value(0))[0];
+
+      const slideToNextQ = () => {
+          springAnimation(horizontalContainer, 500, state.slideValue).start()
+    }
+
+    return ( 
+        <View style={{ backgroundColor: "white", flex: 1 }}>
+      <SafeAreaView style={styles.container}>
+      <View
+          style={{
+            ...styles.gameHeader,
+          }}
+        >
+          <XButton onPress={() => dispatch({ type: "exit" })} />
+          <ProgressBarAnimated
+            width={SCREEN_WIDTH - 150}
+            value={state.progress}
+            backgroundColorOnComplete="black"
+            backgroundColor="rgba(68, 228, 33, 0.97)"
+            underlyingColor="rgba(44, 128, 255, 0.72)"
+          />
+          <LivesIndicator nLives={state.lives} />
+        </View>
+        </SafeAreaView>
+            <Animated.View
+            //horizontal={true}
+            style={[{
+              
+              flexDirection: 'row',
+              flex: 9,
+              transform: [
+                {
+                  translateX: horizontalContainer.interpolate({
+                    inputRange: [0, state.allQComponents.length],
+                    outputRange: [0, -SCREEN_WIDTH*state.allQComponents.length],
+                  }),
+                },
+              ],
+              
+            }]}
+            >
+                {
+                    state.allQComponents.map((QComponent, index) => {
+                        /* return <View></View> */
+                        /* console.log('qcomponent: ', QComponent.qComponent()) */
+                        return (
+                            <QComponent.qComponent 
+                                sendResult={sendResult} 
+                                nextQuestion = {slideToNextQ}
+                                index={index}  family={state.verbFamily} tense_en={tense_en} pattern={pattern} noun_phrase={noun_phrase}
+                                />
+                        )
+                    })
+                }
+            </Animated.View>
+        
+        </View>
+     );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        flex: 1,
+        backgroundColor: "white",
+      },
+      gameHeader: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-around",
+        width: SCREEN_WIDTH,
+      },
+      questionInstructions: {
+        fontSize: normalize(18),
+        fontFamily: "Rubik_400Regular",
+        margin: 10,
+        width: SCREEN_WIDTH,
+        alignSelf: "center",
+        textAlign: "left",
+        padding: 20,
+      },
+      solutionContainer: {
+        position: "absolute",
+        bottom: 0,
+        height: SCREEN_HEIGHT / 5,
+        left: 0,
+        width: SCREEN_WIDTH,
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        
+      },
+})
+ 
+export default Combo;

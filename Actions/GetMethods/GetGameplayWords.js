@@ -14,8 +14,7 @@ const getGameplayWordFormat = (verb) => {
             possession: verb.possession.possession,
             morphology: verb.possession.morphology,
           },
-          conjugation: verb.conjugation,
-          consonantCodes: verb.consonantCodes
+          conjugation: verb.conjugation
     }
 }
 

@@ -10,7 +10,6 @@ import { SCREEN_HEIGHT } from '../Actions/ScreenDimensions';
 
 const MultipleChoices = ({ 
     choices, setSelected, selected, style, 
-
     possession,
   tense,
   verb,
