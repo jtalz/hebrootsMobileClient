@@ -16,7 +16,7 @@ const UserProgress = ({ route, navigation }) => {
                     style={{left: -20}}
                 />
                 <Text style={{width: '70%', fontSize: 20, textAlign: 'center', fontFamily: 'Bodoni 72',}}>
-                    This feature will be available in upcoming versions. Thank you for your support.
+                    Not yet available
                 </Text>
             </View>
         </View>

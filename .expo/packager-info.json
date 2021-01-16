@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 2682,
-  "expoServerNgrokUrl": "https://h7-mwc.anonymous.hebrootsmobileclient.exp.direct",
-  "packagerNgrokUrl": "https://packager.h7-mwc.anonymous.hebrootsmobileclient.exp.direct",
-  "ngrokPid": 2744,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
