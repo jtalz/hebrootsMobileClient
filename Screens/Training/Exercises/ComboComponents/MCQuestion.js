@@ -8,6 +8,7 @@ import compose from '../../../../Actions/Compose'
 import  getAllChoices from '../../../../Actions/GetMethods/GetAllChoices'
 import shuffleArray from '../../../../Actions/ShuffleArray'
 import getNRandomUniqueElements from '../../../../Actions/GetMethods/GetNRandomUniqueElements'
+import { normalize } from "../../../../Actions/Normalize"
 
 const reducer = (state, {type, payload}) => {
     if (type == 'selectChoice'){
@@ -51,6 +52,9 @@ const MCQuestion  = ({index, family, tense_en, pattern, noun_phrase, infinitive,
     return (
         
         <View style={{width: SCREEN_WIDTH}}>
+            <Text style={{...styles.instructions}}>
+                Drag the appropriately conjugated verb to its place
+            </Text>
             <MultipleChoices
                 choices={state.allChoices}
                 selected={state.selectedChoice}
@@ -149,7 +153,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flex: 8,
         backgroundColor: "white",
-      }
+      },
+      instructions: {
+        fontFamily: 'Nunito_400Regular',
+        fontSize: normalize (16),
+        paddingHorizontal: 20,
+        paddingVertical: 20,
+        alignSelf: 'center'
+    },
 })
 
 function get3Choices(verbFamily, usedElement) {

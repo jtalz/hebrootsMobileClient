@@ -8,8 +8,8 @@ import XButton from "../../../Components/Buttons/XButton";
 import LivesIndicator from "../../../Components/LivesIndicator";
 import MCQuestion from "./ComboComponents/MCQuestion";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
-import { ScrollView } from "react-native-gesture-handler";
 import springAnimation from '../../../Actions/Animations/springAnimation'
+import WritingQuestion from "./ComboComponents/WritingQuestion";
 /* 
 
 Goal of this exercise: 
@@ -25,9 +25,10 @@ each verb gets 5 questions - 2 writing 2 multi-choice 1 matching
 const createComboTrainingDataset = ({
   family,
 }) => {
-  let typeCounter = 0;
+  //let typeCounter = 1;
+  let typeCounter;
   const ctds = family.map((inflectionObj, index) => {
-
+    typeCounter = Math.floor(Math.random() * 2)
     let question = {
         type: typeCounter,
         qComponent: getQComponent(typeCounter),
@@ -46,6 +47,8 @@ const getQComponent = (
     //this will be a multiple choice question so it will need all the unique MC question properties
     // like choices and solution
     return MCQuestion
+  }else if (type == 1) {
+    return WritingQuestion
   }
 };
 
@@ -95,6 +98,7 @@ const Combo = ({ route, navigation }) => {
       const horizontalContainer = useState(new Animated.Value(0))[0];
 
       const slideToNextQ = () => {
+        console.log('executing next q')
           springAnimation(horizontalContainer, 500, state.slideValue).start()
     }
 
@@ -140,8 +144,10 @@ const Combo = ({ route, navigation }) => {
                         /* console.log('qcomponent: ', QComponent.qComponent()) */
                         return (
                             <QComponent.qComponent 
+                                key={index}
                                 sendResult={sendResult} 
                                 nextQuestion = {slideToNextQ}
+                                infinitive={infinitive}
                                 index={index}  family={state.verbFamily} tense_en={tense_en} pattern={pattern} noun_phrase={noun_phrase}
                                 />
                         )

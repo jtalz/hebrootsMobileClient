@@ -6,6 +6,7 @@ import Conjugation from "./Conjugation";
 import { normalize } from "../Actions/Normalize";
 import UnderlinedText from "./UnderlinedText";
 import getHebrewConsonantCodes from "../Actions/GetMethods/GetHebrewConsonantCodes";
+import SmallYellowButton from "./Buttons/SmallYellowButton";
 
 const SentenceWithVerb = ({
   possession,
@@ -23,7 +24,8 @@ const SentenceWithVerb = ({
   inputEnabled,
   pronoun_en,
   spaceLayout,
-  setSpaceLayout
+  setSpaceLayout,
+  giveUp
 }) => {
   const getProperInputFormat = (gameStyle) => {
     if (gameStyle == "MultiChoiceQuiz") {
@@ -96,16 +98,18 @@ const SentenceWithVerb = ({
             alignItems: "center",
           }}
         >
-          <TextInput
-            style={{ ...styles.text, width: "100%", textAlign: "center" }}
-            placeholder=""
-            onChangeText={(text) => handleTextInput(text)}
-            underlineColorAndroid="transparent"
-            allowFontScaling={false}
-            value={inputValue}
-            editable={inputEnabled}
-            autoFocus={true}
-          />
+          <View>
+            <TextInput
+                  style={{ ...styles.text, width: (verb.length * normalize(20)) / 2, textAlign: "center", alignSelf: 'center' }}
+                  placeholder=""
+                  onChangeText={(text) => handleTextInput(text)}
+                  underlineColorAndroid="transparent"
+                  allowFontScaling={false}
+                  value={inputValue}
+                  editable={inputEnabled}
+              />
+            </View>
+            
         </View>
       );
     }
@@ -158,10 +162,12 @@ const SentenceWithVerb = ({
         </View>
         <View 
           onLayout={
+            setSpaceLayout ? 
             event=>
             {
               setSpaceLayout({x: event.nativeEvent.layout.x, y: event.nativeEvent.layout.y})
-            }
+            } : 
+            null
           }
           >
         {getProperInputFormat(gameStyle)}
@@ -175,7 +181,7 @@ const SentenceWithVerb = ({
             }}
           >
             <Text style={{ ...styles.text }}>{noun_phrase.phrase}</Text>
-            <Image
+            {/* <Image
               style={{
                 height: 75,
                 width: 75,
@@ -184,7 +190,7 @@ const SentenceWithVerb = ({
                 marginLeft: 20,
               }}
               source={{ uri: noun_phrase.img }}
-            />
+            /> */}
           </View>
         ) : null}
       </View>
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
   text: {
     marginHorizontal: 24,
     fontFamily: "Rubik_300Light",
-    fontSize: normalize(20),
+    fontSize: normalize(18),
     paddingVertical: 10
   },
 });
