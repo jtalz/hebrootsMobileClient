@@ -6,10 +6,11 @@ import { normalize } from "../../../Actions/Normalize";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../../Actions/ScreenDimensions";
 import XButton from "../../../Components/Buttons/XButton";
 import LivesIndicator from "../../../Components/LivesIndicator";
-import MCQuestion from "./ComboComponents/MCQuestion";
+import DragDropQuestion from "./ComboComponents/DragDropQuestion";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import springAnimation from '../../../Actions/Animations/springAnimation'
 import WritingQuestion from "./ComboComponents/WritingQuestion";
+import MatchingQuestion from "./ComboComponents/MatchingQuestion";
 /* 
 
 Goal of this exercise: 
@@ -28,7 +29,7 @@ const createComboTrainingDataset = ({
   //let typeCounter = 1;
   let typeCounter;
   const ctds = family.map((inflectionObj, index) => {
-    typeCounter = Math.floor(Math.random() * 2)
+    typeCounter = Math.floor(Math.random() * 3)
     let question = {
         type: typeCounter,
         qComponent: getQComponent(typeCounter),
@@ -46,9 +47,11 @@ const getQComponent = (
   if (type == 0) {
     //this will be a multiple choice question so it will need all the unique MC question properties
     // like choices and solution
-    return MCQuestion
+    return DragDropQuestion
   }else if (type == 1) {
     return WritingQuestion
+  }else if (type == 2) { 
+    return MatchingQuestion
   }
 };
 

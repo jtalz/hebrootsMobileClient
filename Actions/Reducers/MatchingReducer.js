@@ -33,7 +33,7 @@ export const matchingReducer = (state, action) => {
         var isUserPickingSecondCard = state.deck.filter((c, i) => c.selected).length > 0;
         var isGameFinished = state.deck.filter(c => c.visible).length <= 2;
         return isUserPickingSecondCard ? 
-            { ...state, deck : attemptToMatch(action.payload, state.deck), modalVisibility:  {...state.modalVisibility, passed: isGameFinished}, timer: { ...state.timer, start: !isGameFinished }}
+            { ...state, deck : attemptToMatch(action.payload, state.deck), continueEnabled: isGameFinished,modalVisibility:  {...state.modalVisibility, passed: isGameFinished}, timer: { ...state.timer, start: !isGameFinished }}
             //setAllCards(compose( updateDeckAfterSubmission, checkForMatch, selectCard )({card, allCards}))
             :
             { ...state, deck : selectCard({card: action.payload, deck: state.deck}) }

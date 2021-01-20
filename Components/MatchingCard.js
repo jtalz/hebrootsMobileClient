@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {TouchableOpacity, Text, Animated, StyleSheet} from 'react-native'
+import { normalize } from '../Actions/Normalize';
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../Actions/ScreenDimensions'
 
 const appropriateCardOpacity = (visible, justSubmittedAndIsCorrect) => {
@@ -12,7 +13,7 @@ const appropriateCardOpacity = (visible, justSubmittedAndIsCorrect) => {
     }
 }
 
-const MatchingCard = ({ item, dispatch }) => {
+const MatchingCard = ({ item, selectCard }) => {
     
     const { selected, visible, name, justSubmitted } = item;
 
@@ -73,11 +74,10 @@ const MatchingCard = ({ item, dispatch }) => {
       <TouchableOpacity
         style={{ ...styles.matchingCard }}
         disabled={disabled}
-        onPress={() => dispatch({ type: "selectCard", payload: item })}
+        onPress={() => selectCard(item)}
       >
-        <Animated.View style={[{opacity: cardOpacity, height: '100%', width: '100%',justifyContent: "center",
-        alignItems: "center"}, bgColor]}>
-            <Text style={{ fontFamily: "Rubik_300Light", fontSize: 26 }}>
+        <Animated.View style={[{opacity: cardOpacity, width: '100%', height: '100%', borderRadius: SCREEN_HEIGHT/18}, bgColor]}>
+            <Text style={{ fontFamily: "Rubik_300Light", fontSize: normalize(16), alignSelf: 'center' }}>
             {name}
             </Text>
         </Animated.View>
@@ -87,13 +87,15 @@ const MatchingCard = ({ item, dispatch }) => {
 
   const styles = StyleSheet.create({
     matchingCard: {
-        height: SCREEN_HEIGHT / 5,
+        height: SCREEN_HEIGHT / 12,
         width: SCREEN_WIDTH / 3.4,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: '#e8e8e8',
+        borderRadius: SCREEN_HEIGHT/ 18,
         marginVertical: 5,
         marginHorizontal: 5,
-        
+        justifyContent: 'center',
+        alignItems: 'center'
       }
   })
 

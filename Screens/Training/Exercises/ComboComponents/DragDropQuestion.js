@@ -21,7 +21,7 @@ const reducer = (state, {type, payload}) => {
         return {...state, checkEnabled: false}
     }
 }
-const MCQuestion  = ({index, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
+const DragDropQuestion  = ({index, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
         
     const [state, dispatch] = useReducer( reducer, {
         selectedChoice: null, 
@@ -177,4 +177,4 @@ function get3Choices(verbFamily, usedElement) {
     });
   }
 
-  export default MCQuestion;
+  export default DragDropQuestion;
