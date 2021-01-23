@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useEffect} from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import compose from '../../../../Actions/Compose';
 import getNRandomUniqueElements from '../../../../Actions/GetMethods/GetNRandomUniqueElements';
@@ -22,7 +22,7 @@ const getFreshDeck = (data) => {
     )({
       usedElements: [],
       data,
-      nCardsRequested: 6,
+      nCardsRequested: 3,
       type: "regular",
     });
   };
@@ -37,6 +37,13 @@ const MatchingQuestion = ({index, family, tense_en, pattern, noun_phrase, infini
     const selectCard = (card) => {
         dispatch({ type: "selectCard", payload: card })
     }
+
+    //useeffect to check if game is completed, matching canot result in an incorrect result
+    useEffect(()=>{
+      if(state.continueEnabled){
+        sendResult(true)
+      }
+    }, [state.continueEnabled])
 
     return ( 
 

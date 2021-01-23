@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useEffect, useReducer, useState} from 'react';
 import { View, Text, TextInput, StyleSheet, Animated } from 'react-native';
 import timedAnimation from '../../../../Actions/Animations/timedAnimation';
 import isCorrectConsonants from '../../../../Actions/CheckAnswer';
@@ -16,7 +16,7 @@ const writingReducer = (state, action) => {
                 inputEnabled: false, 
                 inputValue: state.verb, 
                 questionStatus: "correct", 
-                continueEnabled : true
+                continueEnabled : true,
             } :
             {
                 ...state,
@@ -33,7 +33,7 @@ const writingReducer = (state, action) => {
     }
 }
 
-const WritingQuestion = ({index, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
+const WritingQuestion = ({index, isActive, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
     
     const [state, dispatch] = useReducer( writingReducer, {
         verb: family[index].conjugation,
@@ -63,7 +63,7 @@ const WritingQuestion = ({index, family, tense_en, pattern, noun_phrase, infinit
         animateSolutionContainerIn();
         sendResult(false)
     }
-    
+
     return ( 
         <View>
             <Text style={{...styles.instructions}}>
@@ -97,6 +97,7 @@ const WritingQuestion = ({index, family, tense_en, pattern, noun_phrase, infinit
                 inputValue = {state.inputValue}
                 inputEnabled = {state.inputEnabled}
                 giveUp = {giveUp}
+                focusOnInput = {isActive}
             />
             <View style={{alignSelf: 'center'}}>
               <SmallYellowButton name="Need Help" onClick={giveUp} disabled={!state.inputEnabled} />

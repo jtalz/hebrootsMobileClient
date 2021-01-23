@@ -28,11 +28,21 @@ const selectCard = ({card, deck}) => {
     //return newAllCards;
 }
 
+const unselectCard = ({card, deck}) => {
+    return deck.map((c, i) => {
+        return c._id == card._id ? {...c, selected: false, justSubmitted: false} : {...c, justSubmitted: false}
+    })
+}
+
 export const matchingReducer = (state, action) => {
     if (action.type == 'selectCard'){
         var isUserPickingSecondCard = state.deck.filter((c, i) => c.selected).length > 0;
+        var isUserPickingSameCard = state.deck.find(c => c.selected) == action.payload
         var isGameFinished = state.deck.filter(c => c.visible).length <= 2;
         return isUserPickingSecondCard ? 
+            isUserPickingSameCard ? 
+            {...state, deck: unselectCard({card: action.payload, deck: state.deck})}
+            :
             { ...state, deck : attemptToMatch(action.payload, state.deck), continueEnabled: isGameFinished,modalVisibility:  {...state.modalVisibility, passed: isGameFinished}, timer: { ...state.timer, start: !isGameFinished }}
             //setAllCards(compose( updateDeckAfterSubmission, checkForMatch, selectCard )({card, allCards}))
             :

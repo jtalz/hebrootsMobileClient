@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image, TextInput } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import Conjugation from "./Conjugation";
@@ -25,8 +25,17 @@ const SentenceWithVerb = ({
   pronoun_en,
   spaceLayout,
   setSpaceLayout,
-  giveUp
+  giveUp,
+  focusOnInput
 }) => {
+
+  const inputRef = useRef();
+
+  useEffect(()=>{
+    if(focusOnInput)
+      inputRef.current.focus()
+  }, [focusOnInput])
+
   const getProperInputFormat = (gameStyle) => {
     if (gameStyle == "MultiChoiceQuiz") {
       /*return answered !== "unanswered" ? (
@@ -107,6 +116,7 @@ const SentenceWithVerb = ({
                   allowFontScaling={false}
                   value={inputValue}
                   editable={inputEnabled}
+                  ref={inputRef}
               />
             </View>
             

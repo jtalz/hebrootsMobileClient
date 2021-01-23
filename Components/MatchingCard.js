@@ -76,7 +76,7 @@ const MatchingCard = ({ item, selectCard }) => {
         disabled={disabled}
         onPress={() => selectCard(item)}
       >
-        <Animated.View style={[{opacity: cardOpacity, width: '100%', height: '100%', borderRadius: SCREEN_HEIGHT/18}, bgColor]}>
+        <Animated.View style={[{opacity: cardOpacity, width: '100%', height: '100%', borderRadius: SCREEN_HEIGHT/18, justifyContent: 'center'}, bgColor]}>
             <Text style={{ fontFamily: "Rubik_300Light", fontSize: normalize(16), alignSelf: 'center' }}>
             {name}
             </Text>

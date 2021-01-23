@@ -81,10 +81,12 @@ const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase })
 const comboReducer = (prevState, action) => {
     if (action.type == 'updateProgress'){
         return action.payload ?  
-            {...prevState, progress : prevState.progress+ prevState.progressIncrementer, slideValue: prevState.slideValue+1} :
+            {...prevState, progress : prevState.progress+ prevState.progressIncrementer} :
             prevState.lives - 1 == 0 ? 
-            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]),slideValue : prevState.slideValue+1, lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
-            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]),slideValue : prevState.slideValue+1, lives : prevState.lives-1 , slideValue: prevState.slideValue+1}                 
+            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
+            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1 , slideValue: prevState.slideValue+1}                 
+    }else if(action.type == 'nextSlide'){
+      return {...prevState, slideValue: prevState.slideValue+1 }
     }
 }
 
@@ -94,6 +96,11 @@ const Combo = ({ route, navigation }) => {
 
     const [state, dispatch] = useReducer(comboReducer, getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }))
 
+    /* useEffect(()=>{
+      //if(state.allQComponents[state.slideValue])
+      console.log(state.allQComponents[state.slideValue])
+    }, [state.slideValue]) */
+
       const sendResult = (result) => {
           dispatch({type: 'updateProgress', payload: result})
       }
@@ -101,8 +108,9 @@ const Combo = ({ route, navigation }) => {
       const horizontalContainer = useState(new Animated.Value(0))[0];
 
       const slideToNextQ = () => {
-        console.log('executing next q')
-          springAnimation(horizontalContainer, 500, state.slideValue).start()
+        
+          springAnimation(horizontalContainer, 500, state.slideValue+1).start()
+          dispatch({type: 'nextSlide'})
     }
 
     return ( 
@@ -151,7 +159,12 @@ const Combo = ({ route, navigation }) => {
                                 sendResult={sendResult} 
                                 nextQuestion = {slideToNextQ}
                                 infinitive={infinitive}
-                                index={index}  family={state.verbFamily} tense_en={tense_en} pattern={pattern} noun_phrase={noun_phrase}
+                                index={index}  
+                                family={state.verbFamily} 
+                                tense_en={tense_en} 
+                                pattern={pattern} 
+                                noun_phrase={noun_phrase}
+                                isActive={state.slideValue == index}
                                 />
                         )
                     })
