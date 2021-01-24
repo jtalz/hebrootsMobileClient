@@ -117,6 +117,7 @@ const SentenceWithVerb = ({
                   value={inputValue}
                   editable={inputEnabled}
                   ref={inputRef}
+                  autoCorrect={false}
               />
             </View>
             

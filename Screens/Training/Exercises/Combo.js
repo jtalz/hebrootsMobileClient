@@ -11,6 +11,7 @@ import ProgressBarAnimated from "react-native-progress-bar-animated";
 import springAnimation from '../../../Actions/Animations/springAnimation'
 import WritingQuestion from "./ComboComponents/WritingQuestion";
 import MatchingQuestion from "./ComboComponents/MatchingQuestion";
+import HebrootsModal from "../../../Components/HebrootsModal";
 /* 
 
 Goal of this exercise: 
@@ -62,7 +63,7 @@ const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase })
     });
 
     return {
-        verbFamily,
+      verbFamily,
       allQComponents: trainingSet,
       progress: 0,
       lives: 5,
@@ -83,10 +84,12 @@ const comboReducer = (prevState, action) => {
         return action.payload ?  
             {...prevState, progress : prevState.progress+ prevState.progressIncrementer} :
             prevState.lives - 1 == 0 ? 
-            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
-            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1 , slideValue: prevState.slideValue+1}                 
+            {...prevState, lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
+            {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1}                 
     }else if(action.type == 'nextSlide'){
       return {...prevState, slideValue: prevState.slideValue+1 }
+    }else if(action.type == 'closeInstructions'){
+      return {...prevState, modalVisibility: {...prevState.modalVisibility, instructions: false}}
     }
 }
 
@@ -96,16 +99,18 @@ const Combo = ({ route, navigation }) => {
 
     const [state, dispatch] = useReducer(comboReducer, getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }))
 
-    /* useEffect(()=>{
-      //if(state.allQComponents[state.slideValue])
-      console.log(state.allQComponents[state.slideValue])
-    }, [state.slideValue]) */
+      const sendResult = (payload) => {
+          dispatch({type: 'updateProgress', payload})
 
-      const sendResult = (result) => {
-          dispatch({type: 'updateProgress', payload: result})
       }
 
       const horizontalContainer = useState(new Animated.Value(0))[0];
+
+      useEffect(()=>{
+        console.log('LOGGING ALL Q COMPONENTS NOW',state.allQComponents.length)
+        console.log('LOGGING VERB FAMIL', state.verbFamily.length)
+        console.log('SLIde value: ', state.slideValue)
+      },[state.slideValue])
 
       const slideToNextQ = () => {
         
@@ -115,6 +120,20 @@ const Combo = ({ route, navigation }) => {
 
     return ( 
         <View style={{ backgroundColor: "white", flex: 1 }}>
+          <HebrootsModal
+        message="
+        Welcome to verb training. Answer the following questions to the best of your ability. You have 5 lives.
+        "
+        buttons={[
+          {
+            name: "Let's go!",
+            callback: () => {
+              dispatch({ type: "closeInstructions" });
+            },
+          },
+        ]}
+        visibility={state.modalVisibility.instructions}
+      />
       <SafeAreaView style={styles.container}>
       <View
           style={{

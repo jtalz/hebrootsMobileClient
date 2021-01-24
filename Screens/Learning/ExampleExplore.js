@@ -25,6 +25,18 @@ const ExampleExplore = ({ route, navigation }) => {
     handleRandomVerbRequest(pattern_id)
   }, []);
 
+  const navigateToTraining = () => {
+    let newFamily = state.tableData.family.filter((subFamily)=> subtopic.toUpperCase() == subFamily.tense.en)
+    navigation.navigate("Play", {screen: "MultipleChoice",initial: false, params : {
+      family: newFamily, 
+      gameStyle: "MEDIUM_SINGLE_TENSE_PRACTICE", 
+      infinitive: state.tableData.infinitive,
+              pattern: state.tableData.pattern.pattern,
+              noun_phrase: state.tableData.noun_phrase,
+              tense_en: subtopic.toUpperCase()
+    }}); 
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.searchArea}>
@@ -52,15 +64,16 @@ const ExampleExplore = ({ route, navigation }) => {
       />
       <View style={styles.btnArea}>
         <SmallYellowButton
-          name="play this"
+          name="practice"
           onClick={() =>
-            navigation.push("ExerciseSelection", { 
+            /* navigation.push("ExerciseSelection", { 
               family: state.tableData.family,
               infinitive: state.tableData.infinitive,
               pattern: state.tableData.pattern.pattern,
               noun_phrase: state.tableData.noun_phrase,
               tense: subtopic
-            })
+            }) */
+            navigateToTraining()
           }
         />
         <SmallYellowButton

@@ -97,7 +97,7 @@ const WritingQuestion = ({index, isActive, family, tense_en, pattern, noun_phras
                 inputValue = {state.inputValue}
                 inputEnabled = {state.inputEnabled}
                 giveUp = {giveUp}
-                focusOnInput = {isActive}
+                focusOnInput = {index == 0 ? false : isActive}
             />
             <View style={{alignSelf: 'center'}}>
               <SmallYellowButton name="Need Help" onClick={giveUp} disabled={!state.inputEnabled} />
