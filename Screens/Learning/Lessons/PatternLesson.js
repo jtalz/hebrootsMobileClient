@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, SafeAreaView } from 'react-native';
 import SmallYellowButton from '../../../Components/Buttons/SmallYellowButton.js'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../../Actions/ScreenDimensions'
 import ExampleVerb from '../../../Components/ExampleVerb'
@@ -10,7 +10,8 @@ const PatternLesson = ({ route, navigation }) => {
     const Lesson = () => {
 
         return (
-            <ScrollView contentContainerStyle={{alignItems: 'flex-start', justifyContent: 'space-evenly', padding: 20, paddingTop: 30, backgroundColor: 'white'}}>
+            <SafeAreaView>
+            <ScrollView contentContainerStyle={{alignItems: 'flex-start', justifyContent: 'space-evenly', padding: 20, backgroundColor: 'white'}}>
                 <View style={{marginBottom: 20, ...styles.margin5}}>
                     <Text style={styles.title}>Let's learn about {transliteration} (<Text style={{...styles.hebrewText}}>{name}</Text>)!</Text>
                 </View>
@@ -94,6 +95,7 @@ const PatternLesson = ({ route, navigation }) => {
                     />
             </View>
             </ScrollView>
+            </SafeAreaView>
         )
     }
 

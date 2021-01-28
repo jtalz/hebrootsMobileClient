@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import SearchBar from "../Components/SearchBar.js";
 import Card from "../Components/Card";
 import SmallYellowButton from "../Components/Buttons/SmallYellowButton";
@@ -43,7 +43,7 @@ const Explore = ({ navigation }) => {
     }, [])
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
         <View style={styles.searchArea}>
           <Bird 
             size='Small'
@@ -88,7 +88,7 @@ const Explore = ({ navigation }) => {
             disabled={state.tableStatus=="Loading"}
           />
         </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   searchArea: {
     width: "100%",
     flex: 0.8,
-    marginTop: 30,
+    marginTop: 50,
     flexDirection: "row",
     justifyContent: "center",
   },

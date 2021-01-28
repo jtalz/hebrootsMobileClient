@@ -71,15 +71,15 @@ class CardsCarousel extends Component {
             flex: 15,
             flexDirection: "row",
             justifyContent: "center",
-            alignItems: 'flex-start',
-            borderColor: 'blue'
+            alignItems: 'center',
+            padding: 5
           }}
         >
           <Carousel
             layout={"default"}
             ref={(ref) => (this.carousel = ref)}
             data={carouselData.data}
-            sliderWidth={390}
+            sliderWidth={SCREEN_WIDTH/2}
             itemWidth={SCREEN_WIDTH / 1.1}
             containerCustomStyle={{flex: 1, alignSelf: 'center'}}
             slideStyle={{ }}

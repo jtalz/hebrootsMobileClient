@@ -24,6 +24,7 @@ const HebrootsTabNav = ({ children, Tab }) => {
       tabBarOptions={{
         activeTintColor: "#2B78EC",
         inactiveTintColor: "gray",
+        showLabel: false
       }}
     >
         {children}

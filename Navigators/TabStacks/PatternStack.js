@@ -13,7 +13,7 @@ const PatternStack = () => {
     return (
             <Stack.Navigator initialRouteName="LessonSelection">
                 <Stack.Screen options={styleHeaderFor("Learn")} name="LessonSelection" component={LessonSelection} />
-                <Stack.Screen options={styleHeaderFor("let's learn something")} name="SubtopicSelection" component={SubtopicSelection} />
+                <Stack.Screen options={styleHeaderFor("Learn")} name="SubtopicSelection" component={SubtopicSelection} />
                 <Stack.Screen options={styleHeaderFor('Learn a Pattern')} name="PatternLesson" component={PatternLesson} />
                 <Stack.Screen options={styleHeaderFor('Pattern Conjugations')} name="ExampleExplore" component={ExampleExplore} />
                 <Stack.Screen options={styleHeaderFor('Training Selection')} name="ExerciseSelection" component={ExerciseSelection} />

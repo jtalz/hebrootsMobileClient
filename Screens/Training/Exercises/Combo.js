@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useEffect } from "react";
-import { Animated, SafeAreaView, StyleSheet, View } from "react-native";
+import { Animated, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import timedAnimation from "../../../Actions/Animations/timedAnimation";
 import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords";
 import { normalize } from "../../../Actions/Normalize";
@@ -150,6 +150,7 @@ const Combo = ({ route, navigation }) => {
           />
           <LivesIndicator nLives={state.lives} />
         </View>
+        <Text style={{alignSelf: 'center', fontFamily: 'Rubik_400Regular', fontSize: normalize(12)}}>{tense_en} TENSE</Text>
         </SafeAreaView>
             <Animated.View
             //horizontal={true}

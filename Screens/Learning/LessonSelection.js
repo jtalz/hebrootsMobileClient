@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, FlatList, StyleSheet, View } from "react-native";
+import { Text, FlatList, StyleSheet, View, SafeAreaView } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Bird from "../../Components/Characters/Bird";
 import { requestAllPatterns } from "../../Actions/APIRequests";
@@ -58,7 +58,7 @@ const LessonSelection = ({ navigation, route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.intro}>
         <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
         <Text
@@ -102,7 +102,7 @@ const LessonSelection = ({ navigation, route }) => {
           />
         ) : null}
       </Animatable.View>
-    </View>
+    </SafeAreaView>
   );
 };
 

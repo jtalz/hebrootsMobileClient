@@ -1,4 +1,15 @@
 //change url links to /api/link after next node deployment
+export const requestPracticeVerbs = async () => {
+    try{
+        const response = await fetch(`https://hebroots-api.herokuapp.com/api/practice`);
+        const response_1 = await response.json()
+        return response_1;
+    }catch(err){
+        console.log('err', err)
+        return err;
+    }
+}
+
 export const requestRandomVerbOfPattern = async (pattern_id) => {
     try {
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/random?pattern=${pattern_id}`);

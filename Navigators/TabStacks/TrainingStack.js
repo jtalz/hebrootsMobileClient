@@ -28,7 +28,7 @@ const TrainingStack = ({navigation, route}) => {
     navigation.setOptions({ tabBarVisible: getHeaderTitle(route) })
     return (
             <Stack.Navigator initialRouteName="UserProgress">
-                <Stack.Screen options={styleHeaderFor('Play')} name="UserProgress" component={UserProgress} />
+                <Stack.Screen options={styleHeaderFor('Quick Play')} name="UserProgress" component={UserProgress} />
                 <Stack.Screen options={styleHeaderFor('Training Selection')} name="ExerciseSelection" component={ExerciseSelection} />
                 <Stack.Screen options={{ 
                     headerShown: false,

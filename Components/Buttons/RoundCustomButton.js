@@ -11,11 +11,7 @@ const RoundCustomButton = ({ name, onPress, imgUrl }) => {
                     <Image style={{height: SCREEN_HEIGHT*.08, width: SCREEN_HEIGHT*.08}} source={{ uri: imgUrl }} />
                 </TouchableOpacity>
             </View>
-            {
-                Object.keys(name).map((key)=> {
-                    return <Text key={key} style={{fontFamily: 'Nunito_300Light', lineHeight: 19, fontSize: 16}}>{name[key]}</Text>
-                })
-            }
+            <Text style={{fontFamily: 'Nunito_300Light', fontSize: 16}}>{name}</Text>
         </View>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import StudySection from '../../Containers/StudySection'
 import SmallYellowButton from "../../Components/Buttons/SmallYellowButton.js";
 import Bird from "../../Components/Characters/Bird";
@@ -38,7 +38,7 @@ const ExampleExplore = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.searchArea}>
         <Bird
           size="Small"
@@ -84,7 +84,7 @@ const ExampleExplore = ({ route, navigation }) => {
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

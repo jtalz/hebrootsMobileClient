@@ -57,7 +57,7 @@ const UnderlinedText = (props) => {
         <Modal 
             visible={showBubble}
             transparent={true}
-            animationType="slide"
+            animationType="fade"
             >
                 
                 <View style={styles.centeredView}><TouchableWithoutFeedback onPress={()=>setShowBubble(!showBubble)}>
@@ -84,10 +84,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        backgroundColor: 'rgba(255,255,255,.5)',
+        opacity:1,
       },
       modalView: {
-        margin: 20,
+        margin: SCREEN_WIDTH/8,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
