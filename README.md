@@ -1,5 +1,7 @@
 # Hebroots
 
+Expo snack: https://snack.expo.io/@jtalz97/6d38ef
+
 ## Introduction
 
 The purpose of this software is to provide Hebrew language students with an efficient and enjoyable way of practicing verb conjugations. 
