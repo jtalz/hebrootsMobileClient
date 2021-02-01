@@ -172,7 +172,9 @@ const UserProgress = ({ route, navigation }) => {
                         verbs={state.organizedPracticeObjects[key].verbs} />
                     })
                     : 
-                    null
+                    <View style={{height: SCREEN_HEIGHT, justifyContent: 'center', alignItems: 'center'}}>
+                        <ActivityIndicator size='large'/>
+                    </View>
                 }
             </ScrollView>
         </View>

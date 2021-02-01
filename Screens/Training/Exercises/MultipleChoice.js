@@ -166,7 +166,6 @@ const MultipleChoice = ({ route, navigation }) => {
           ]}
           visibility={state.modalVisibility.passed}
         />
-
         <HebrootsModal
           message={`Welcome to the Quiz. Try your best to select the appropriate conjugation of the verb ${infinitive} with their corresponding pronoun (like אני, אתה, הוא). Good luck!`}
           buttons={[

@@ -3,6 +3,7 @@ import { StyleSheet, View, TextInput, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { normalize } from '../Actions/Normalize';
 
 const SearchBar = props => {
     const [value, onChangeText] = useState('');
@@ -13,7 +14,7 @@ const SearchBar = props => {
             </TouchableOpacity>
             <TextInput
                 style={styles.input}
-                placeholder="חיפוש"
+                placeholder="search for a verb..."
                 onChangeText = {text=> onChangeText(text)}
                 underlineColorAndroid="transparent"
                 value = {value}
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
       color: '#424242',
       textAlign: 'right',
       marginHorizontal: 10,
-      fontSize: 18,
+      fontSize: normalize(12),
       fontFamily: 'Rubik_300Light'
   },
   });

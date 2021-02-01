@@ -90,7 +90,11 @@ const comboReducer = (prevState, action) => {
       return {...prevState, slideValue: prevState.slideValue+1 }
     }else if(action.type == 'closeInstructions'){
       return {...prevState, modalVisibility: {...prevState.modalVisibility, instructions: false}}
-    }
+    }else if(action.type == 'exit'){
+      return {...prevState, modalVisibility: {...prevState.modalVisibility, exit: true}}
+    }else if (action.type == 'close'){
+      return {...prevState, modalVisibility: {exit: false, grade: false, failed: false, passed: false, instructions: false}}
+  }
 }
 
 const Combo = ({ route, navigation }) => {
@@ -134,6 +138,25 @@ const Combo = ({ route, navigation }) => {
         ]}
         visibility={state.modalVisibility.instructions}
       />
+      <HebrootsModal
+          message="Are you sure you would like to exit? Your progress will not be saved."
+          buttons={[
+            {
+              name: "Yes I'm sure",
+              callback: () => {
+                dispatch({ type: "close" });
+                navigation.goBack();
+              },
+            },
+            {
+              name: "No, I'd like to stay",
+              callback: () => {
+                dispatch({ type: "close" });
+              },
+            },
+          ]}
+          visibility={state.modalVisibility.exit}
+        />
       <SafeAreaView style={styles.container}>
       <View
           style={{

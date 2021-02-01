@@ -24,6 +24,18 @@ const Explore = ({ navigation }) => {
       handleResponse(searchedVerb, dispatch);
     }
 
+    const navigateToTraining = () => {
+      let newFamily = state.tableData.family.filter((subFamily)=> getTenseFromActiveIndex(state.activeIndex) == subFamily.tense.en)
+      navigation.navigate("Play", {screen: "MultipleChoice",initial: false, params : {
+        family: newFamily, 
+        gameStyle: "MEDIUM_SINGLE_TENSE_PRACTICE", 
+        infinitive: state.tableData.infinitive,
+                pattern: state.tableData.pattern.pattern,
+                noun_phrase: state.tableData.noun_phrase,
+                tense_en: getTenseFromActiveIndex(state.activeIndex)
+      }}); 
+    }
+
     const getTenseFromActiveIndex = (activeIndex) => {
       switch(activeIndex){
         case 0: 
@@ -62,27 +74,29 @@ const Explore = ({ navigation }) => {
         />
         <View style={styles.btnArea}>
           <SmallYellowButton
-            name="play"
+            name="practice"
             onClick={() =>
-              navigation.push("ExerciseSelection", { 
+              /* navigation.push("ExerciseSelection", { 
                 family: state.tableData.family,
                 infinitive: state.tableData.infinitive,
                 pattern: state.tableData.pattern.pattern,
                 noun_phrase: state.tableData.noun_phrase,
                 tense: getTenseFromActiveIndex(state.activeIndex)
-              })
+              }) */
+              navigateToTraining()
             }
             disabled={state.tableStatus=="Loading"}
           />
           <SmallYellowButton
-            name="learn"
+            name="lesson"
             onClick={() =>
               navigateToPattern(navigation, "PatternLesson", {
                 pattern: state.tableData.pattern.pattern,
                     name: state.tableData.pattern.name,
                     aspects: state.tableData.pattern.aspects,
                     infinitive_form: state.tableData.pattern.infinitive_form,
-                    pattern_id: state.tableData.pattern._id
+                    pattern_id: state.tableData.pattern._id,
+                    subtopic: getTenseFromActiveIndex(state.activeIndex)
               })
             }
             disabled={state.tableStatus=="Loading"}

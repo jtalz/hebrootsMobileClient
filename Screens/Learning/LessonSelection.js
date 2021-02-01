@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, FlatList, StyleSheet, View, SafeAreaView } from "react-native";
+import { Text, FlatList, StyleSheet, View, SafeAreaView, ActivityIndicator } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Bird from "../../Components/Characters/Bird";
 import { requestAllPatterns } from "../../Actions/APIRequests";
@@ -83,7 +83,7 @@ const LessonSelection = ({ navigation, route }) => {
         </Text>
       </View>
       <Animatable.View
-        animation="fadeInUp"
+        animation="fadeIn"
         direction="alternate"
         style={{ flex: 2 }}
       >
@@ -100,7 +100,10 @@ const LessonSelection = ({ navigation, route }) => {
             keyExtractor={(item) => item._id}
             scrollEnabled={true}
           />
-        ) : null}
+        ) : 
+        <View style={{height: SCREEN_HEIGHT/2,borderWidth: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <ActivityIndicator size='large'/>
+                    </View>}
       </Animatable.View>
     </SafeAreaView>
   );

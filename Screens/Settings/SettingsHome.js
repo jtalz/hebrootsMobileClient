@@ -5,7 +5,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Switch
+  Switch,
+  ActivityIndicator
 } from "react-native";
 import DashedCircle from "../../Components/DashedCircle";
 import {
@@ -131,7 +132,9 @@ const settingsGroup = ({ item }) => {
     <View>
       {
         settingsOptions == null? 
-        null :
+        <View style={{height: SCREEN_HEIGHT, justifyContent: 'center', alignItems: 'center'}}>
+                        <ActivityIndicator size='large'/>
+                    </View> :
         <FlatList
         renderItem={settingsGroup}
         data={settingsOptions.options}
