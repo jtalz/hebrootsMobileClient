@@ -12,6 +12,8 @@ import springAnimation from '../../../Actions/Animations/springAnimation'
 import WritingQuestion from "./ComboComponents/WritingQuestion";
 import MatchingQuestion from "./ComboComponents/MatchingQuestion";
 import HebrootsModal from "../../../Components/HebrootsModal";
+import { navigateToPattern } from "../../../Actions/NavigateTo";
+import { StackActions } from "@react-navigation/native";
 /* 
 
 Goal of this exercise: 
@@ -87,14 +89,19 @@ const comboReducer = (prevState, action) => {
             {...prevState, lives : prevState.lives-1, modalVisibility:{...prevState.modalVisibility, failed: true} } :
             {...prevState, verbFamily: prevState.verbFamily.concat(prevState.verbFamily[prevState.slideValue]), allQComponents: prevState.allQComponents.concat(prevState.allQComponents[prevState.slideValue]), lives : prevState.lives-1}                 
     }else if(action.type == 'nextSlide'){
-      return {...prevState, slideValue: prevState.slideValue+1 }
+      return prevState.slideValue == prevState.verbFamily.length-1 ? 
+      {...prevState, modalVisibility:{...prevState.modalVisibility, passed: true}}
+      :
+      {...prevState, slideValue: prevState.slideValue+1 }
     }else if(action.type == 'closeInstructions'){
       return {...prevState, modalVisibility: {...prevState.modalVisibility, instructions: false}}
     }else if(action.type == 'exit'){
       return {...prevState, modalVisibility: {...prevState.modalVisibility, exit: true}}
     }else if (action.type == 'close'){
       return {...prevState, modalVisibility: {exit: false, grade: false, failed: false, passed: false, instructions: false}}
-  }
+    }else if (action.type == 'replay'){
+      return {...action.payload }
+    }
 }
 
 const Combo = ({ route, navigation }) => {
@@ -121,6 +128,10 @@ const Combo = ({ route, navigation }) => {
           springAnimation(horizontalContainer, 500, state.slideValue+1).start()
           dispatch({type: 'nextSlide'})
     }
+
+    const replay = () => {
+      dispatch({ type: "replay", payload: getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }) });
+    };
 
     return ( 
         <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -156,6 +167,39 @@ const Combo = ({ route, navigation }) => {
             },
           ]}
           visibility={state.modalVisibility.exit}
+        />
+        <HebrootsModal
+          message="Oh no! You've lost all of your lives. Try studying one more time before practicing again!"
+          buttons={[
+            {
+              name: "Go back to study",
+              callback: () => {
+                dispatch({ type: "close" });
+                navigateToPattern(navigation, "LessonSelection", {});
+              },
+            },
+            {
+              name: "Try again",
+              callback: () => {
+                replay();
+              },
+            },
+          ]}
+          visibility={state.modalVisibility.failed}
+        />
+        <HebrootsModal
+          message="Great job! You know your verb conjugations. Return to the pattern screen to learn another one."
+          buttons={[
+            {
+              name: "Learn something else",
+              callback: () => {
+                dispatch({ type: "close" });
+                navigation.dispatch(StackActions.popToTop());
+                navigateToPattern(navigation, "LessonSelection", {});
+              },
+            },
+          ]}
+          visibility={state.modalVisibility.passed}
         />
       <SafeAreaView style={styles.container}>
       <View

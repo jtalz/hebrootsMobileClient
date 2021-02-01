@@ -18,16 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-        "infoPlist": {
-          "NSAppTransportSecurity": {
-            "NSExceptionDomains": {
-              "something.com": {
-                "NSTemporaryExceptionAllowsInsecureHTTPLoads": true
-              }
-            }
-          }
-        }
+      "bundleIdentifier": "com.jtalz97.hebrootsMobileClient"
     },
     "web": {
       "favicon": "./assets/favicon.png"
