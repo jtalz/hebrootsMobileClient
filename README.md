@@ -1,6 +1,10 @@
 # Hebroots
 
 Expo snack: https://snack.expo.io/@jtalz97/6d38ef
+Some example usage: 
+![](https://user-images.githubusercontent.com/31594943/106532972-3d01ee80-64bf-11eb-951e-6b73b6f5155c.gif)
+![](https://user-images.githubusercontent.com/31594943/106533071-6cb0f680-64bf-11eb-9357-a3634bfdca73.gif)
+![](https://user-images.githubusercontent.com/31594943/106533108-84887a80-64bf-11eb-9611-83e9c9ff8041.gif)
 
 ## Introduction
 
