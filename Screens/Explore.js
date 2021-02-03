@@ -74,21 +74,14 @@ const Explore = ({ navigation }) => {
         />
         <View style={styles.btnArea}>
           <SmallYellowButton
-            name="practice"
+            name="Practice"
             onClick={() =>
-              /* navigation.push("ExerciseSelection", { 
-                family: state.tableData.family,
-                infinitive: state.tableData.infinitive,
-                pattern: state.tableData.pattern.pattern,
-                noun_phrase: state.tableData.noun_phrase,
-                tense: getTenseFromActiveIndex(state.activeIndex)
-              }) */
               navigateToTraining()
             }
             disabled={state.tableStatus=="Loading"}
           />
           <SmallYellowButton
-            name="lesson"
+            name="Lesson"
             onClick={() =>
               navigateToPattern(navigation, "PatternLesson", {
                 pattern: state.tableData.pattern.pattern,

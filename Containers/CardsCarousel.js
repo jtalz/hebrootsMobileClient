@@ -7,6 +7,7 @@ import _renderConjugations from "./ConjugationTable";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import { normalize } from "../Actions/Normalize.js";
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { TouchableOpacity } from "react-native-gesture-handler";
 class CardsCarousel extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,14 @@ class CardsCarousel extends Component {
         </Card>
       </View>
     );
+  }
+
+  nextCard(){
+    this.carousel.snapToNext()
+  }
+
+  prevCard(){
+    this.carousel.snapToPrev()
   }
 
   render() {
@@ -79,8 +88,8 @@ class CardsCarousel extends Component {
             layout={"default"}
             ref={(ref) => (this.carousel = ref)}
             data={carouselData.data}
-            sliderWidth={SCREEN_WIDTH/2}
-            itemWidth={SCREEN_WIDTH / 1.1}
+            sliderWidth={(SCREEN_WIDTH-30)}
+            itemWidth={SCREEN_WIDTH-30}
             containerCustomStyle={{flex: 1, alignSelf: 'center'}}
             slideStyle={{ }}
             renderItem={carouselData.renderFn}
@@ -105,7 +114,9 @@ class CardsCarousel extends Component {
             </View>
             : 
         <View style={{flexDirection: 'row', flex: 2, height: '100%', alignItems: 'flex-start', justifyContent: 'center'}}>
+              <TouchableOpacity onPress={()=>this.prevCard()} >
               <MaterialIcons name="chevron-left" size={24} color="black" />
+              </TouchableOpacity>
               <Text
                 style={{
                   color: activeIndex == 0 ? "blue" : "black",
@@ -136,7 +147,9 @@ class CardsCarousel extends Component {
               >
                 עתיד
               </Text>
+              <TouchableOpacity onPress={()=>this.nextCard()} >
               <MaterialIcons name="chevron-right" size={24} color="black" />
+              </TouchableOpacity>
             </View>
     }
       </View>

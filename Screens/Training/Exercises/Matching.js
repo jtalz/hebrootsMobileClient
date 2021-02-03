@@ -15,7 +15,7 @@ import {
 import getNRandomUniqueElements from "../../../Actions/GetMethods/GetNRandomUniqueElements";
 import seperateInflectionsFromPronouns from "../../../Actions/SeperateInflectionsFromPronouns";
 import { matchingReducer } from "../../../Actions/Reducers/MatchingReducer";
-import HebrootsModal from "../../../Components/HebrootsModal";
+import HebrootsModal from "../../../Components/Modals/HebrootsModal";
 import { StackActions } from "@react-navigation/native";
 import MatchingCard from '../../../Components/MatchingCard'
 import StopwatchTimer from "../../../Components/StopwatchTimer"

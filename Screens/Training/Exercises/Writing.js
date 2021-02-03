@@ -5,7 +5,7 @@ import isCorrectConsonants from "../../../Actions/CheckAnswer.js";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import LivesIndicator from "../../../Components/LivesIndicator";
 import XButton from "../../../Components/Buttons/XButton";
-import HebrootsModal from "../../../Components/HebrootsModal";
+import HebrootsModal from "../../../Components/Modals/HebrootsModal";
 import {
   SCREEN_WIDTH,
   SCREEN_HEIGHT,

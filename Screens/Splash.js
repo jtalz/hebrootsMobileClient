@@ -7,11 +7,6 @@ import LoginRegister from "../Containers/LoginRegister";
 import check_for_token from "../Actions/Authentication/check_for_token";
 import timedAnimation from "../Actions/Animations/timedAnimation";
 
-const backgroundGradient = {
-  uri:
-    "https://user-images.githubusercontent.com/31594943/102720496-ad173500-42c2-11eb-85eb-0363288e546c.png",
-};
-
 const Splash = ({ noLogin, noUserFound, login }) => {
 
   useEffect(() => {
@@ -47,7 +42,7 @@ const Splash = ({ noLogin, noUserFound, login }) => {
 
   return (
     <View style={{ ...styles.container }}>
-      <ImageBackground source={backgroundGradient} style={styles.image}>
+      <ImageBackground source={require('../assets/SplashBackground-min.png')} style={styles.image}>
         <Animated.View
           style={[
             {

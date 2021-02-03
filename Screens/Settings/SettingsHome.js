@@ -18,6 +18,8 @@ import SETTINGS_STATIC from "../../Constants/SETTINGS_STATIC";
 import { requestUserSettings } from "../../Actions/APIRequests";
 import AuthContext from "../../Actions/context/AuthContext";
 import SmallYellowButton from '../../Components/Buttons/SmallYellowButton'
+import fonts from "../../Style/fontStyle";
+import { normalize } from "../../Actions/Normalize";
 
 const SettingsHome = (props) => {
 
@@ -66,21 +68,21 @@ const renderOption = (option) => {
   if(option.type == "read-only"){
     return (
       <View style={{...styles.optionRow}}>
-        <Text>{option.name}</Text>
+        <Text style={{...fonts.en_light, fontSize: normalize(12)}}>{option.name}</Text>
         <Text style={{color: 'grey'}}>{option.status}</Text>
       </View>
     )
   }else if(option.type == "pressable"){
     return (
       <TouchableOpacity style={{...styles.optionRow}} onPress={option.onPress}>
-        <Text>{option.name}</Text>
+        <Text style={{...fonts.en_light, fontSize: normalize(12)}}>{option.name}</Text>
         {option.status !== undefined ? <Text style={{color: 'grey'}}>{option.status}</Text> : null}
       </TouchableOpacity>
     )
   }else if(option.type == "toggle"){
     return (
       <View style={{...styles.optionRow}}>
-        <Text>{option.name}</Text>
+        <Text style={{...fonts.en_light, fontSize: normalize(12)}}>{option.name}</Text>
         <Switch 
           /* trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -149,7 +151,7 @@ const settingsGroup = ({ item }) => {
               </Text>
             </View>
             <View>
-              <DashedCircle initial={"J"} />
+              <DashedCircle initial={settingsOptions.firstName.charAt(0)} />
             </View>
           </View>
         }

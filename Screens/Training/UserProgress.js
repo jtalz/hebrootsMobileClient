@@ -1,12 +1,15 @@
 import React, {Component, useEffect, useState} from 'react';
 import { StyleSheet, Text, View,ScrollView, TouchableHighlight, Animated, FlatList, Modal, ActivityIndicator } from 'react-native';
+import { LongPressGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
 import timedAnimation from '../../Actions/Animations/timedAnimation';
 import { requestPracticeVerbs, requestVerbFromValue } from '../../Actions/APIRequests';
 import getRandomImg from '../../Actions/GetMethods/GetRandomImage';
+import { normalize } from '../../Actions/Normalize';
 import organizeVerbsByType from '../../Actions/ObjectManipulations/OrganizePracticeVerbs';
 import { SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
 import RoundCustomButton from '../../Components/Buttons/RoundCustomButton';
 import Bird from '../../Components/Characters/Bird'
+import fonts from '../../Style/fontStyle';
 
 const UserProgress = ({ route, navigation }) => {
     
@@ -113,15 +116,21 @@ const UserProgress = ({ route, navigation }) => {
 
         const TabButton = ({title, tense, isOpen}) => {
             return (
-                <TouchableHighlight onPress={() => {
-                    isOpen ? closePracticeTab() : openPracticeTab()
-                    }}>
+                <TapGestureHandler 
+                    onHandlerStateChange={({ nativeEvent }) =>
+                        nativeEvent.state === State.ACTIVE ? 
+                            isOpen ? closePracticeTab() : openPracticeTab()
+                            :
+                            null
+                    }
+                    maxDurationMs={1000}
+                >
                     <View style={{height: SCREEN_HEIGHT/15, padding: 5, borderBottomWidth: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'}}>
-                        <Text>
+                        <Text style={{...fonts.en_light, fontSize: normalize(12)}}>
                             {title} {tense} Tense
                         </Text>
                     </View>
-                </TouchableHighlight>
+                </TapGestureHandler>
             )
         }
         return (

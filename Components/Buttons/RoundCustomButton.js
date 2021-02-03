@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
+import fonts from '../../Style/fontStyle';
 
 const RoundCustomButton = ({ name, onPress, imgUrl }) => {
     return (
@@ -11,7 +12,7 @@ const RoundCustomButton = ({ name, onPress, imgUrl }) => {
                     <Image style={{height: SCREEN_HEIGHT*.08, width: SCREEN_HEIGHT*.08}} source={{ uri: imgUrl }} />
                 </TouchableOpacity>
             </View>
-            <Text style={{fontFamily: 'Nunito_300Light', fontSize: 16}}>{name}</Text>
+            <Text style={{...fonts.he_light, fontSize: 16}}>{name}</Text>
         </View>
     )
 }

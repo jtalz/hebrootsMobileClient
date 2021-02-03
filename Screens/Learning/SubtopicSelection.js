@@ -6,6 +6,7 @@ import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from "../../Components/Buttons/_3DButton";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
 import TENSES from "../../Constants/TENSES";
+import fonts from "../../Style/fontStyle";
 
 const SubtopicSelection = ({ navigation, route }) => {
   const [topics, setTopics] = useState(null);
@@ -35,8 +36,8 @@ const SubtopicSelection = ({ navigation, route }) => {
       backgroundDarker={"#C0C0C0"}
       backgroundActive={"#FFD350"}
       onPress={() => onLessonSelect(item)}
-      name={item.name_en}
-      details={[item.name_he]}
+      name={item.name_he}
+      details={[item.name_en]}
       enabled={true}
       style={{ marginVertical: 10 }}
       fontSize={SCREEN_HEIGHT / 55}
@@ -49,23 +50,23 @@ const SubtopicSelection = ({ navigation, route }) => {
         <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
         <Text
           style={{
+            ...fonts.he_light,
             width: "65%",
             fontSize: SCREEN_HEIGHT / 35,
             textAlign: "center",
-            fontFamily: "Nunito_300Light",
           }}
         >
           {route.params.name}
         </Text>
         <Text
           style={{
+            ...fonts.en_light,
             width: "65%",
             fontSize: SCREEN_HEIGHT / 35,
             textAlign: "center",
-            fontFamily: "Nunito_300Light",
           }}
         >
-          please select a tense
+          Please select a tense
         </Text>
       </View>
       <Animatable.View

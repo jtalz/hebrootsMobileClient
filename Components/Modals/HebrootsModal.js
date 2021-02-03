@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight, Image, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableHighlight, Image, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 
 const HebrootsModal = ({ message, buttons, visibility}) => {
     return (
@@ -10,6 +10,7 @@ const HebrootsModal = ({ message, buttons, visibility}) => {
             onRequestClose={() => {
             Alert.alert("Modal has been closed.");
             }}
+            //onShow={}
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
@@ -21,15 +22,15 @@ const HebrootsModal = ({ message, buttons, visibility}) => {
                     {
                         //loop over array of button/callback objects
                         //ex. [{name: 'Okay', callback: close},{name: 'Try Again', callback: startOver}]
-                        buttons.map(({name, callback})=>{
+                        buttons.map(({name, callback, btnType})=>{
                             return (
-                                <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                                <TouchableOpacity
+                                    style={{ ...styles.openButton, ...btnType == 'primary' ? styles.primaryBtn : styles.secondaryBtn }}
                                     onPress={callback}
                                     key={name}
                                 >
-                                    <Text style={styles.textStyle}>{name}</Text>
-                                </TouchableHighlight>
+                                    <Text style={{...styles.textStyle, color: btnType == 'primary' ? 'white': '#2196F3'}}>{name}</Text>
+                                </TouchableOpacity>
                             )
                         })
                     }
@@ -47,6 +48,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
+        backgroundColor: 'rgba(255,255,255,.7)'
+      },
+      primaryBtn: {
+        backgroundColor: '#2196F3',
+        borderWidth: 0
+      },
+      secondaryBtn: {
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: '#2196F3'
       },
       modalView: {
         margin: 20,

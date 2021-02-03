@@ -5,6 +5,8 @@ import Bird from "../../Components/Characters/Bird";
 import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from "../../Components/Buttons/_3DButton";
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
+import { normalize } from "../../Actions/Normalize";
+import fonts from "../../Style/fontStyle";
 
 const LessonSelection = ({ navigation, route }) => {
   const [topics, setTopics] = useState(null);
@@ -63,23 +65,13 @@ const LessonSelection = ({ navigation, route }) => {
         <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
         <Text
           style={{
+            ...fonts.en_light,
             width: "65%",
-            fontSize: SCREEN_HEIGHT / 35,
+            fontSize: normalize(18),
             textAlign: "center",
-            fontFamily: "Nunito_300Light",
           }}
         >
-          hi josh!
-        </Text>
-        <Text
-          style={{
-            width: "65%",
-            fontSize: SCREEN_HEIGHT / 35,
-            textAlign: "center",
-            fontFamily: "Nunito_300Light",
-          }}
-        >
-          let's learn about one of the following topics
+          Let's learn about one of the following topics
         </Text>
       </View>
       <Animatable.View

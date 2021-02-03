@@ -4,7 +4,6 @@ import Bird from '../../Components/Characters/Bird.js'
 import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../../Actions/ScreenDimensions'
 import {normalize} from '../../Actions/Normalize'
 import SmallYellowButton from '../../Components/Buttons/SmallYellowButton.js';
-import HebrootsModal from "../../Components/HebrootsModal";
 import _3DButton from '../../Components/Buttons/_3DButton'
 
 const slideInLeft = (dispatch, slidingContainerX, tense) => {
@@ -220,7 +219,7 @@ const answerContainerX = useState(new Animated.Value(1))[0];
 
     return (
       <View style={styles.container}>
-        <HebrootsModal
+        {/* <HebrootsModal
           message="Please select both a game and tense in order to start."
           buttons={[
             {
@@ -231,7 +230,7 @@ const answerContainerX = useState(new Animated.Value(1))[0];
             },
           ]}
           visibility={state.modalVisibility}
-        />
+        /> */}
         <View
           style={{
             width: "100%",

@@ -4,16 +4,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { normalize } from '../Actions/Normalize';
+import fonts from '../Style/fontStyle';
 
 const SearchBar = props => {
     const [value, onChangeText] = useState('');
     return (
         <View style={styles.searchSection}>
             <TouchableOpacity onPress={()=>onChangeText('')}>
-                <Text style={{fontSize:22, fontFamily: 'Rubik_300Light'}}>X</Text>
+                <Text style={{...fonts.en_light, fontSize:22}}>X</Text>
             </TouchableOpacity>
             <TextInput
-                style={styles.input}
+                style={{...styles.input, ...value == '' ? fonts.en_light : fonts.he_light}}
                 placeholder="search for a verb..."
                 onChangeText = {text=> onChangeText(text)}
                 underlineColorAndroid="transparent"
@@ -44,8 +45,7 @@ const styles = StyleSheet.create({
       color: '#424242',
       textAlign: 'right',
       marginHorizontal: 10,
-      fontSize: normalize(12),
-      fontFamily: 'Rubik_300Light'
+      fontSize: normalize(12)
   },
   });
 

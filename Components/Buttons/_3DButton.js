@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import AwesomeButton from 'react-native-really-awesome-button'
+import fonts from '../../Style/fontStyle';
 
 const _3DButton = (
     { 
@@ -49,9 +50,9 @@ const _3DButton = (
             style={{...margins}}
         >
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontFamily:'Rubik_300Light', fontSize: fontSize, }}> { name }</Text>
+            <Text style={{...fonts.he_light, fontSize: fontSize, }}> { name }</Text>
             {details !== undefined ? 
-                details.map(detail => <Text key={detail} style={{fontFamily:'Rubik_300Light', fontSize: fontSize, }}> { detail }</Text>) : 
+                details.map(detail => <Text key={detail} style={{...fonts.en_light, fontSize: fontSize, }}> { detail }</Text>) : 
                 null
             }
             </View>

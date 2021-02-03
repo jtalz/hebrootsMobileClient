@@ -11,7 +11,7 @@ import ProgressBarAnimated from "react-native-progress-bar-animated";
 import springAnimation from '../../../Actions/Animations/springAnimation'
 import WritingQuestion from "./ComboComponents/WritingQuestion";
 import MatchingQuestion from "./ComboComponents/MatchingQuestion";
-import HebrootsModal from "../../../Components/HebrootsModal";
+import HebrootsModal from "../../../Components/Modals/HebrootsModal";
 import { navigateToPattern } from "../../../Actions/NavigateTo";
 import { StackActions } from "@react-navigation/native";
 /* 
@@ -59,7 +59,7 @@ const getQComponent = (
 };
 
 const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase }) => {
-    const verbFamily = getGameplayWords(family);
+    const verbFamily = getGameplayWords(JSON.parse(JSON.stringify(family)));
     let trainingSet = createComboTrainingDataset({
         family: verbFamily,
     });
@@ -145,6 +145,7 @@ const Combo = ({ route, navigation }) => {
             callback: () => {
               dispatch({ type: "closeInstructions" });
             },
+            btnType: 'primary'
           },
         ]}
         visibility={state.modalVisibility.instructions}
@@ -158,12 +159,14 @@ const Combo = ({ route, navigation }) => {
                 dispatch({ type: "close" });
                 navigation.goBack();
               },
+              btnType: 'primary'
             },
             {
               name: "No, I'd like to stay",
               callback: () => {
                 dispatch({ type: "close" });
               },
+              btnType: 'secondary'
             },
           ]}
           visibility={state.modalVisibility.exit}
@@ -172,17 +175,19 @@ const Combo = ({ route, navigation }) => {
           message="Oh no! You've lost all of your lives. Try studying one more time before practicing again!"
           buttons={[
             {
+              name: "Try again",
+              callback: () => {
+                replay();
+              },
+              btnType: 'primary'
+            },
+            {
               name: "Go back to study",
               callback: () => {
                 dispatch({ type: "close" });
                 navigateToPattern(navigation, "LessonSelection", {});
               },
-            },
-            {
-              name: "Try again",
-              callback: () => {
-                replay();
-              },
+              btnType: 'secondary'
             },
           ]}
           visibility={state.modalVisibility.failed}
@@ -197,6 +202,7 @@ const Combo = ({ route, navigation }) => {
                 navigation.dispatch(StackActions.popToTop());
                 navigateToPattern(navigation, "LessonSelection", {});
               },
+              btnType: 'primary'
             },
           ]}
           visibility={state.modalVisibility.passed}

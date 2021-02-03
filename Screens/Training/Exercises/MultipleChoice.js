@@ -4,7 +4,7 @@ import ProgressBarAnimated from "react-native-progress-bar-animated";
 import LivesIndicator from "../../../Components/LivesIndicator";
 import XButton from "../../../Components/Buttons/XButton";
 import MultipleChoices from "../../../Containers/MultipleChoices";
-import HebrootsModal from "../../../Components/HebrootsModal";
+import HebrootsModal from "../../../Components/Modals/HebrootsModal";
 import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords.js";
 import shuffleArray from "../../../Actions/ShuffleArray";
 import compose from "../../../Actions/Compose";
