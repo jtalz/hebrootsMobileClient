@@ -93,7 +93,7 @@ const LessonSelection = ({ navigation, route }) => {
             scrollEnabled={true}
           />
         ) : 
-        <View style={{height: SCREEN_HEIGHT/2,borderWidth: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{height: SCREEN_HEIGHT/2,justifyContent: 'center', alignItems: 'center'}}>
                         <ActivityIndicator size='large'/>
                     </View>}
       </Animatable.View>

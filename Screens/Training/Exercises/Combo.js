@@ -58,7 +58,7 @@ const getQComponent = (
   }
 };
 
-const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase }) => {
+const getInitialState = ({ family }) => {
     const verbFamily = getGameplayWords(JSON.parse(JSON.stringify(family)));
     let trainingSet = createComboTrainingDataset({
         family: verbFamily,
@@ -68,7 +68,7 @@ const getInitialState = ({ family, infinitive, tense_en, pattern, noun_phrase })
       verbFamily,
       allQComponents: trainingSet,
       progress: 0,
-      lives: 5,
+      lives: 3,
       slideValue: 0,
       progressIncrementer: 100 / verbFamily.length,
       modalVisibility: {
@@ -100,7 +100,22 @@ const comboReducer = (prevState, action) => {
     }else if (action.type == 'close'){
       return {...prevState, modalVisibility: {exit: false, grade: false, failed: false, passed: false, instructions: false}}
     }else if (action.type == 'replay'){
-      return {...action.payload }
+      return {
+        ...prevState, 
+        verbFamily: prevState.verbFamily.concat(action.payload.verbFamily), 
+        allQComponents: prevState.allQComponents.concat(action.payload.allQComponents), 
+        modalVisibility: {
+          exit: false,
+          grade: false,
+          failed: false,
+          passed: false,
+          instructions: true,
+        },
+        slideValue: prevState.allQComponents.length,
+        lives: 3,
+        progress: 0,
+
+      }
     }
 }
 
@@ -108,36 +123,33 @@ const Combo = ({ route, navigation }) => {
     
     const { family, infinitive, tense_en, pattern, noun_phrase } = route.params;
 
-    const [state, dispatch] = useReducer(comboReducer, getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }))
+    const [state, dispatch] = useReducer(comboReducer, getInitialState({ family }))
 
       const sendResult = (payload) => {
           dispatch({type: 'updateProgress', payload})
-
       }
 
       const horizontalContainer = useState(new Animated.Value(0))[0];
 
-      useEffect(()=>{
-        console.log('LOGGING ALL Q COMPONENTS NOW',state.allQComponents.length)
-        console.log('LOGGING VERB FAMIL', state.verbFamily.length)
-        console.log('SLIde value: ', state.slideValue)
-      },[state.slideValue])
+      /* useEffect(()=>{
+        console.log(state.allQComponents.length)
+      },[state.allQComponents]) */
 
       const slideToNextQ = () => {
-        
           springAnimation(horizontalContainer, 500, state.slideValue+1).start()
           dispatch({type: 'nextSlide'})
     }
 
-    const replay = () => {
-      dispatch({ type: "replay", payload: getInitialState({ family, infinitive, tense_en, pattern, noun_phrase }) });
-    };
+    /* const replay = () => {
+      dispatch({ type: "replay", payload: getInitialState({ family }) });
+      timedAnimation(horizontalContainer, 0, state.allQComponents.length).start()
+    }; */
 
     return ( 
         <View style={{ backgroundColor: "white", flex: 1 }}>
           <HebrootsModal
         message="
-        Welcome to verb training. Answer the following questions to the best of your ability. You have 5 lives.
+        Welcome to verb training. Answer the following questions to the best of your ability. You have 3 lives.
         "
         buttons={[
           {
@@ -175,20 +187,14 @@ const Combo = ({ route, navigation }) => {
           message="Oh no! You've lost all of your lives. Try studying one more time before practicing again!"
           buttons={[
             {
-              name: "Try again",
-              callback: () => {
-                replay();
-              },
-              btnType: 'primary'
-            },
-            {
               name: "Go back to study",
               callback: () => {
                 dispatch({ type: "close" });
+                navigation.dispatch(StackActions.popToTop());
                 navigateToPattern(navigation, "LessonSelection", {});
               },
-              btnType: 'secondary'
-            },
+              btnType: 'primary'
+            }
           ]}
           visibility={state.modalVisibility.failed}
         />
@@ -244,8 +250,6 @@ const Combo = ({ route, navigation }) => {
             >
                 {
                     state.allQComponents.map((QComponent, index) => {
-                        /* return <View></View> */
-                        /* console.log('qcomponent: ', QComponent.qComponent()) */
                         return (
                             <QComponent.qComponent 
                                 key={index}

@@ -32,33 +32,12 @@ const SentenceWithVerb = ({
   const inputRef = useRef();
 
   useEffect(()=>{
-    if(focusOnInput)
+    if(focusOnInput && inputRef !== null)
       inputRef.current.focus()
   }, [focusOnInput])
 
   const getProperInputFormat = (gameStyle) => {
     if (gameStyle == "MultiChoiceQuiz") {
-      /*return answered !== "unanswered" ? (
-        <View
-          style={{
-            width: normalize(getHebrewConsonantCodes(verb).length*25),
-            height: 45,
-            borderBottomColor: "black",
-            borderWidth: 1,
-            borderColor: "transparent",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Conjugation
-            conjugation={verb}
-            morphology={morphology}
-            pattern={pattern}
-            tense={tense_en}
-            fontSize={normalize(20)}
-          />
-        </View>
-      ) :  */
       return (
         <View
           style={{
@@ -71,7 +50,6 @@ const SentenceWithVerb = ({
             alignItems: "center",
           }}
         >
-          {/* <Text>{spaceLayout.x} , {spaceLayout.y}</Text> */}
         </View>
       );
     } else if (gameStyle == "Writing") {
