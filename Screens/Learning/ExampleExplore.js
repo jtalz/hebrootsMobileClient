@@ -1,15 +1,16 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-import StudySection from '../../Containers/StudySection'
+import StudySection from "../../Containers/StudySection";
 import SmallYellowButton from "../../Components/Buttons/SmallYellowButton.js";
 import Bird from "../../Components/Characters/Bird";
 import {
   conjugationTableReducer,
   initialState,
-  handleResponse
+  handleResponse,
 } from "../../Actions/Reducers/ConjugationTableReducer";
 import { requestRandomVerbOfPattern } from "../../Actions/APIRequests";
 import { sub } from "react-native-reanimated";
+import { navigateToTraining } from "../../Actions/NavigateTo";
 
 const ExampleExplore = ({ route, navigation }) => {
   const { pattern_id, subtopic } = route.params;
@@ -19,25 +20,11 @@ const ExampleExplore = ({ route, navigation }) => {
     dispatch({ type: "loadTableData" });
     let randomVerb = await requestRandomVerbOfPattern(pattern_id);
     handleResponse(randomVerb, dispatch);
-  }
+  };
 
   useEffect(() => {
-    handleRandomVerbRequest(pattern_id)
+    handleRandomVerbRequest(pattern_id);
   }, []);
-
-  const navigateToTraining = () => {
-    console.log('translation', state.tableData.translation)
-    let newFamily = state.tableData.family.filter((subFamily)=> subtopic.toUpperCase() == subFamily.tense.en)
-    navigation.navigate("Play", {screen: "MultipleChoice",initial: false, params : {
-      family: newFamily, 
-      gameStyle: "MEDIUM_SINGLE_TENSE_PRACTICE", 
-      infinitive: state.tableData.infinitive,
-              pattern: state.tableData.pattern.pattern,
-              noun_phrase: state.tableData.noun_phrase,
-              tense_en: subtopic.toUpperCase(),
-              translation: state.tableData.translation
-    }}); 
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,25 +46,16 @@ const ExampleExplore = ({ route, navigation }) => {
           Use this to review then move on to try out your skills
         </Text>
       </View>
-      <StudySection 
-        tableStatus = {state.tableStatus}
-        tableData = {state.tableData}
-        subtopic = {subtopic}
-        definedTranslation = {state.tableData.translation}
+      <StudySection
+        tableStatus={state.tableStatus}
+        tableData={state.tableData}
+        subtopic={subtopic}
+        definedTranslation={state.tableData.translation}
       />
       <View style={styles.btnArea}>
         <SmallYellowButton
           name="practice"
-          onClick={() =>
-            /* navigation.push("ExerciseSelection", { 
-              family: state.tableData.family,
-              infinitive: state.tableData.infinitive,
-              pattern: state.tableData.pattern.pattern,
-              noun_phrase: state.tableData.noun_phrase,
-              tense: subtopic
-            }) */
-            navigateToTraining()
-          }
+          onClick={() => navigateToTraining(state, navigation, subtopic.toUpperCase())}
         />
         <SmallYellowButton
           name="another"
@@ -111,7 +89,7 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     justifyContent: "space-around",
-  }
+  },
 });
 
 export default ExampleExplore;

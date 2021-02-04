@@ -1,14 +1,12 @@
 import React, {Component, useEffect, useState} from 'react';
-import { StyleSheet, Text, View,ScrollView, TouchableHighlight, Animated, FlatList, Modal, ActivityIndicator } from 'react-native';
-import { LongPressGestureHandler, TapGestureHandler, State } from 'react-native-gesture-handler';
-import timedAnimation from '../../Actions/Animations/timedAnimation';
+import { StyleSheet, Text, View,ScrollView, Animated, FlatList, Modal, ActivityIndicator } from 'react-native';
+import { TapGestureHandler, State } from 'react-native-gesture-handler';
 import { requestPracticeVerbs, requestVerbFromValue } from '../../Actions/APIRequests';
 import getRandomImg from '../../Actions/GetMethods/GetRandomImage';
 import { normalize } from '../../Actions/Normalize';
 import organizeVerbsByType from '../../Actions/ObjectManipulations/OrganizePracticeVerbs';
 import { SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
 import RoundCustomButton from '../../Components/Buttons/RoundCustomButton';
-import Bird from '../../Components/Characters/Bird'
 import fonts from '../../Style/fontStyle';
 
 const UserProgress = ({ route, navigation }) => {
@@ -48,8 +46,8 @@ const UserProgress = ({ route, navigation }) => {
         setState({...state, loading: true})
         await requestVerbFromValue(verb.infinitive)
             .then(res => {
-                let newFamily = res.organizedFamily.filter((subFamily)=> tense.toUpperCase() == subFamily.tense.en)
                 setState({...state, loading: false})
+                let newFamily = res.organizedFamily.filter((subFamily)=> tense.toUpperCase() == subFamily.tense.en)
                 navigation.navigate("MultipleChoice", {
                     family: newFamily, 
                     gameStyle: "MEDIUM_SINGLE_TENSE_PRACTICE", 
