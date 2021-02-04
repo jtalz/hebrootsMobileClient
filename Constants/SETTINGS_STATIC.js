@@ -45,19 +45,19 @@ const SETTINGS_STATIC = [
       name: "Support Us",
       items: [
         {
-          name: "share with a friend",
+          name: "Share with a friend",
           status: <Entypo name="share" size={24} color="black" />,
           type: "pressable",
           onPress: onShare
         },
         {
-          name: "follow us on instagram",
+          name: "Follow us on instagram",
           status: <AntDesign name="instagram" size={24} color="black" />,
           type: "read-only",
           onPress: "redirect to instagram"
         },
         {
-          name: "rate us on the App Store",
+          name: "Rate us on the App Store",
           type: "read-only"
         },
         {
@@ -70,13 +70,13 @@ const SETTINGS_STATIC = [
       name: "About",
       items: [
         {
-          name: "about us",
+          name: "About us",
           type: "pressable",
           onPress: "redirect to aboutusscreen"
           //description: "My name is Joshua and I've been learning Hebrew in Israel over the past 4 years. I've found that verb conjugation is essential to building a strong foundation when developing Hebrew. I hope this app helps you build your skills and please feel free to reach out. I'd be glad to hear from you."
         },
         {
-          name: "version",
+          name: "Version",
           type: "read-only",
           status: "1.0.1",
         },

@@ -54,7 +54,7 @@ const getDynamicSettings = async () => {
         name: 'My Account',
         items: [
           {
-            name: "sign in/register",
+            name: "Sign in/Register",
             type: 'pressable',
             onPress: signInAgain
           }
