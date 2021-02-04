@@ -116,7 +116,7 @@ const comboReducer = (prevState, action) => {
 };
 
 const Combo = ({ route, navigation }) => {
-  const { family, infinitive, tense_en, pattern, noun_phrase } = route.params;
+  const { family, infinitive, tense_en, pattern, noun_phrase, translation } = route.params;
 
   const [state, dispatch] = useReducer(
     comboReducer,
@@ -176,13 +176,29 @@ const Combo = ({ route, navigation }) => {
           <LivesIndicator nLives={state.lives} />
         </View>
         <Text
+        style={{
+          alignSelf: "center",
+          fontFamily: "Rubik_400Regular",
+          fontSize: normalize(16),
+        }}>
+          {infinitive}
+        </Text> 
+        <Text
+        style={{
+          alignSelf: "center",
+          fontFamily: "Rubik_400Regular",
+          fontSize: normalize(10),
+        }}>
+          ({translation})
+        </Text> 
+        <Text
           style={{
             alignSelf: "center",
             fontFamily: "Rubik_400Regular",
             fontSize: normalize(12),
           }}
         >
-          {tense_en} TENSE
+          {tense_en.toLowerCase()} tense
         </Text>
       </SafeAreaView>
       <Animated.View
@@ -190,7 +206,7 @@ const Combo = ({ route, navigation }) => {
         style={[
           {
             flexDirection: "row",
-            flex: 9,
+            flex: 6,
             transform: [
               {
                 translateX: horizontalContainer.interpolate({

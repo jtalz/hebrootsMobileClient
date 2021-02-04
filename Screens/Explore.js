@@ -32,7 +32,8 @@ const Explore = ({ navigation }) => {
         infinitive: state.tableData.infinitive,
                 pattern: state.tableData.pattern.pattern,
                 noun_phrase: state.tableData.noun_phrase,
-                tense_en: getTenseFromActiveIndex(state.activeIndex)
+                tense_en: getTenseFromActiveIndex(state.activeIndex),
+                translation: state.tableData.translation
       }}); 
     }
 
@@ -71,6 +72,7 @@ const Explore = ({ navigation }) => {
         tableData = {state.tableData}
         setActiveIndex = {setActiveIndex}
         activeIndex = {state.activeIndex}
+        definedTranslation = {state.tableData.translation}
         />
         <View style={styles.btnArea}>
           <SmallYellowButton

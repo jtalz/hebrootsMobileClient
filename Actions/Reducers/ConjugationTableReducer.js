@@ -12,7 +12,8 @@ export const conjugationTableReducer = (state, action) => {
         infinitive: action.payload.infinitive,
         pattern: action.payload.pattern,
         root: action.payload.root,
-        noun_phrase: action.payload.noun_phrase  
+        noun_phrase: action.payload.noun_phrase,
+        translation: action.payload.translation 
       }} 
     }else if(action.type == 'setActiveIndex'){
       return { ...state, activeIndex: action.payload}
@@ -27,6 +28,7 @@ export const conjugationTableReducer = (state, action) => {
         : dispatch({
             type: "setTableData",
             payload: {
+              translation: response.translation,
               pattern: response.pattern,
               infinitive: response.infinitive,
               family: response.organizedFamily,

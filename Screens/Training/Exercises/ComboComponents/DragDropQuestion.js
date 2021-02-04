@@ -122,11 +122,11 @@ const DragDropQuestion  = ({index, family, tense_en, pattern, noun_phrase, infin
                     ],
                 }}
                 >
-                <View style={{ marginLeft: 10, marginTop: 10 }}>
-                    <Text style={{ fontFamily: "Nunito_300Light", fontSize: 24 }}>
+                <View style={{ marginLeft: 10, marginTop: 10, paddingHorizontal: 10 }}>
+                    <Text style={{ fontFamily: "Nunito_300Light", fontSize: normalize(16) }}>
                     {state.questionStatus == "correct"
                         ? "Great job! Keep going!"
-                        : "Oops! Thats not right. Try again."}
+                        : `Oops! The correct answer was ${state.verb}. Please try again.`}
                     </Text>
                 </View>
                 </Animated.View>

@@ -37,20 +37,7 @@ const TrainingStack = ({navigation, route}) => {
                 name="MultipleChoice"
                 component={Combo}
                 />
-                <Stack.Screen options={{ 
-                    headerShown: false,
-                    
-                }} 
-                name="Matching"
-                component={Matching}
-                />
-                <Stack.Screen options={{ 
-                    headerShown: false,
-                    
-                }} 
-                name="Writing"
-                component={Writing}
-                />
+
 
             </Stack.Navigator>
     )  

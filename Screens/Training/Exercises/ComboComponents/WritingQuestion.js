@@ -69,9 +69,9 @@ const WritingQuestion = ({index, isActive, family, tense_en, pattern, noun_phras
             <Text style={{...styles.instructions}}>
                 Type the appropriately conjugated verb
             </Text>
-            <Text style={{...styles.infinitive}}>
+            {/* <Text style={{...styles.infinitive}}>
                 {infinitive}
-            </Text>
+            </Text> */}
             <SentenceWithVerb
                 style={{}}
                 possession={
@@ -152,13 +152,13 @@ const WritingQuestion = ({index, isActive, family, tense_en, pattern, noun_phras
                                 ]
                         }}
                     >
-                        <View style={{ marginLeft: 10, marginTop: 10 }}>
-                        <Text style={{ fontFamily: "Nunito_300Light", fontSize: 24 }}>
-                            {state.questionStatus == "correct"
-                            ? "Great job! Keep going!"
-                            : "Oops! Thats not right. Try again."}
-                        </Text>
-                        </View>
+                        <View style={{ marginLeft: 10, marginTop: 10, paddingHorizontal: 10 }}>
+                    <Text style={{ fontFamily: "Nunito_300Light", fontSize: normalize(16) }}>
+                    {state.questionStatus == "correct"
+                        ? "Great job! Keep going!"
+                        : `Oops! The correct answer was ${state.verb}. Please try again.`}
+                    </Text>
+                </View>
                     </Animated.View>
                 )}
             </_3DButton>

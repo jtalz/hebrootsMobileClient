@@ -26,6 +26,7 @@ const ExampleExplore = ({ route, navigation }) => {
   }, []);
 
   const navigateToTraining = () => {
+    console.log('translation', state.tableData.translation)
     let newFamily = state.tableData.family.filter((subFamily)=> subtopic.toUpperCase() == subFamily.tense.en)
     navigation.navigate("Play", {screen: "MultipleChoice",initial: false, params : {
       family: newFamily, 
@@ -33,7 +34,8 @@ const ExampleExplore = ({ route, navigation }) => {
       infinitive: state.tableData.infinitive,
               pattern: state.tableData.pattern.pattern,
               noun_phrase: state.tableData.noun_phrase,
-              tense_en: subtopic.toUpperCase()
+              tense_en: subtopic.toUpperCase(),
+              translation: state.tableData.translation
     }}); 
   }
 
@@ -61,6 +63,7 @@ const ExampleExplore = ({ route, navigation }) => {
         tableStatus = {state.tableStatus}
         tableData = {state.tableData}
         subtopic = {subtopic}
+        definedTranslation = {state.tableData.translation}
       />
       <View style={styles.btnArea}>
         <SmallYellowButton

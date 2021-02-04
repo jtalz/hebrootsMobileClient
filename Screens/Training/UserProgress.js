@@ -56,7 +56,8 @@ const UserProgress = ({ route, navigation }) => {
                     infinitive: verb.infinitive,
                     pattern: verb.pattern.pattern,
                     noun_phrase: res.noun_phrase !== undefined ? res.noun_phrase : null,
-                    tense_en: tense.toUpperCase()
+                    tense_en: tense.toUpperCase(),
+                    translation: verb.translation
                   }); 
 
             })
@@ -76,7 +77,7 @@ const UserProgress = ({ route, navigation }) => {
         render(){
             return (
             <View>
-                <RoundCustomButton name={this.props.name} imgUrl={this.props.imgUrl} onPress={this.props.onPress} />
+                <RoundCustomButton name={this.props.name} translation={this.props.translation} imgUrl={this.props.imgUrl} onPress={this.props.onPress} />
             </View>
         )
         }
@@ -92,7 +93,7 @@ const UserProgress = ({ route, navigation }) => {
 
         const renderQuickPlayButton = ({item}) => {
             return (
-                <QuickPlayButton name={item.infinitive} imgUrl={getRandomImg()} onPress={()=>quickPlay(item, tense)} />
+                <QuickPlayButton name={item.infinitive} translation={item.translation} imgUrl={getRandomImg()} onPress={()=>quickPlay(item, tense)} />
             )
         }
 
