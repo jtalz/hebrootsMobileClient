@@ -19,10 +19,10 @@ export const requestRandomVerbOfPattern = async (pattern_id) => {
             return "InvalidResponse";
         } else {
             return response_1;
-
         }
     } catch (error) {
         console.error("Error:", error);
+        return "InvalidResponse"
     }
 }
 

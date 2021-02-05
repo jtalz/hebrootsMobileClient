@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import React, { useEffect, useReducer } from "react";
+import { SafeAreaView, View } from "react-native";
 import SearchBar from "../Components/SearchBar.js";
 import Card from "../Components/Card";
 import SmallYellowButton from "../Components/Buttons/SmallYellowButton";
@@ -8,61 +8,40 @@ import Bird from "../Components/Characters/Bird";
 import {
   conjugationTableReducer,
   initialState,
-  handleResponse,
+  setNewSearchedVerb,
+  setActiveIndex,
+  getTenseFromActiveIndex
 } from "../Actions/Reducers/ConjugationTableReducer";
-import { requestVerbFromValue } from "../Actions/APIRequests";
 import StudySection from "../Containers/StudySection";
+import exploreStyles from '../Style/exploreStyles'
 
 const Explore = ({ navigation }) => {
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
 
-  const setActiveIndex = (activeIndex) =>
-    dispatch({ type: "setActiveIndex", payload: activeIndex });
-
-  const handleSearchRequest = async (text) => {
-    dispatch({ type: "loadTableData" });
-    let searchedVerb = await requestVerbFromValue(text);
-    handleResponse(searchedVerb, dispatch);
-  };
-
-  const getTenseFromActiveIndex = (activeIndex) => {
-    switch (activeIndex) {
-      case 0:
-        return "PAST";
-        break;
-      case 1:
-        return "PRESENT";
-        break;
-      case 2:
-        return "FUTURE";
-        break;
-    }
-  };
-
   useEffect(() => {
-    handleSearchRequest("למד");
+    setNewSearchedVerb(dispatch)("למד");
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchArea}>
+    <SafeAreaView style={exploreStyles.container}>
+      <View style={exploreStyles.searchArea}>
         <Bird
           size="Small"
           style={{ left: 10, bottom: 0 }}
           birdType="Standard"
         />
         <Card style={{ width: "60%", height: 40, marginLeft: 60 }}>
-          <SearchBar onEnter={handleSearchRequest} />
+          <SearchBar onEnter={setNewSearchedVerb(dispatch)} />
         </Card>
       </View>
       <StudySection
         tableStatus={state.tableStatus}
         tableData={state.tableData}
-        setActiveIndex={setActiveIndex}
+        setActiveIndex={setActiveIndex(dispatch)}
         activeIndex={state.activeIndex}
         definedTranslation={state.tableData.translation}
       />
-      <View style={styles.btnArea}>
+      <View style={exploreStyles.btnArea}>
         <SmallYellowButton
           name="Practice"
           onClick={() => 
@@ -87,33 +66,5 @@ const Explore = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  searchArea: {
-    width: "100%",
-    flex: 0.8,
-    marginTop: 50,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  btnArea: {
-    flex: 1,
-    marginBottom: -10,
-    width: "90%",
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
 
 export default Explore;

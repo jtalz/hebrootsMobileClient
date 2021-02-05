@@ -1,11 +1,11 @@
+import { requestRandomVerbOfPattern } from "../APIRequests"
+
 export const conjugationTableReducer = (state, action) => {
     if (action.type == "loadTableData"){
-      console.log('loading table data this is crazy')
       return {...state, tableStatus: 'Loading'}
     }else if (action.type == "setInvalidResponse"){
       return {...state, tableStatus: 'Not Found'}
     }else if (action.type == "setTableData"){
-      console.log('setting table data for: ', action.payload.infinitive)
       return {...state, tableStatus: 'Found', 
       tableData: {
         family: action.payload.family,
@@ -22,20 +22,55 @@ export const conjugationTableReducer = (state, action) => {
     }
   }
 
+  export const setNewExampleVerb = async (pattern_id, dispatch) => {
+    let randomVerb = await requestRandomVerbOfPattern(pattern_id);
+    handleResponse(randomVerb, dispatch);
+  };
+
+  export const setNewSearchedVerb = (dispatch) => async (text) => {
+    dispatch({ type: "loadTableData" });
+    let searchedVerb = await requestVerbFromValue(text);
+    handleResponse(searchedVerb, dispatch);
+  };
+
+  export const setActiveIndex = (dispatch) => (payload) => dispatch({ type: "setActiveIndex", payload });
+
+  export const getTenseFromActiveIndex = (activeIndex) => {
+    switch (activeIndex) {
+      case 0:
+        return "PAST";
+        break;
+      case 1:
+        return "PRESENT";
+        break;
+      case 2:
+        return "FUTURE";
+        break;
+    }
+  };
+
   export const handleResponse = (response, dispatch) => {
     response == "InvalidResponse"
-        ? dispatch({ type: "setInvalidResponse" })
-        : dispatch({
-            type: "setTableData",
-            payload: {
-              translation: response.translation,
-              pattern: response.pattern,
-              infinitive: response.infinitive,
-              family: response.organizedFamily,
-              root: response.root,
-              noun_phrase: response.noun_phrase !== undefined ? response.noun_phrase : null
-            },
-          });
+        ? setInvalidResponse(dispatch)
+        : setTableData(response, dispatch);
+  }
+
+  const setInvalidResponse = (dispatch) => {
+    dispatch({ type: "setInvalidResponse" })
+  }
+
+  const setTableData = (response, dispatch) => {
+    dispatch({
+      type: "setTableData",
+      payload: {
+        translation: response.translation,
+        pattern: response.pattern,
+        infinitive: response.infinitive,
+        family: response.organizedFamily,
+        root: response.root,
+        noun_phrase: response.noun_phrase !== undefined ? response.noun_phrase : null
+      },
+    });
   }
   
   export const initialState = {
