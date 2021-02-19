@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import AwesomeButton from 'react-native-really-awesome-button'
-import fonts from '../../Style/fontStyle';
+import fonts from '../../styles/fontStyle';
 
 const _3DButton = (
     { 

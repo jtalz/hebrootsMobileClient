@@ -9,7 +9,8 @@ import {
   setNewExampleVerb
 } from "../../Actions/Reducers/ConjugationTableReducer";
 import { navigateToTraining } from "../../Actions/NavigateTo";
-import exploreStyles from '../../Style/exploreStyles'
+import exploreStyles from '../../styles/exploreStyles'
+import { Typography, Colors, Buttons, Spacing } from '../../styles'
 
 const ExampleExplore = ({ route, navigation }) => {
   const { pattern_id, subtopic } = route.params;

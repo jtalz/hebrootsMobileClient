@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
-import fonts from '../../Style/fontStyle';
+import fonts from '../../styles/fontStyle';
 import {normalize} from '../../Actions/Normalize'
 const RoundCustomButton = ({ name, onPress, imgUrl, translation }) => {
     return (

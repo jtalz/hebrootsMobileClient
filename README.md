@@ -31,9 +31,18 @@ wait... that's not right. Your kind roommate proceeds to show his admiration for
 It is a concept that for a long time has stumbled the minds of its speakers. However, once understood its importance is rarely dismissed.  -->
 ### How to learn verb conjugations
 
-Hebrew verb conjugation is taught and reviewed at almost every academic level. The first step is to enroll into some kind of Hebrew learning program and to start practicing. 
+Hebrew verb conjugation is taught and reviewed at almost every academic level. The first step is to enroll in a Hebrew learning program, like an Ulpan. There you will learn the basics. With relation to verb conjugations, you will likely fill out many tables defining which conjugations apply to which pronouns. Click here to find our recommended list of Hebrew learning Ulpans. 
 
-For extra practice and to instill the concept in your mind in order to take full advantage of it, you may utilize hebroots. 
+Next, install hebroots to practice and ingrain the concept of verb conjugations in your mind. 
+
+### What hebroots offers students
+
+Firstly, the hebroots Explore feature provides a search engine which will take any form of any verb as input and present its corresponding conjugation table in return. For instances where duplicates exist, the different options are provided.
+For example, if a user searches the verb "שיפר", they will be presented with the conjugation tables corresponding to "לשפר".
+
+Next, the hebroots learn feature provides lessons explaining each conjugation pattern, for example, Pi'el in Past tense. 
+
+
 
 ## For Teachers
 

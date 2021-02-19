@@ -8,11 +8,12 @@ const exploreStyles = StyleSheet.create({
         justifyContent: "center",
       },
       searchArea: {
-        width: "100%",
         flex: 0.8,
-        marginTop: 50,
+        marginTop: 20,
+        marginBottom: 10,
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: 'center'
       },
       btnArea: {
         flex: 1,

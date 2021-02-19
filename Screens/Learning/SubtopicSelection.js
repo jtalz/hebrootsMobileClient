@@ -1,48 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Text, FlatList, StyleSheet, View, SafeAreaView } from "react-native";
 import * as Animatable from "react-native-animatable";
 import Bird from "../../Components/Characters/Bird";
-import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from "../../Components/Buttons/_3DButton";
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
+import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
 import TENSES from "../../Constants/TENSES";
-import fonts from "../../Style/fontStyle";
+import LongRectangleButton from "../../Components/Buttons/LongRectangleButton";
 
 const SubtopicSelection = ({ navigation, route }) => {
-  const [topics, setTopics] = useState(null);
-
-  useEffect(() => {
-    setTopics(TENSES)
-  }, []);
-
-  const onLessonSelect = (lesson) => {
-    navigation.navigate("PatternLesson", {
-        ...route.params,
-        subtopic: lesson.name_en.toUpperCase()
-      });
-  };
-
-  const renderItem = ({ item }) => (
-    <_3DButton
-      width={SCREEN_WIDTH - 60}
-      height={SCREEN_HEIGHT / 11}
-      textSize={24}
-      color={"black"}
-      backgroundColor={"white"}
-      borderWidth={1}
-      borderRadius={5}
-      borderColor={"#C0C0C0"}
-      backgroundShadow={"white"}
-      backgroundDarker={"#C0C0C0"}
-      backgroundActive={"#FFD350"}
-      onPress={() => onLessonSelect(item)}
-      name={item.name_he}
-      details={[item.name_en]}
-      enabled={true}
-      style={{ marginVertical: 10 }}
-      fontSize={SCREEN_HEIGHT / 55}
-    />
-  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,7 +15,7 @@ const SubtopicSelection = ({ navigation, route }) => {
         <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
         <Text
           style={{
-            ...fonts.he_light,
+            //...fonts.he_light,
             width: "65%",
             fontSize: SCREEN_HEIGHT / 35,
             textAlign: "center",
@@ -60,7 +25,7 @@ const SubtopicSelection = ({ navigation, route }) => {
         </Text>
         <Text
           style={{
-            ...fonts.en_light,
+            //...fonts.en_light,
             width: "65%",
             fontSize: SCREEN_HEIGHT / 35,
             textAlign: "center",
@@ -74,20 +39,31 @@ const SubtopicSelection = ({ navigation, route }) => {
         direction="alternate"
         style={{ flex: 2 }}
       >
-        {topics !== null ? (
+        
           <FlatList
-            data={topics}
+            data={TENSES}
             contentContainerStyle={{
               justifyContent: "center",
               alignItems: "center",
             }}
             horizontal={false}
             numColumns={1}
-            renderItem={renderItem}
+            renderItem={({item}) => (
+              <LongRectangleButton
+                name={item.name_he}
+                details={[item.name_en]}
+                onPress={() =>
+                  navigation.navigate("PatternLesson", {
+                    ...route.params,
+                    subtopic: item.name_en.toUpperCase(),
+                  })
+                }
+              />
+            )}
             keyExtractor={(item) => item.name_en}
             scrollEnabled={true}
           />
-        ) : null}
+        
       </Animatable.View>
     </SafeAreaView>
   );

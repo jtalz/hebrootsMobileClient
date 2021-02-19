@@ -1,5 +1,6 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 
 const HebrootsTabNav = ({ children, Tab }) => {
   return (
@@ -24,7 +25,18 @@ const HebrootsTabNav = ({ children, Tab }) => {
       tabBarOptions={{
         activeTintColor: "#2B78EC",
         inactiveTintColor: "gray",
-        showLabel: false
+        showLabel: false,
+        /* style: {
+          borderTopLeftRadius:21, 
+              borderTopRightRadius:21,
+              backgroundColor:"#000000",
+              position:'absolute',
+              bottom: 0,
+              padding:10,
+              width: SCREEN_WIDTH,
+              height: 80,
+              zIndex: 8 
+        } */
       }}
     >
         {children}

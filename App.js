@@ -33,22 +33,22 @@ const App = () => {
 
   const authContext = useMemo(
     () => ({
-      attemptLogin: async (form_data) => {
-        await requestLogin(form_data).then((res) =>
+      attemptLogin: (form_data) => {
+        requestLogin(form_data).then((res) =>
           res.token
             ? storeTokenLogin(res.token)
             : dispatch({ type: "NO_USER_FOUND" })
         );
       },
-      attemptRegister: async (form_data) => {
-        await requestRegister(form_data).then((res) =>
+      attemptRegister: (form_data) => {
+        requestRegister(form_data).then((res) =>
           res.token
             ? storeTokenLogin(res.token)
             : dispatch({ type: "NO_USER_FOUND" })
         );
       },
-      signOut: async () => {
-        await remove_token().then((res) => dispatch({ type: "LOGOUT" }));
+      signOut: () => {
+        remove_token().then((res) => dispatch({ type: "LOGOUT" }));
       },
       signInAgain: () => {
         dispatch({ type: "BACK2SPLASH" });
@@ -57,8 +57,8 @@ const App = () => {
     []
   );
 
-  const storeTokenLogin = async (token) => {
-    await store_token(token).then((success) => login(token));
+  const storeTokenLogin = (token) => {
+    store_token(token).then((success) => login(token));
   };
 
   return can_load_fonts() ? (

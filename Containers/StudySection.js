@@ -4,19 +4,19 @@ import CardsCarousel from './CardsCarousel'
 import {requestInfinitiveTranslation} from '../Actions/APIRequests'
 
 const StudySection = ({tableStatus, tableData, subtopic, setActiveIndex, activeIndex, definedTranslation}) => {
+  const [translatedInfinitive, setTranslatedInfinitive] = useState()
 
-  const [translatedInfinitive, setTranslatedInfinitive] = useState(definedTranslation)
-
-  const getTranslatedInfinitive = async (infinitive) => {
-    const translation = await requestInfinitiveTranslation(infinitive)
-    setTranslatedInfinitive(translation.translation) 
-    
+  const getTranslatedInfinitive = (infinitive) => {
+    requestInfinitiveTranslation(infinitive)
+      .then(translation => setTranslatedInfinitive(translation.translation)) 
   }
 
   useEffect(()=> {
     if (tableStatus == "Found" && definedTranslation==undefined){
       console.log('looking for translation')
       getTranslatedInfinitive(tableData.infinitive)
+    }else{
+      setTranslatedInfinitive(definedTranslation)
     }
   }, [tableData.infinitive])
 

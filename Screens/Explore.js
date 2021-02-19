@@ -13,7 +13,7 @@ import {
   getTenseFromActiveIndex
 } from "../Actions/Reducers/ConjugationTableReducer";
 import StudySection from "../Containers/StudySection";
-import exploreStyles from '../Style/exploreStyles'
+import exploreStyles from '../styles/exploreStyles'
 
 const Explore = ({ navigation }) => {
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
@@ -25,12 +25,12 @@ const Explore = ({ navigation }) => {
   return (
     <SafeAreaView style={exploreStyles.container}>
       <View style={exploreStyles.searchArea}>
-        <Bird
+        {/* <Bird
           size="Small"
           style={{ left: 10, bottom: 0 }}
           birdType="Standard"
-        />
-        <Card style={{ width: "60%", height: 40, marginLeft: 60 }}>
+        /> */}
+        <Card style={{ width: "90%", height: 50, borderRadius: 25, borderColor: '#2B78EC', borderWidth: 1 }}>
           <SearchBar onEnter={setNewSearchedVerb(dispatch)} />
         </Card>
       </View>

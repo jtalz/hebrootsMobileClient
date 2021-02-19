@@ -7,9 +7,9 @@ const ExampleVerb = ({ fontSize, pattern_id, morphology, pattern, tense, form })
   
     const [exampleVerb, setExampleVerb] = useState({infinitive: 'loading...', base_form: 'loading...'})
 
-    const displayNewExampleVerb = async (pattern_id) => {
-        let exampleVerb = await requestExampleVerb(pattern_id, morphology)
-        setExampleVerb(exampleVerb)
+    const displayNewExampleVerb = (pattern_id) => {
+        requestExampleVerb(pattern_id, morphology)
+          .then(exampleVerb => setExampleVerb(exampleVerb))
     }
 
     useEffect(()=>{

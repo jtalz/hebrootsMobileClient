@@ -4,14 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { normalize } from '../Actions/Normalize';
-import fonts from '../Style/fontStyle';
+import fonts from '../styles/fontStyle';
 
 const SearchBar = props => {
     const [value, onChangeText] = useState('');
     return (
         <View style={styles.searchSection}>
-            <TouchableOpacity onPress={()=>onChangeText('')}>
-                <Text style={{...fonts.en_light, fontSize:22}}>X</Text>
+            <TouchableOpacity onPress={()=>props.onEnter(value)}>
+                <Icon style={styles.searchIcon} name="search" size={20} color="#000"/>
             </TouchableOpacity>
             <TextInput
                 style={{...styles.input, ...value == '' ? fonts.en_light : fonts.he_light}}
@@ -21,8 +21,8 @@ const SearchBar = props => {
                 value = {value}
                 onEndEditing={()=>props.onEnter(value)}
             />
-            <TouchableOpacity onPress={()=>props.onEnter(value)}>
-                <Icon style={styles.searchIcon} name="search" size={20} color="#000"/>
+            <TouchableOpacity onPress={()=>onChangeText('')}>
+                <Text style={{...fonts.en_light, fontSize:22}}>X</Text>
             </TouchableOpacity>
         </View>
     )
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   searchSection: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
 
   },
   input: {
-      width:'60%',
+      width:'70%',
       backgroundColor: 'transparent',
       color: '#424242',
-      textAlign: 'right',
+      textAlign: 'left',
       marginHorizontal: 10,
       fontSize: normalize(12)
   },

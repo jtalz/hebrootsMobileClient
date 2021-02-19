@@ -1,9 +1,7 @@
-//change url links to /api/link after next node deployment
 export const requestPracticeVerbs = async () => {
     try{
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/practice`);
-        const response_1 = await response.json()
-        return response_1;
+        return await response.json()
     }catch(err){
         console.log('err', err)
         return err;
@@ -13,15 +11,9 @@ export const requestPracticeVerbs = async () => {
 export const requestRandomVerbOfPattern = async (pattern_id) => {
     try {
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/random?pattern=${pattern_id}`);
-        const response_1 = await response.json();
-        if (response_1.pattern == "") {
-            console.log('We didnt recieve a valid response');
-            return "InvalidResponse";
-        } else {
-            return response_1;
-        }
+        const result = await response.json();
+        return result.pattern == "" ? "InvalidResponse" : result
     } catch (error) {
-        console.error("Error:", error);
         return "InvalidResponse"
     }
 }
@@ -29,29 +21,18 @@ export const requestRandomVerbOfPattern = async (pattern_id) => {
 export const requestInfinitiveTranslation = async (infinitive) => {
     try {
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/translate?infinitive=${infinitive}`);
-        const response_1 = await response.json();
-        if (response_1 == "") {
-            console.log('We didnt recieve a valid response');
-            return "InvalidResponse";
-        } else {
-            return response_1;
-        }
+        const result = await response.json();
+        return result == "" ? "InvalidResponse" : result
     } catch (error) {
-        console.error("Error:", error);
+        return "InvalidResponse"
     }
 }
 
 export const requestVerbFromValue = async (value) => {
     try{
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/search?v=${value}`)
-        const response_1  = await response.json();
-        if (response_1.pattern == "") {
-            console.log('We didnt recieve a valid response');
-            return "InvalidResponse";
-        } else {
-            console.log('Valid response recieved');
-            return response_1;
-        }
+        const result = await response.json();
+        return result.pattern == "" ? "InvalidResponse" : result
     } catch (error) {
         console.error("Error:", error);
     }
@@ -92,8 +73,6 @@ export const requestRegister = async ({email, password, confirmPassword, firstNa
         })
             .then(res => res.json())
             .then(res => res.token ? { token: res.token } : res)
-        /* const userCredentials = await response.json()
-        return userCredentials.token ? token :  */
     }catch(err){
         console.error("Error signing up: ", err)
     }

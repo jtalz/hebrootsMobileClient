@@ -1,4 +1,4 @@
-import { requestRandomVerbOfPattern } from "../APIRequests"
+import { requestRandomVerbOfPattern, requestVerbFromValue } from "../APIRequests"
 
 export const conjugationTableReducer = (state, action) => {
     if (action.type == "loadTableData"){
@@ -22,15 +22,15 @@ export const conjugationTableReducer = (state, action) => {
     }
   }
 
-  export const setNewExampleVerb = async (pattern_id, dispatch) => {
-    let randomVerb = await requestRandomVerbOfPattern(pattern_id);
-    handleResponse(randomVerb, dispatch);
+  export const setNewExampleVerb = (pattern_id, dispatch) => {
+    requestRandomVerbOfPattern(pattern_id)
+      .then(randomVerb=> handleResponse(randomVerb, dispatch));
   };
 
-  export const setNewSearchedVerb = (dispatch) => async (text) => {
+  export const setNewSearchedVerb = (dispatch) => (text) => {
     dispatch({ type: "loadTableData" });
-    let searchedVerb = await requestVerbFromValue(text);
-    handleResponse(searchedVerb, dispatch);
+    requestVerbFromValue(text)
+      .then(searchedVerb => handleResponse(searchedVerb, dispatch))
   };
 
   export const setActiveIndex = (dispatch) => (payload) => dispatch({ type: "setActiveIndex", payload });
