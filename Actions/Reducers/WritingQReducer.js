@@ -22,6 +22,12 @@ const WritingQReducer = (state, action) => {
         inputValue: state.verb,
         continueEnabled: true,
       };
+    }else if (action.type == 'next'){
+      return {
+        ...state, 
+        continueEnabled: false,
+        questionStatus: 'unanswered'
+      }
     }
   };
 

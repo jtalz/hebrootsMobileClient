@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Image, View, Text, Animated } from 'react-native';
 import AwesomeButton from 'react-native-really-awesome-button';
+import { normalize } from '../Actions/Normalize';
+import {AntDesign} from '@expo/vector-icons';
 
 const LivesIndicator = ({ nLives }) => {
 
@@ -22,21 +24,25 @@ const LivesIndicator = ({ nLives }) => {
     }, [nLives])
 
     return ( 
-        <View style={{flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <Animated.View style={{
+                alignItems: 'center', justifyContent: 'center',
                 opacity: heartPos, 
                 transform: [{
                 translateY: heartPos.interpolate({
                     inputRange: [0, 1],
                     outputRange: [50, 0]
-                })
+                }),
+                
             }]}}>
-                <Image 
-                    source={{uri: 'https://user-images.githubusercontent.com/31594943/97501456-ae258900-1947-11eb-8ca5-eadf68a3ceee.png'}}
-                    style={{height: 40, width: 40}}
-                />
+                {/* <Image 
+                    source={require('../assets/heart.png')}
+                    style={{}}
+                /> */}
+                <AntDesign name='heart' color='red' size={35} />
+                <Text style={{fontSize: normalize(12), position: 'absolute',fontFamily: 'Poppins_600SemiBold', color: 'white'}}>{nLives}</Text>
             </Animated.View>
-            <Text style={{fontSize: 24, fontFamily: 'Bodoni 72', marginLeft: 5}}>{nLives}</Text>
+            
         </View>
      );
 }

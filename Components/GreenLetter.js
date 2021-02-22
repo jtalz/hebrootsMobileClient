@@ -4,7 +4,7 @@ import { Text } from "react-native";
 const GreenLetter = ({ sign, fontSize }) => {
   return (
     <Text
-      style={{ color: "#20BF55", fontSize: fontSize, fontFamily: "Rubik_300Light" }}
+      style={{ color: "#20BF55", fontSize: fontSize, fontFamily: "Poppins_300Light" }}
     >
       {sign}
     </Text>

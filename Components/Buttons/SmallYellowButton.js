@@ -1,12 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { normalize } from '../../Actions/Normalize';
 import {SCREEN_WIDTH,SCREEN_HEIGHT} from '../../Actions/ScreenDimensions'
 import fonts from '../../styles/fontStyle';
 
 const SmallYellowButton = props => {
     return (
-        <TouchableOpacity style = {{...styles.btnBack, opacity: props.disabled ? 0.4 : 1, ...props.size}} onPress={() => props.onClick()} disabled = {props.disabled}>
-            <Text style={{...fonts.en_light, fontSize: 18, lineHeight: 22}}>
+        <TouchableOpacity style = {{...styles.btnBack, opacity: props.disabled ? 0.4 : 1, ...props.size, backgroundColor: props.backgroundColor}} onPress={() => props.onClick()} disabled = {props.disabled}>
+            <Text style={{...fonts.en_light, fontSize: normalize(10), color: 'white'}}>
                 {props.name}
             </Text>
         </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Animated } from 'react-native';
+import { View, Animated, Text } from 'react-native';
 import getHebrewConsonantCodes from '../Actions/GetMethods/GetHebrewConsonantCodes';
 import { normalize } from '../Actions/Normalize';
 import _3DButton from '../Components/Buttons/_3DButton';
@@ -99,7 +99,7 @@ const MultipleChoices = ({
             pronoun_en={pronoun_en}
             setSpaceLayout = {setSpaceLayout}
             spaceLayout = {spaceLayout}
-            style={{marginBottom: SCREEN_HEIGHT/5}}
+            style={{marginBottom: SCREEN_HEIGHT/8}}
             />
             
 
@@ -145,7 +145,7 @@ const MultipleChoices = ({
                     var _selected = index == selected;
                  return (
                     <View key={index}
-                        style={{alignSelf: 'center', backgroundColor: '#e8e8e8', borderRadius: 10, marginVertical: 10}}
+                        style={{alignSelf: 'center', marginVertical: 10, backgroundColor: '#C0C0C0', borderRadius: 23}}
                     /*  onLayout={(event)=>{console.log(event.nativeEvent)}} */
                     onLayout={event => {
                         setLayout({
@@ -179,24 +179,25 @@ const MultipleChoices = ({
                                 }
                               ]}                     
                         >
-                            <_3DButton 
-                                width={normalize(getHebrewConsonantCodes(choice).length*15)}
-                                height={46}
-                                backgroundColor={'white'}
-                                borderWidth={1}
-                                borderRadius= {10}
-                                borderColor={'#C0C0C0'}
+                            <View 
+                                style={{
+                                    width: normalize(getHebrewConsonantCodes(choice).length*15),
+                                    height: 46,
+                                    backgroundColor: 'white',
+                                    borderWidth: 2,
+                                    borderRadius: 23,
+                                    borderColor: '#C0C0C0',
+                                    justifyContent: 'center'
+                                }}
+                                
                                 //backgroundShadow={_selected ? 'rgba(44, 128, 255, 0.72)' : '#C0C0C0'}
                                 //backgroundDarker={_selected ? 'rgba(44, 128, 255, 0.72)' : '#C0C0C0'}
-                                name = {choice} 
                                 //name = {`(${layout.x}, ${layout.y})`}
                                 key={index} 
-                                //onPress={() => setSelected(index)} 
-                                enabled={false} 
-                                
-                                fontSize={normalize(15)}
-                                
-                            />
+                                //onPress={() => setSelected(index)}   
+                            >
+                                <Text style={{fontSize: normalize(15), textAlign: 'center', fontFamily: 'Poppins_300Light'}}>{choice}</Text>
+                            </View>
                         </Animated.View>
                         </TapGestureHandler>
                         </Animated.View>

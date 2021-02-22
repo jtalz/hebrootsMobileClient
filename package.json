@@ -10,6 +10,7 @@
   "dependencies": {
     "@expo-google-fonts/m-plus-rounded-1c": "^0.1.0",
     "@expo-google-fonts/nunito": "^0.1.0",
+    "@expo-google-fonts/poppins": "^0.1.0",
     "@expo-google-fonts/rubik": "^0.1.0",
     "@expo-google-fonts/varela-round": "^0.1.0",
     "@react-native-async-storage/async-storage": "^1.13.2",

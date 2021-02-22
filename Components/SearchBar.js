@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {EvilIcons} from '@expo/vector-icons'; 
 import { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { normalize } from '../Actions/Normalize';
@@ -11,10 +11,10 @@ const SearchBar = props => {
     return (
         <View style={styles.searchSection}>
             <TouchableOpacity onPress={()=>props.onEnter(value)}>
-                <Icon style={styles.searchIcon} name="search" size={20} color="#000"/>
+                <EvilIcons style={styles.searchIcon} name="search" size={24} color="#000"/>
             </TouchableOpacity>
             <TextInput
-                style={{...styles.input, ...value == '' ? fonts.en_light : fonts.he_light}}
+                style={{...styles.input}}
                 placeholder="search for a verb..."
                 onChangeText = {text=> onChangeText(text)}
                 underlineColorAndroid="transparent"
@@ -22,7 +22,7 @@ const SearchBar = props => {
                 onEndEditing={()=>props.onEnter(value)}
             />
             <TouchableOpacity onPress={()=>onChangeText('')}>
-                <Text style={{...fonts.en_light, fontSize:22}}>X</Text>
+                <Text style={{fontFamily: 'Poppins_300Light', fontSize:normalize(12)}}>X</Text>
             </TouchableOpacity>
         </View>
     )
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'transparent',
+    fontFamily: 'Poppins_300Light'
   },
   searchIcon: {
 

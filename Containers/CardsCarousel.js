@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import sortByPronoun from "../Actions/SortByPronoun.js";
-import { View, SafeAreaView, ActivityIndicator, Text } from "react-native";
+import { View, SafeAreaView, ActivityIndicator, Text, Image } from "react-native";
 import Card from "../Components/Card.js";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import _renderConjugations from "./ConjugationTable";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import { normalize } from "../Actions/Normalize.js";
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons, AntDesign } from '@expo/vector-icons'; 
 import { TouchableOpacity } from "react-native-gesture-handler";
 class CardsCarousel extends Component {
   constructor(props) {
@@ -113,42 +113,42 @@ class CardsCarousel extends Component {
               </Text>
             </View>
             : 
-        <View style={{flexDirection: 'row', flex: 2, height: '100%', alignItems: 'flex-start', justifyContent: 'center'}}>
-              <TouchableOpacity onPress={()=>this.prevCard()} >
-              <MaterialIcons name="chevron-left" size={24} color="black" />
+        <View style={{flexDirection: 'row', flex: 2, alignItems: 'flex-start', justifyContent: 'space-around', width: SCREEN_WIDTH/1.3}}>
+              <TouchableOpacity onPress={()=>this.prevCard()} style={{}}>
+              <AntDesign name="caretleft" size={24} color="#4294DB" />
               </TouchableOpacity>
               <Text
                 style={{
-                  color: activeIndex == 0 ? "blue" : "black",
+                  color: activeIndex == 0 ? "#4294DB" : "black",
                   fontSize: normalize(16),
                   marginHorizontal: normalize(5),
-                  fontFamily: activeIndex == 0 ? "Rubik_400Regular" : "Rubik_300Light",
+                  fontFamily: "Poppins_300Light",
                 }}
               >
                 עבר
               </Text>
               <Text
                 style={{
-                  color: activeIndex == 1 ? "blue" : "black",
+                  color: activeIndex == 1 ? "#4294DB" : "black",
                   fontSize: normalize(16),
                   marginHorizontal: normalize(5),
-                  fontFamily: activeIndex == 1 ? "Rubik_400Regular" : "Rubik_300Light",
+                  fontFamily: "Poppins_300Light",
                 }}
               >
                 הווה
               </Text>
               <Text
                 style={{
-                  color: activeIndex == 2 ? "blue" : "black",
+                  color: activeIndex == 2 ? "#4294DB" : "black",
                   fontSize: normalize(16),
                   marginHorizontal: normalize(5),
-                  fontFamily: activeIndex == 2 ? "Rubik_400Regular" : "Rubik_300Light",
+                  fontFamily: "Poppins_300Light",
                 }}
               >
                 עתיד
               </Text>
               <TouchableOpacity onPress={()=>this.nextCard()} >
-              <MaterialIcons name="chevron-right" size={24} color="black" />
+              <AntDesign name="caretright" size={24} color="#4294DB" />
               </TouchableOpacity>
             </View>
     }

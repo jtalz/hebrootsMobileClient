@@ -13,8 +13,11 @@ import shuffleArray from "../../../../Actions/ShuffleArray";
 import getNRandomUniqueElements from "../../../../Actions/GetMethods/GetNRandomUniqueElements";
 import { normalize } from "../../../../Actions/Normalize";
 import DragDropQReducer from "../../../../Actions/Reducers/DragDropQReducer";
+import SmallYellowButton from "../../../../Components/Buttons/SmallYellowButton";
+import CorrectAnswerModal from "../../../../Components/Modals/CorrectAnswerModal";
+import IncorrectAnswerModal from "../../../../Components/Modals/IncorrectAnswerModal";
 
-const DragDropQuestion = ({
+const DragDropQuestion = React.memo(({
   index,
   family,
   tense_en,
@@ -52,6 +55,9 @@ const DragDropQuestion = ({
   };
   return (
     <View style={{ width: SCREEN_WIDTH }}>
+      <CorrectAnswerModal onClick={()=>{nextQuestion();dispatch({type: 'next'})}} visibility={state.questionStatus == "correct"} />
+      <IncorrectAnswerModal onClick={()=>{nextQuestion();dispatch({type: 'next'})}} answer={state.verb} visibility={state.questionStatus == "incorrect"} />      
+      
       <Text style={{ ...styles.instructions }}>
         Drag the appropriately conjugated verb to its place
       </Text>
@@ -71,7 +77,16 @@ const DragDropQuestion = ({
         pronoun_en={family[index].possessionInfo.possession_en}
         gameStyle={"MultiChoiceQuiz"}
       />
-      <_3DButton
+      <View style={{ alignSelf: "center", flex: 1, justifyContent: 'center'}}>
+        <SmallYellowButton
+          name="Check"
+          onClick={checkPlease}
+          disabled={!state.checkEnabled}
+          backgroundColor='#4294DB'
+          size={{width: SCREEN_WIDTH/2}}
+        />
+      </View>
+      {/* <_3DButton
         width={SCREEN_WIDTH - 170}
         height={SCREEN_HEIGHT / 20}
         textFontFamily={"Rubik_300Light"}
@@ -126,10 +141,10 @@ const DragDropQuestion = ({
             </Text>
           </View>
         </Animated.View>
-      </_3DButton>
+      </_3DButton> */}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   solutionContainer: {

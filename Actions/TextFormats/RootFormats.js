@@ -20,7 +20,7 @@ class VerbRoot{
       const rootLetters = this.base_form.split("").filter((letter, position) => {
         return this.rootConditions.every(checkInflectionRule(letter.charCodeAt(0), position, this.base_formCharCodes))
       }).join(".")
-      return <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>{rootLetters}</Text>
+      return <Text style={{ fontSize: 22, fontFamily: "Poppins_300Light" }}>{rootLetters}</Text>
     }
 }
 

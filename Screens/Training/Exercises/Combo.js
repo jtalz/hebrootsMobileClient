@@ -169,8 +169,8 @@ const Combo = ({ route, navigation }) => {
           <ProgressBarAnimated
             width={SCREEN_WIDTH - 150}
             value={state.progress}
-            backgroundColorOnComplete="black"
-            backgroundColor="rgba(68, 228, 33, 0.97)"
+            backgroundColorOnComplete="rgba(68, 228, 33, 0.97)"
+            backgroundColor="#4294DB"
             underlyingColor="rgba(44, 128, 255, 0.72)"
           />
           <LivesIndicator nLives={state.lives} />
@@ -178,7 +178,7 @@ const Combo = ({ route, navigation }) => {
         <Text
         style={{
           alignSelf: "center",
-          fontFamily: "Rubik_400Regular",
+          fontFamily: "Poppins_300Light",
           fontSize: normalize(16),
         }}>
           {infinitive}
@@ -186,7 +186,7 @@ const Combo = ({ route, navigation }) => {
         <Text
         style={{
           alignSelf: "center",
-          fontFamily: "Rubik_400Regular",
+          fontFamily: "Poppins_300Light",
           fontSize: normalize(10),
         }}>
           ({translation})
@@ -194,7 +194,7 @@ const Combo = ({ route, navigation }) => {
         <Text
           style={{
             alignSelf: "center",
-            fontFamily: "Rubik_400Regular",
+            fontFamily: "Poppins_300Light",
             fontSize: normalize(12),
           }}
         >
@@ -252,10 +252,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: SCREEN_WIDTH,
+    paddingHorizontal: 5
   },
   questionInstructions: {
     fontSize: normalize(18),
-    fontFamily: "Rubik_400Regular",
+    fontFamily: "Poppins_300Light",
     margin: 10,
     width: SCREEN_WIDTH,
     alignSelf: "center",

@@ -13,6 +13,7 @@ import {
 } from "../../styles/index";
 import LoadingIndicator from "../../Components/LoadingIndicator";
 import LongRectangleButton from "../../Components/Buttons/LongRectangleButton";
+import { normalize } from "../../Actions/Normalize";
 
 const LessonSelection = ({ navigation, route }) => {
   const [topics, setTopics] = useState(null);
@@ -28,9 +29,9 @@ const LessonSelection = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
+        {/* <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} /> */}
         <Text style={styles.instructions}>
-          Let's learn about one of the following topics
+          Let's learn about one of the following ביניינים (bin-ya-nim)
         </Text>
       </View>
       <Animatable.View
@@ -43,13 +44,13 @@ const LessonSelection = ({ navigation, route }) => {
             data={topics}
             contentContainerStyle={styles.buttonContainer}
             horizontal={false}
-            numColumns={1}
+            numColumns={2}
             renderItem={({item}) => (
               <LongRectangleButton
                 name={item.name}
-                details={[item.transliteration, item.aspects[0]]}
+                details={[item.transliteration, item.tense_en, item.aspects[0]]}
                 onPress={() =>
-                  navigation.navigate("SubtopicSelection", {
+                  navigation.navigate("PatternLesson", {
                     pattern: item.pattern,
                     name: item.name,
                     aspects: item.aspects,
@@ -57,6 +58,7 @@ const LessonSelection = ({ navigation, route }) => {
                     pattern_id: item._id,
                     transliteration: item.transliteration,
                     type: item.type,
+                    subtopic: item.tense_en.toUpperCase()
                   })
                 }
               />
@@ -80,17 +82,18 @@ const styles = StyleSheet.create({
     ...Colors.whiteBg,
   },
   header: {
-    flex: 1,
-    marginRight: 40,
+    flex: .5,
     ...Spacing.justifyCenter,
-    ...Spacing.alignEnd,
+    ...Spacing.alignCenter,
   },
   buttonContainer: {
     ...Spacing.centerCenter,
   },
   instructions: {
-    ...Typography.largeEnLight,
     ...Typography.textAlignCenter,
+    fontFamily: 'Poppins_400Regular', fontSize: normalize(16),
+    paddingHorizontal: 50,
+    color: '#48161D'
   },
 });
 

@@ -47,6 +47,7 @@ const Explore = ({ navigation }) => {
           onClick={() => 
             navigateToTraining(state, navigation, getTenseFromActiveIndex(state.activeIndex))}
           disabled={state.tableStatus == "Loading"}
+          backgroundColor='#73D413'
         />
         <SmallYellowButton
           name="Lesson"
@@ -61,6 +62,7 @@ const Explore = ({ navigation }) => {
             })
           }
           disabled={state.tableStatus == "Loading"}
+          backgroundColor='#4294DB'
         />
       </View>
     </SafeAreaView>

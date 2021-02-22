@@ -54,5 +54,10 @@ export const matchingReducer = (state, action) => {
         return {...state, modalVisibility: { exit: false, passed: false, instructions: false }, timer: {...state.timer, start: true} }
     }else if (action.type == 'startTimer'){
         return {...state, timer: { ...state.timer, start: true }}
-    }
+    }else if (action.type == 'next'){
+        return {
+          ...state, 
+          continueEnabled: false
+        }
+      }
 }

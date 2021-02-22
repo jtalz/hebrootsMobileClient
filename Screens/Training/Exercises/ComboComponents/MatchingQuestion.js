@@ -7,8 +7,10 @@ import { matchingReducer } from '../../../../Actions/Reducers/MatchingReducer';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../../Actions/ScreenDimensions';
 import seperateInflectionsFromPronouns from '../../../../Actions/SeperateInflectionsFromPronouns';
 import shuffleArray from '../../../../Actions/ShuffleArray';
+import SmallYellowButton from '../../../../Components/Buttons/SmallYellowButton';
 import _3DButton from '../../../../Components/Buttons/_3DButton';
 import MatchingCard from '../../../../Components/MatchingCard';
+import CorrectAnswerModal from '../../../../Components/Modals/CorrectAnswerModal';
 
 const getDeck = (deck) => deck;
 
@@ -27,7 +29,7 @@ const getFreshDeck = (data) => {
     });
   };
 
-const MatchingQuestion = ({index, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
+const MatchingQuestion = React.memo(({index, family, tense_en, pattern, noun_phrase, infinitive, sendResult, nextQuestion}) => {
     
     const [state, dispatch] = useReducer(matchingReducer, {
         deck: getFreshDeck(family),
@@ -47,7 +49,8 @@ const MatchingQuestion = ({index, family, tense_en, pattern, noun_phrase, infini
 
     return ( 
 
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', width: SCREEN_WIDTH}}>
+          <CorrectAnswerModal onClick={()=>{nextQuestion();dispatch({type: 'next'})}} visibility={state.continueEnabled} />
             <Text style={{...styles.instructions}}>
                 Match each pronoun with the appropriate conjugation
             </Text>
@@ -64,10 +67,10 @@ const MatchingQuestion = ({index, family, tense_en, pattern, noun_phrase, infini
                     )
                 }
             />
-            <_3DButton
+           {/*  <_3DButton
                 width={SCREEN_WIDTH - 170}
                 height={SCREEN_HEIGHT / 20}
-                textFontFamily={"Rubik_300Light"}
+                textFontFamily={"Poppins_300Light"}
                 fontSize={SCREEN_HEIGHT / 35}
                 textColor={"black"}
                 backgroundColor={
@@ -91,15 +94,33 @@ const MatchingQuestion = ({index, family, tense_en, pattern, noun_phrase, infini
                   width: SCREEN_WIDTH,
                   paddingBottom: SCREEN_HEIGHT / 20,
                 }}
+            /> */}
+            {/* <View
+            
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              alignItems: "center",
+              width: SCREEN_WIDTH,
+              paddingBottom: SCREEN_HEIGHT / 20,
+            }}>
+              <SmallYellowButton 
+              size={{width:SCREEN_WIDTH - 170}}
+              name="Continue"
+              onClick={nextQuestion}
+              disabled={!state.continueEnabled}
+              backgroundColor='#4294DB'
             />
+            </View> */}
+            
         </View>
 
      );
-}
+})
 
 const styles = StyleSheet.create({
     instructions: {
-        fontFamily: 'Nunito_400Regular',
+        fontFamily: 'Poppins_300Light',
         fontSize: normalize(16),
         paddingHorizontal: 10,
         paddingVertical: 20,

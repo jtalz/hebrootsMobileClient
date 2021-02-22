@@ -6,14 +6,14 @@ import {normalize} from '../../Actions/Normalize'
 const RoundCustomButton = ({ name, onPress, imgUrl, translation }) => {
     return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <View style={{...styles.btnBack, borderWidth: 4, borderColor: '#e0e0e0', height: SCREEN_HEIGHT*.1, width: SCREEN_HEIGHT*.1, borderRadius: (SCREEN_HEIGHT*.1)/2, opacity: '30%'}}>
+            <View style={{...styles.btnBack, borderWidth: 2, borderColor: '#4294DB', height: SCREEN_HEIGHT*.1, width: SCREEN_HEIGHT*.1, borderRadius: (SCREEN_HEIGHT*.1)/2, opacity: '30%'}}>
                 <TouchableOpacity style={{...styles.btnBack} } 
                     onPress={onPress}>
                     <Image style={{height: SCREEN_HEIGHT*.08, width: SCREEN_HEIGHT*.08}} source={{ uri: imgUrl }} />
                 </TouchableOpacity>
             </View>
-            <Text style={{...fonts.he_light, fontSize: normalize(12) }}>{name}</Text>
-            <Text style={{...fonts.he_light, fontSize: normalize(10)}}>({translation})</Text>
+            <Text style={{fontFamily: 'Poppins_300Light', fontSize: normalize(12) }}>{name}</Text>
+            <Text style={{fontFamily: 'Poppins_300Light', fontSize: normalize(10)}}>({translation})</Text>
         </View>
     )
 }

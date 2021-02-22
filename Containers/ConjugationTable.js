@@ -11,6 +11,7 @@ import Conjugation from "../Components/Conjugation";
 import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import UnderlinedText from "../Components/UnderlinedText";
 import Root from "../Components/Root";
+import { normalize } from "../Actions/Normalize.js";
 
 const getPossessionWithGender = (possession) => {
   switch (possession["morphology"]) {
@@ -44,7 +45,7 @@ const _renderConjugations = ({ item, index }) => {
             morphology={possession.morphology}
             pattern={pattern.pattern}
             tense={tense.en}
-            fontSize={24}
+            fontSize={normalize(18)}
           />
         </View>
         <View
@@ -76,6 +77,7 @@ const _renderConjugations = ({ item, index }) => {
           shadowColor: "black",
           paddingTop: 15,
           paddingBottom: 10,
+          borderRadius: 15
         }}
       >
         <FlatList
@@ -100,7 +102,7 @@ const _renderConjugations = ({ item, index }) => {
                   <Text
                     style={{
                       fontSize: 22,
-                      fontFamily: "Rubik_500Medium",
+                      fontFamily: "Poppins_300Light",
                     }}
                   >
                     {item.tense["he"]}
@@ -112,7 +114,7 @@ const _renderConjugations = ({ item, index }) => {
                   ...styles.headerRow,
                 }}
               >
-                <Text style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}>
+                <Text style={{ fontSize: 22, fontFamily: "Poppins_300Light" }}>
                   {pattern.name}
                 </Text>
                 <Root base_form={root} pattern={pattern.pattern} />
@@ -129,7 +131,7 @@ const _renderConjugations = ({ item, index }) => {
                     word={item.infinitive}
                   >
                     <Text
-                      style={{ fontSize: 22, fontFamily: "Rubik_400Regular" }}
+                      style={{ fontSize: 22, fontFamily: "Poppins_300Light" }}
                     >
                       {item.infinitive}
                     </Text>
@@ -157,8 +159,8 @@ const _renderConjugations = ({ item, index }) => {
 
 const styles = StyleSheet.create({
   conjugationText: {
-    fontSize: 22,
-    fontFamily: "Rubik_300Light",
+    fontSize: normalize(18),
+    fontFamily: "Poppins_300Light",
   },
   conjugationRow: {
     padding: 5,

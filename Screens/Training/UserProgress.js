@@ -148,7 +148,7 @@ const UserProgress = ({ route, navigation }) => {
               margin: 10
             }}
           >
-            <Text style={{ ...fonts.en_light, fontSize: normalize(12) }}>
+            <Text style={{ fontFamily: 'Poppins_300Light', fontSize: normalize(12) }}>
               {title} {tense} Tense
             </Text>
           </View>

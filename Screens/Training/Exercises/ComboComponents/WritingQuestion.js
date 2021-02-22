@@ -10,9 +10,11 @@ import {
 } from "../../../../Actions/ScreenDimensions";
 import SmallYellowButton from "../../../../Components/Buttons/SmallYellowButton";
 import _3DButton from "../../../../Components/Buttons/_3DButton";
+import CorrectAnswerModal from "../../../../Components/Modals/CorrectAnswerModal";
+import IncorrectAnswerModal from "../../../../Components/Modals/IncorrectAnswerModal";
 import SentenceWithVerb from "../../../../Components/SentenceWithVerb";
 
-const WritingQuestion = ({
+const WritingQuestion = React.memo(({
   index,
   isActive,
   family,
@@ -54,6 +56,9 @@ const WritingQuestion = ({
 
   return (
     <View>
+        <CorrectAnswerModal onClick={()=>{nextQuestion();dispatch({type: 'next'})}} visibility={state.questionStatus == "correct"} />
+        <IncorrectAnswerModal onClick={()=>{nextQuestion();dispatch({type: 'next'})}} answer={state.verb} visibility={state.questionStatus == "gaveUp"} />      
+      
       <Text style={{ ...styles.instructions }}>
         Type the appropriately conjugated verb
       </Text>
@@ -82,12 +87,13 @@ const WritingQuestion = ({
           name="Need Help"
           onClick={giveUp}
           disabled={!state.inputEnabled}
+          backgroundColor='#4294DB'
         />
       </View>
-      <_3DButton
+      {/* <_3DButton
         width={SCREEN_WIDTH - 170}
         height={SCREEN_HEIGHT / 20}
-        textFontFamily={"Rubik_300Light"}
+        textFontFamily={"Poppins_300Light"}
         fontSize={SCREEN_HEIGHT / 35}
         textColor={"black"}
         backgroundColor={
@@ -139,7 +145,7 @@ const WritingQuestion = ({
             >
               <Text
                 style={{
-                  fontFamily: "Nunito_300Light",
+                  fontFamily: "Poppins_300Light",
                   fontSize: normalize(16),
                 }}
               >
@@ -150,28 +156,28 @@ const WritingQuestion = ({
             </View>
           </Animated.View>
         )}
-      </_3DButton>
+      </_3DButton> */}
     </View>
   );
-};
+})
 
 const styles = StyleSheet.create({
   text: {
     marginHorizontal: 24,
-    fontFamily: "Rubik_300Light",
+    fontFamily: "Poppins_300Light",
     fontSize: normalize(20),
     paddingVertical: 10,
     borderBottomWidth: 1,
   },
   instructions: {
-    fontFamily: "Nunito_400Regular",
+    fontFamily: "Poppins_300Light",
     fontSize: normalize(16),
     paddingHorizontal: 10,
     paddingVertical: 20,
     alignSelf: "center",
   },
   infinitive: {
-    fontFamily: "Rubik_300Light",
+    fontFamily: "Poppins_300Light",
     fontSize: normalize(20),
     paddingVertical: 10,
     alignSelf: "center",

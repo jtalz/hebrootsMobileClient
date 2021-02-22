@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 const fonts = StyleSheet.create({
     en_light: {
-        fontFamily:'Nunito_300Light'
+        fontFamily:'Poppins_600SemiBold'
     },
     en_heavy: {
 

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import fonts from '../styles/fontStyle';
 import { normalize } from './Normalize';
 
 const styleHeaderFor = (name) => {
@@ -12,12 +13,12 @@ const styleHeaderFor = (name) => {
 
 const styles = StyleSheet.create({
     headerBgColor: {
-        backgroundColor: '#2B78EC',
+        backgroundColor: '#4294DB',
     },
     headerTitle: {
         fontWeight: 'normal',
-        fontFamily: 'Nunito_300Light',
-        fontSize: normalize(15)
+        fontFamily: 'Poppins_300Light',
+        fontSize: normalize(12)
     }
   });
 

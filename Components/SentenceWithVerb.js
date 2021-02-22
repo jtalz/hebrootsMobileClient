@@ -189,8 +189,8 @@ const SentenceWithVerb = ({
 const styles = StyleSheet.create({
   text: {
     marginHorizontal: 24,
-    fontFamily: "Rubik_300Light",
-    fontSize: normalize(18),
+    fontFamily: "Poppins_300Light",
+    fontSize: normalize(20),
     paddingVertical: 10
   },
 });

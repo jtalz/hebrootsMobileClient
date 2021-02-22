@@ -7,7 +7,13 @@ const DragDropQReducer = (state, {type, payload}) => {
                     {...state, questionStatus : 'incorrect', choicesEnabled : false } 
     }else if (type == 'disableCheck'){
         return {...state, checkEnabled: false}
-    }
+    }else if (type == 'next'){
+        return {
+          ...state, 
+          continueEnabled: false,
+          questionStatus: 'unanswered'
+        }
+      }
 }
 
 export default DragDropQReducer;

@@ -72,10 +72,10 @@ const SettingsHome = (props) => {
     if (option.type == "read-only") {
       return (
         <View style={{ ...styles.optionRow }}>
-          <Text style={{ ...fonts.en_light, fontSize: normalize(12) }}>
+          <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: normalize(12) }}>
             {option.name}
           </Text>
-          <Text style={{ color: "grey" }}>{option.status}</Text>
+          <Text style={{ color: "#4294DB" }}>{option.status}</Text>
         </View>
       );
     } else if (option.type == "pressable") {
@@ -84,18 +84,18 @@ const SettingsHome = (props) => {
           style={{ ...styles.optionRow }}
           onPress={option.onPress}
         >
-          <Text style={{ ...fonts.en_light, fontSize: normalize(12) }}>
+          <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: normalize(12) }}>
             {option.name}
           </Text>
           {option.status !== undefined ? (
-            <Text style={{ color: "grey" }}>{option.status}</Text>
+            <Text style={{ color: "#4294DB" }}>{option.status}</Text>
           ) : null}
         </TouchableOpacity>
       );
     } else if (option.type == "toggle") {
       return (
         <View style={{ ...styles.optionRow }}>
-          <Text style={{ ...fonts.en_light, fontSize: normalize(12) }}>
+          <Text style={{ fontFamily: 'Poppins_400Regular', fontSize: normalize(12) }}>
             {option.name}
           </Text>
           <Switch
@@ -114,7 +114,7 @@ const SettingsHome = (props) => {
 
   const settingsGroup = ({ item }) => {
     return (
-      <View style={{ marginVertical: 0, backgroundColor: "white" }}>
+      <View style={{ marginVertical: 0 }}>
         <View
           style={{
             paddingHorizontal: SCREEN_WIDTH / 15,
@@ -132,14 +132,6 @@ const SettingsHome = (props) => {
           return (
             <View key={subItem.name}>
               {renderOption(subItem)}
-              <View
-                style={{
-                  borderWidth: 0.5,
-                  width: SCREEN_WIDTH / 1.1,
-                  alignSelf: "flex-end",
-                  borderColor: "#f2f2f2",
-                }}
-              ></View>
             </View>
           );
         })}
@@ -148,7 +140,7 @@ const SettingsHome = (props) => {
   };
 
   return (
-    <View>
+    <View style={{justifyContent: 'flex-start', alignItems: 'flex-start', backgroundColor: "#f2f2f2"}}>
       {settingsOptions == null ? (
         <View
           style={{
@@ -163,19 +155,30 @@ const SettingsHome = (props) => {
         <FlatList
           renderItem={settingsGroup}
           data={settingsOptions.options}
+          contentContainerStyle={{}}
           ListHeaderComponent={
             <View style={{ ...styles.header }}>
-              <View>
-                <Text style={{ ...styles.firstName, ...styles.whiteText }}>
+              <View style={{flex: 4, backgroundColor: '#4294DB', width: SCREEN_WIDTH, justifyContent: 'center'}}>
+                {/* <Text style={{ ...styles.firstName, ...styles.whiteText }}>
                   {settingsOptions.firstName}
                 </Text>
                 <Text style={{ ...styles.userName, ...styles.whiteText }}>
                   {settingsOptions.email}
+                </Text> */}
+                <Text style={{textAlign: 'center', color: 'white',
+              fontFamily: 'Poppins_400Regular', fontSize: normalize(18)}}>
+                  Settings
                 </Text>
               </View>
-              <View>
-                <DashedCircle initial={settingsOptions.firstName.charAt(0)} />
+              
+              <View style={{flex: 3, backgroundColor: "#f2f2f2",width: SCREEN_WIDTH, justifyContent: 'flex-end'}}>
+                {/* <DashedCircle initial={settingsOptions.firstName.charAt(0)} /> */}
+                <Text style={{textAlign: 'center', color: '#4294DB',
+              fontFamily: 'Poppins_400Regular', fontSize: normalize(18)}}>
+                  {settingsOptions.firstName}
+                </Text>
               </View>
+              <DashedCircle initial={settingsOptions.firstName.charAt(0)} />
             </View>
           }
           keyExtractor={(item) => item.name}
@@ -188,12 +191,14 @@ const SettingsHome = (props) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: 180,
-    backgroundColor: "#2B78EC",
-    flexDirection: "row",
-    justifyContent: "space-around",
+    height: SCREEN_HEIGHT/3,
+    justifyContent: 'center',
     alignItems: "center",
     paddingTop: 30,
+    width: SCREEN_WIDTH,
+    //position: 'absolute',
+    backgroundColor: '#4294DB',
+    top: 0
   },
   firstName: {
     fontSize: 28,
@@ -212,6 +217,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
+    margin: 10,
+    borderRadius: 10
   },
 });
 

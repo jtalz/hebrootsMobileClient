@@ -6,18 +6,20 @@ import _3DButton from "../../Components/Buttons/_3DButton";
 import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
 import TENSES from "../../Constants/TENSES";
 import LongRectangleButton from "../../Components/Buttons/LongRectangleButton";
+import { normalize } from "../../Actions/Normalize";
 
 const SubtopicSelection = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.intro}>
-        <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} />
+        {/* <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} /> */}
         <Text
           style={{
             //...fonts.he_light,
+            fontFamily: 'Poppins_400Regular',
             width: "65%",
-            fontSize: SCREEN_HEIGHT / 35,
+            fontSize: normalize(16),
             textAlign: "center",
           }}
         >
@@ -26,8 +28,9 @@ const SubtopicSelection = ({ navigation, route }) => {
         <Text
           style={{
             //...fonts.en_light,
+            fontFamily: 'Poppins_400Regular',
             width: "65%",
-            fontSize: SCREEN_HEIGHT / 35,
+            fontSize: normalize(16),
             textAlign: "center",
           }}
         >
@@ -37,7 +40,7 @@ const SubtopicSelection = ({ navigation, route }) => {
       <Animatable.View
         animation="fadeInUp"
         direction="alternate"
-        style={{ flex: 2 }}
+        style={{ flex: 3 }}
       >
         
           <FlatList
@@ -47,7 +50,7 @@ const SubtopicSelection = ({ navigation, route }) => {
               alignItems: "center",
             }}
             horizontal={false}
-            numColumns={1}
+            numColumns={2}
             renderItem={({item}) => (
               <LongRectangleButton
                 name={item.name_he}
@@ -79,8 +82,7 @@ const styles = StyleSheet.create({
   intro: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "flex-end",
-    marginRight: 40,
+    alignItems: 'center'
   },
   listItem: {
     alignItems: "center",

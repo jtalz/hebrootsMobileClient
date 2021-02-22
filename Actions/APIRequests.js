@@ -40,10 +40,23 @@ export const requestVerbFromValue = async (value) => {
 
 export const requestAllPatterns = async () => {
     try{
+        const duplicateAndAssignTense = (tense_en, tense_he, pattern) => {
+            let obj = Object.assign({}, pattern);
+            obj.tense_en=tense_en;
+            obj.tense_he=tense_he;
+            return obj;
+        }
         const response = await fetch(`https://hebroots-api.herokuapp.com/api/patterns`)
         const response_1 = await response.json()
         const patterns = await response_1.map(resp=> JSON.stringify(resp)).map(str=>JSON.parse(str))
-        return patterns;
+        let patternsWTenses = [];
+        patterns.forEach((pattern, index)=>{
+            let past = duplicateAndAssignTense('Past', 'עבר', pattern);
+            let present = duplicateAndAssignTense('Present', 'הווה', pattern);
+            let future = duplicateAndAssignTense('Future', 'עתיד', pattern);
+            patternsWTenses.push(past, present, future)
+        })
+        return patternsWTenses;
     }catch (error) {
         console.error("Pattern request error: ", error)
     }

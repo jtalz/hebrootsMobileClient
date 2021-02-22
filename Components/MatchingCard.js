@@ -45,18 +45,18 @@ const MatchingCard = ({ item, selectCard }) => {
 
     const interpolateColor = animatedValue.interpolate({
         inputRange: [0, 250],
-        outputRange: ['rgb(250,90,90)', 'rgb(250, 250, 250)']
+        outputRange: ['#F33232', 'rgb(250, 250, 250)']
     })
 
     const bgColor = {backgroundColor: appropriateCardColor(selected, justSubmittedAndIsCorrect, justSubmittedAndIsIncorrect)};
 
     function appropriateCardColor(selected, justSubmittedAndIsCorrect, justSubmittedAndIsIncorrect){
         if (justSubmittedAndIsCorrect){
-            return '#2eff35'
+            return '#73D413'
         }else if(justSubmittedAndIsIncorrect){
             return interpolateColor;
         }else if(selected){
-            return '#f8ff78'
+            return '#4294DB'
         }else{
             return 'white'
         }
