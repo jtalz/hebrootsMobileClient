@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { View, Animated, Text } from 'react-native';
-import getHebrewConsonantCodes from '../Actions/GetMethods/GetHebrewConsonantCodes';
-import { normalize } from '../Actions/Normalize';
-import _3DButton from '../Components/Buttons/_3DButton';
-import { PanGestureHandler, State, TapGestureHandler } from 'react-native-gesture-handler'
-import SentenceWithVerb from '../Components/SentenceWithVerb';
-import { SCREEN_HEIGHT } from '../Actions/ScreenDimensions';
-/* import Animated from 'react-native-reanimated' */
+import React, { useReducer } from "react";
+import { View } from "react-native";
+import getHebrewConsonantCodes from "../Actions/GetMethods/GetHebrewConsonantCodes";
+import { normalize } from "../Actions/Normalize";
+import _3DButton from "../Components/Buttons/_3DButton";
+import { State } from "react-native-gesture-handler";
+import SentenceWithVerb from "../Components/SentenceWithVerb";
+import timedAnimation from "../Actions/Animations/timedAnimation";
+import Choice from "../Components/Choice";
+import multiChoicesReducer from "../Actions/Reducers/MultiChoicesReducer";
 
-const MultipleChoices = ({ 
-    choices, setSelected, selected, style, 
-    possession,
+const MultipleChoices = ({
+  choices,
+  setSelected,
+  style,
+  possession,
   tense,
   verb,
   answered,
@@ -19,195 +22,95 @@ const MultipleChoices = ({
   pattern,
   noun_phrase,
   gameStyle,
-/*   handleTextInput,
-  inputValue,
-  inputEnabled, */
   pronoun_en,
-  enabled
-
+  enabled,
 }) => {
 
-    const onPanGestureEvent = (_translate) => {
-        return Animated.event(
-            [
-              { 
-                nativeEvent: {
-                  translationX: _translate.x,
-                  translationY: _translate.y,
-                },
-              },
-            ],
-            { useNativeDriver: true }
-          );
+  const [landingZone, dispatch] = useReducer(multiChoicesReducer, {
+    layout: { x: 0, y: 0 },
+    occupier: null,
+    isFull: false,
+  });
+
+  const setCoordinates = (coordinates) =>
+    dispatch({ type: "setCoordinates", payload: coordinates });
+
+  const prepareForLanding = (occupier) =>
+    dispatch({ type: "prepareForLanding", payload: occupier });
+
+  const clearOut = () => dispatch({ type: "clearOut" });
+
+  const returnHandlerHome = (_translate, index) => {
+    timedAnimation(_translate, 200, { x: 0, y: 0 }).start(() => {
+      _translate.setOffset({ x: 0, y: 0 });
+      _translate.setValue({ x: 0, y: 0 });
+      if (landingZone.occupier == index) {
+        clearOut();
+        setSelected(null);
+      }
+    });
+  };
+
+  const sendHandlerToPlace = (_layout, _translate, index) => {
+    timedAnimation(_translate, 200, {
+      x:
+        landingZone.layout.x -
+        _layout.x +
+        normalize(getHebrewConsonantCodes(verb).length),
+      y: landingZone.layout.y - _layout.y + normalize(10),
+    }).start(() => {
+      _translate.setOffset({
+        x:
+          landingZone.layout.x -
+          _layout.x +
+          normalize(getHebrewConsonantCodes(verb).length),
+        y: landingZone.layout.y - _layout.y + normalize(10),
+      });
+      _translate.setValue({ x: 0, y: 0 });
+      prepareForLanding(index)
+      setSelected(index);
+    });
+  };
+
+  const onHandlerStateChange = (_layout, _translate, index) => (event) => {
+    if (event.nativeEvent.oldState === State.ACTIVE) {
+      _translate.flattenOffset();
+      landingZone.isFull
+        ? returnHandlerHome(_translate, index)
+        : sendHandlerToPlace(_layout, _translate, index);
     }
-    const [spaceLayout, setSpaceLayout] = useState({x: 0, y: 0})
+  };
 
-    const [spaceFull, setSpaceFull] = useState({occupier: null, isFull: false})
+  return (
+    <View style={{ ...style }}>
+      <SentenceWithVerb
+        gameStyle={gameStyle}
+        possession={possession}
+        tense={tense}
+        verb={verb}
+        answered={answered}
+        morphology={morphology}
+        tense_en={tense_en}
+        pattern={pattern}
+        noun_phrase={noun_phrase}
+        pronoun_en={pronoun_en}
+        setLandingZoneCoordinates={setCoordinates}
+      />
+      {choices.map((name, index) => (
+        <Choice
+          key={index}
+          name={name}
+          onHandlerStateChange={onHandlerStateChange}
+          index={index}
+          landingZone={landingZone}
+          clearOut={clearOut}
+          setSelected={setSelected}
+          choices={choices}
+          enabled={enabled}
+        />
+      ))}
+    </View>
+  );
+};
 
-    /* useEffect(()=>{
-        
-    }, [choices]) */
-
-    const onHandlerStateChange = (_layout, _translate, index) => (event) => {
-        if (event.nativeEvent.oldState === State.ACTIVE) {
-            _translate.flattenOffset()
-                spaceFull.isFull ? 
-                Animated.timing(_translate, { 
-                    toValue: {x: 0, y:0},
-                    duration: 200,
-                    useNativeDriver: true
-                }).start(()=>{
-                    _translate.setOffset({x: 0, y: 0});
-                    _translate.setValue({x: 0, y: 0});
-                    if(spaceFull.occupier == index){
-                        setSpaceFull({occupier: null, isFull: false})
-                        setSelected(null)
-                    }
-                })
-                :
-                Animated.timing(_translate, { 
-                    toValue: {x: spaceLayout.x-_layout.x+ normalize(getHebrewConsonantCodes(verb).length), y:spaceLayout.y- _layout.y+ normalize(10)},
-                    duration: 200,
-                    useNativeDriver: true
-                })
-                .start(()=>{
-                    _translate.setOffset({x: spaceLayout.x-_layout.x+ normalize(getHebrewConsonantCodes(verb).length), y: spaceLayout.y- _layout.y+normalize(10)});
-                    _translate.setValue({x: 0, y: 0});
-                    setSpaceFull({occupier: index, isFull: true})
-                    setSelected(index)
-                })
-        }
-    };
-
-    return ( 
-        <View style={{...style}}>
-            
-            <SentenceWithVerb
-            gameStyle={gameStyle}
-            possession={
-              possession
-            }
-            tense={tense}
-            verb={verb}
-            answered={answered}
-            morphology={
-              morphology
-            }
-            tense_en={tense_en}
-            pattern={pattern}
-            noun_phrase={noun_phrase}
-            pronoun_en={pronoun_en}
-            setSpaceLayout = {setSpaceLayout}
-            spaceLayout = {spaceLayout}
-            style={{marginBottom: SCREEN_HEIGHT/8}}
-            />
-            
-
-            {
-                choices.map((choice, index) => {
-
-                    const _translate = useState(new Animated.ValueXY({
-                        x: 0, 
-                        y: 0
-                    }))[0]
-                    //console.log(_translate.getLayout())
-                    let _lastOffset = { 
-                        x: 0, 
-                        y: 0 
-                    };
-
-                    //_translate.addListener(val=>_lastOffset=val)
-
-                    const [layout, setLayout] = useState({x: '', y: ''})
-
-                    const _onPanGestureEvent = onPanGestureEvent(_translate)
-                    
-                    const _onHandlerStateChange = onHandlerStateChange(layout, _translate, index)
-
-                    useEffect(()=>{
-
-                        if (spaceFull.occupier == index){
-                            Animated.timing(_translate, {
-                                toValue: {x: 0, y: 0},
-                                duration: 0,
-                                useNativeDriver: true
-                            }).start(()=>{
-                                _translate.setOffset({x: 0, y: 0});
-                                _translate.setValue({x: 0, y: 0});
-                                setSpaceFull({occupier: null, isFull: false})
-                                setSelected(null)
-                            })
-                        }
-
-                    }, [choices])
-
-
-                    var _selected = index == selected;
-                 return (
-                    <View key={index}
-                        style={{alignSelf: 'center', marginVertical: 10, backgroundColor: '#C0C0C0', borderRadius: 23}}
-                    /*  onLayout={(event)=>{console.log(event.nativeEvent)}} */
-                    onLayout={event => {
-                        setLayout({
-                            x: event.nativeEvent.layout.x, 
-                            y: event.nativeEvent.layout.y, 
-                        })
-                      }}>
-                    <PanGestureHandler
-                        onGestureEvent={_onPanGestureEvent}
-                        onHandlerStateChange={_onHandlerStateChange}
-                        hitSlop={{horizontal: 10, vertical: 10}}
-                        enabled={enabled}
-                    >
-                        <Animated.View>
-                        <TapGestureHandler
-                            //onGestureEvent={_onPanGestureEvent}
-                            onHandlerStateChange={_onHandlerStateChange}
-                            enabled={enabled}
-                        >
-                        <Animated.View
-                            style={[
-                                {
-                                    transform: [
-                                        {
-                                          translateX: _translate.x,
-                                        },
-                                        { 
-                                          translateY: _translate.y 
-                                        },
-                                      ],
-                                }
-                              ]}                     
-                        >
-                            <View 
-                                style={{
-                                    width: normalize(getHebrewConsonantCodes(choice).length*15),
-                                    height: 46,
-                                    backgroundColor: 'white',
-                                    borderWidth: 2,
-                                    borderRadius: 23,
-                                    borderColor: '#C0C0C0',
-                                    justifyContent: 'center'
-                                }}
-                                
-                                //backgroundShadow={_selected ? 'rgba(44, 128, 255, 0.72)' : '#C0C0C0'}
-                                //backgroundDarker={_selected ? 'rgba(44, 128, 255, 0.72)' : '#C0C0C0'}
-                                //name = {`(${layout.x}, ${layout.y})`}
-                                key={index} 
-                                //onPress={() => setSelected(index)}   
-                            >
-                                <Text style={{fontSize: normalize(15), textAlign: 'center', fontFamily: 'Poppins_300Light'}}>{choice}</Text>
-                            </View>
-                        </Animated.View>
-                        </TapGestureHandler>
-                        </Animated.View>
-                    </PanGestureHandler>
-                    </View>
-                 )
-                })
-            }
-        </View>
-     );
-}
- 
 export default MultipleChoices;

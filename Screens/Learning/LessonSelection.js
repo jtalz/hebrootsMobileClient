@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Text, FlatList, StyleSheet, View, SafeAreaView } from "react-native";
 import * as Animatable from "react-native-animatable";
-import Bird from "../../Components/Characters/Bird";
 import { requestAllPatterns } from "../../Actions/APIRequests";
 import _3DButton from "../../Components/Buttons/_3DButton";
-import {
-  Typography,
-  Colors,
-  Buttons,
-  Spacing,
-  Sizing,
-} from "../../styles/index";
+import { Typography, Colors, Spacing, Sizing } from "../../styles/index";
 import LoadingIndicator from "../../Components/LoadingIndicator";
 import LongRectangleButton from "../../Components/Buttons/LongRectangleButton";
-import { normalize } from "../../Actions/Normalize";
 
 const LessonSelection = ({ navigation, route }) => {
   const [topics, setTopics] = useState(null);
@@ -29,9 +21,8 @@ const LessonSelection = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        {/* <Bird size="Large" birdType="Old" style={{ top: 20, left: -25 }} /> */}
         <Text style={styles.instructions}>
-          Let's learn about one of the following ביניינים (bin-ya-nim)
+          Let's learn about one of the following topics
         </Text>
       </View>
       <Animatable.View
@@ -44,11 +35,11 @@ const LessonSelection = ({ navigation, route }) => {
             data={topics}
             contentContainerStyle={styles.buttonContainer}
             horizontal={false}
-            numColumns={2}
-            renderItem={({item}) => (
+            numColumns={1}
+            renderItem={({ item }) => (
               <LongRectangleButton
-                name={item.name}
-                details={[item.transliteration, item.tense_en, item.aspects[0]]}
+                name={`${item.name} (${item.transliteration})`}
+                details={[item.tense_en, item.aspects[0]]}
                 onPress={() =>
                   navigation.navigate("PatternLesson", {
                     pattern: item.pattern,
@@ -58,12 +49,12 @@ const LessonSelection = ({ navigation, route }) => {
                     pattern_id: item._id,
                     transliteration: item.transliteration,
                     type: item.type,
-                    subtopic: item.tense_en.toUpperCase()
+                    subtopic: item.tense_en.toUpperCase(),
                   })
                 }
               />
             )}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item._id + item.name + item.tense_en}
             scrollEnabled={true}
           />
         ) : (
@@ -82,18 +73,21 @@ const styles = StyleSheet.create({
     ...Colors.whiteBg,
   },
   header: {
-    flex: .5,
+    flex: 0.5,
     ...Spacing.justifyCenter,
     ...Spacing.alignCenter,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightGrey
   },
   buttonContainer: {
-    ...Spacing.centerCenter,
+    ...Spacing.alignEnd,
   },
   instructions: {
     ...Typography.textAlignCenter,
-    fontFamily: 'Poppins_400Regular', fontSize: normalize(16),
+    ...Typography.regular,
+    ...Typography.size16,
     paddingHorizontal: 50,
-    color: '#48161D'
+    ...Colors.txtMagenta,
   },
 });
 

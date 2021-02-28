@@ -1,53 +1,60 @@
-import React from 'react';
-import { StyleSheet, View, TextInput, Text} from 'react-native';
-import {EvilIcons} from '@expo/vector-icons'; 
-import { useState } from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { normalize } from '../Actions/Normalize';
-import fonts from '../styles/fontStyle';
+import React from "react";
+import { StyleSheet, View, TextInput, Text } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { normalize } from "../Actions/Normalize";
+import fonts from "../styles/fontStyle";
+import { Colors, Sizing, Spacing, Typography } from "../styles";
 
-const SearchBar = props => {
-    const [value, onChangeText] = useState('');
-    return (
-        <View style={styles.searchSection}>
-            <TouchableOpacity onPress={()=>props.onEnter(value)}>
-                <EvilIcons style={styles.searchIcon} name="search" size={24} color="#000"/>
-            </TouchableOpacity>
-            <TextInput
-                style={{...styles.input}}
-                placeholder="search for a verb..."
-                onChangeText = {text=> onChangeText(text)}
-                underlineColorAndroid="transparent"
-                value = {value}
-                onEndEditing={()=>props.onEnter(value)}
-            />
-            <TouchableOpacity onPress={()=>onChangeText('')}>
-                <Text style={{fontFamily: 'Poppins_300Light', fontSize:normalize(12)}}>X</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
+const SearchBar = (props) => {
+  const [value, onChangeText] = useState("");
+  return (
+    <View style={styles.searchSection}>
+      <TouchableOpacity onPress={() => props.onEnter(value)}>
+        <EvilIcons
+          style={styles.searchIcon}
+          name="search"
+          size={24}
+          color="#000"
+        />
+      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        placeholder="search for a verb..."
+        onChangeText={(text) => onChangeText(text)}
+        underlineColorAndroid="transparent"
+        value={value}
+        onEndEditing={() => props.onEnter(value)}
+      />
+      <TouchableOpacity onPress={() => onChangeText("")}>
+        <Text style={styles.text}>X</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-  searchSection: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    fontFamily: 'Poppins_300Light'
+  text: {
+    ...Typography.light,
+    ...Typography.size12,
   },
-  searchIcon: {
-
+  searchSection: {
+    ...Sizing.f1,
+    ...Spacing.row,
+    ...Spacing.justifyBtwn,
+    ...Spacing.alignCenter,
+    ...Colors.bgTransparent,
+    ...Typography.light,
   },
   input: {
-      width:'70%',
-      backgroundColor: 'transparent',
-      color: '#424242',
-      textAlign: 'left',
-      marginHorizontal: 10,
-      fontSize: normalize(12)
+    width: "70%",
+    ...Colors.bgTransparent,
+    ...Colors.txtMagenta,
+    ...Typography.taLeft,
+    ...Spacing.mh10,
+    ...Typography.size12,
   },
-  });
+});
 
 export default SearchBar;

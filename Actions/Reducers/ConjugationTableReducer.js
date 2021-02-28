@@ -17,6 +17,8 @@ export const conjugationTableReducer = (state, action) => {
       }} 
     }else if(action.type == 'setActiveIndex'){
       return { ...state, activeIndex: action.payload}
+    }else if(action.type == 'closeIntro'){
+      return {...state, introModal: false}
     }else{
       console.log('some other dispatch recieved')
     }
@@ -81,5 +83,6 @@ export const conjugationTableReducer = (state, action) => {
       pattern: '',
       root: ''
     },
-    activeIndex: 0
+    activeIndex: 0,
+    introModal: true
   }

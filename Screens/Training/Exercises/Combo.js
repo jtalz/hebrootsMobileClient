@@ -14,6 +14,7 @@ import WelcomeModal from "../../../Components/Modals/WelcomeModal";
 import ExitModal from "../../../Components/Modals/ExitModal";
 import LostLivesModal from "../../../Components/Modals/LostLivesModal";
 import CompletedExerciseModal from "../../../Components/Modals/CompletedExerciseModal";
+import { Typography } from "../../../styles";
 
 const createComboTrainingDataset = ({ family }) => {
   //let typeCounter = 1;
@@ -24,17 +25,13 @@ const createComboTrainingDataset = ({ family }) => {
       type: typeCounter,
       qComponent: getQComponent(typeCounter),
     };
-    /* typeCounter++; */
     return question;
   });
   return ctds;
 };
 
 const getQComponent = (type) => {
-  //maybe here i can create disposable react components each with their own state
   if (type == 0) {
-    //this will be a multiple choice question so it will need all the unique MC question properties
-    // like choices and solution
     return DragDropQuestion;
   } else if (type == 1) {
     return WritingQuestion;
@@ -48,7 +45,6 @@ const getInitialState = ({ family }) => {
   let trainingSet = createComboTrainingDataset({
     family: verbFamily,
   });
-
   return {
     verbFamily,
     allQComponents: trainingSet,
@@ -178,24 +174,24 @@ const Combo = ({ route, navigation }) => {
         <Text
         style={{
           alignSelf: "center",
-          fontFamily: "Poppins_300Light",
-          fontSize: normalize(16),
+          ...Typography.light,
+          fontSize: normalize(20),
         }}>
           {infinitive}
         </Text> 
         <Text
         style={{
           alignSelf: "center",
-          fontFamily: "Poppins_300Light",
-          fontSize: normalize(10),
+          ...Typography.light,
+          fontSize: normalize(12),
         }}>
           ({translation})
         </Text> 
         <Text
           style={{
             alignSelf: "center",
-            fontFamily: "Poppins_300Light",
-            fontSize: normalize(12),
+            ...Typography.light,
+            fontSize: normalize(14),
           }}
         >
           {tense_en.toLowerCase()} tense
@@ -206,7 +202,7 @@ const Combo = ({ route, navigation }) => {
         style={[
           {
             flexDirection: "row",
-            flex: 6,
+            flex: 4,
             transform: [
               {
                 translateX: horizontalContainer.interpolate({
@@ -256,7 +252,7 @@ const styles = StyleSheet.create({
   },
   questionInstructions: {
     fontSize: normalize(18),
-    fontFamily: "Poppins_300Light",
+    ...Typography.light,
     margin: 10,
     width: SCREEN_WIDTH,
     alignSelf: "center",

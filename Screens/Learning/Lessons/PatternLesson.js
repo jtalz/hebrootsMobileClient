@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, SafeAreaVi
 import SmallYellowButton from '../../../Components/Buttons/SmallYellowButton.js'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../../Actions/ScreenDimensions'
 import ExampleVerb from '../../../Components/ExampleVerb'
+import { Colors } from '../../../styles/index.js';
 
 const PatternLesson = ({ route, navigation }) => {
     const { pattern, name, aspects, infinitive_form, pattern_id, transliteration, subtopic } = route.params;
@@ -90,6 +91,7 @@ const PatternLesson = ({ route, navigation }) => {
                 </View>
                 <View style = {{flex: 1, margin: 10, width: '80%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                     <SmallYellowButton name='Continue' 
+                    backgroundColor={Colors.hebrootsBlue}
                     onClick={()=>
                         navigation.navigate('ExampleExplore', {pattern_id, subtopic})}
                     />

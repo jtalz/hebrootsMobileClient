@@ -9,6 +9,8 @@ import {
     isConsonant,
     checkInflectionRule
   } from "../InflectionRules_Hebrew";
+import { normalize } from "../Normalize";
+import { Typography } from "../../styles";
 
 class VerbRoot{
     constructor(base_form, rootConditions){
@@ -20,7 +22,7 @@ class VerbRoot{
       const rootLetters = this.base_form.split("").filter((letter, position) => {
         return this.rootConditions.every(checkInflectionRule(letter.charCodeAt(0), position, this.base_formCharCodes))
       }).join(".")
-      return <Text style={{ fontSize: 22, fontFamily: "Poppins_300Light" }}>{rootLetters}</Text>
+      return <Text style={{ ...Typography.size16, ...Typography.regular }}>{rootLetters}</Text>
     }
 }
 

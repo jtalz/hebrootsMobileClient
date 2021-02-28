@@ -14,6 +14,7 @@ import {
 } from "../Actions/Reducers/ConjugationTableReducer";
 import StudySection from "../Containers/StudySection";
 import exploreStyles from '../styles/exploreStyles'
+import IntroModal from "../Components/Modals/IntroModal.js";
 
 const Explore = ({ navigation }) => {
   const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
@@ -24,12 +25,8 @@ const Explore = ({ navigation }) => {
 
   return (
     <SafeAreaView style={exploreStyles.container}>
+      <IntroModal visibility={state.introModal} goFn={()=>dispatch({type: 'closeIntro'})} />
       <View style={exploreStyles.searchArea}>
-        {/* <Bird
-          size="Small"
-          style={{ left: 10, bottom: 0 }}
-          birdType="Standard"
-        /> */}
         <Card style={{ width: "90%", height: 50, borderRadius: 25, borderColor: '#2B78EC', borderWidth: 1 }}>
           <SearchBar onEnter={setNewSearchedVerb(dispatch)} />
         </Card>

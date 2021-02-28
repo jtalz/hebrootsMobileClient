@@ -1,10 +1,11 @@
 import React from "react";
 import { Text } from "react-native";
+import { Colors, Typography } from "../styles";
 
 const GreenLetter = ({ sign, fontSize }) => {
   return (
     <Text
-      style={{ color: "#20BF55", fontSize: fontSize, fontFamily: "Poppins_300Light" }}
+      style={{ fontSize, ...Typography.light, ...Colors.txtGreen }}
     >
       {sign}
     </Text>

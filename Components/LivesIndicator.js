@@ -1,50 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import { Image, View, Text, Animated } from 'react-native';
-import AwesomeButton from 'react-native-really-awesome-button';
-import { normalize } from '../Actions/Normalize';
-import {AntDesign} from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { View, Text, Animated, StyleSheet } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { Colors, Spacing, Typography } from "../styles";
+import timedAnimation from "../Actions/Animations/timedAnimation";
 
 const LivesIndicator = ({ nLives }) => {
+  const heartPos = useState(new Animated.Value(1))[0];
 
-    const heartPos = useState(new Animated.Value(1))[0]
+  useEffect(() => {
+    Animated.sequence([
+      timedAnimation(heartPos, 800, 0),
+      timedAnimation(heartPos, 0, 1),
+    ]).start();
+  }, [nLives]);
 
-    useEffect(()=>{
-        Animated.sequence([
-            Animated.timing(heartPos, {
-                toValue: 0,
-                duration: 800,
-                useNativeDriver: true,
-            }),
-            Animated.timing(heartPos, {
-                toValue: 1,
-                duration: 0,
-                useNativeDriver: true
-            })
-        ]).start();
-    }, [nLives])
+  return (
+    <View style={styles.container}>
+      <Animated.View
+        style={{
+          ...Spacing.centerCenter,
+          opacity: heartPos,
+          transform: [
+            {
+              translateY: heartPos.interpolate({
+                inputRange: [0, 1],
+                outputRange: [50, 0],
+              }),
+            },
+          ],
+        }}
+      >
+        <AntDesign name="heart" color="red" size={35} />
+        <Text style={styles.text}>{nLives}</Text>
+      </Animated.View>
+    </View>
+  );
+};
 
-    return ( 
-        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-            <Animated.View style={{
-                alignItems: 'center', justifyContent: 'center',
-                opacity: heartPos, 
-                transform: [{
-                translateY: heartPos.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [50, 0]
-                }),
-                
-            }]}}>
-                {/* <Image 
-                    source={require('../assets/heart.png')}
-                    style={{}}
-                /> */}
-                <AntDesign name='heart' color='red' size={35} />
-                <Text style={{fontSize: normalize(12), position: 'absolute',fontFamily: 'Poppins_600SemiBold', color: 'white'}}>{nLives}</Text>
-            </Animated.View>
-            
-        </View>
-     );
-}
- 
+const styles = StyleSheet.create({
+  text: {
+    ...Typography.semibold,
+    ...Colors.txtWhite,
+    ...Typography.size12,
+    position: "absolute",
+  },
+  container: {
+    ...Spacing.row,
+    ...Spacing.centerCenter,
+  },
+});
+
 export default LivesIndicator;

@@ -1,6 +1,5 @@
 import React from "react";
-import { Ionicons, MaterialCommunityIcons, Feather, EvilIcons, Octicons } from "@expo/vector-icons";
-import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
+import { MaterialCommunityIcons, Feather, EvilIcons, Octicons } from "@expo/vector-icons";
 import { Image } from "react-native";
 
 const HebrootsTabNav = ({ children, Tab }) => {
@@ -28,7 +27,7 @@ const HebrootsTabNav = ({ children, Tab }) => {
       tabBarOptions={{
         activeTintColor: "white",
         inactiveTintColor: "white",
-        showLabel: false,
+        showLabel: true,
         style: {
           backgroundColor:"#4294DB",
         }

@@ -1,5 +1,6 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import { Sizing, Spacing } from "../styles";
 
 const LoadingIndicator = () => {
@@ -13,7 +14,8 @@ const LoadingIndicator = () => {
 const styles = StyleSheet.create({
     container: {
         ...Spacing.centerCenter,
-        ...Sizing.halfScreenHeight
+        ...Sizing.halfScreenHeight,
+        width: SCREEN_WIDTH
     }
 })
 

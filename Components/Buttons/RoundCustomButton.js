@@ -1,35 +1,46 @@
-import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../Actions/ScreenDimensions';
-import fonts from '../../styles/fontStyle';
-import {normalize} from '../../Actions/Normalize'
+import React from "react";
+import { TouchableOpacity, StyleSheet, Text, View, Image } from "react-native";
+import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
+import { Colors, Spacing, Typography } from "../../styles";
 const RoundCustomButton = ({ name, onPress, imgUrl, translation }) => {
-    return (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <View style={{...styles.btnBack, borderWidth: 2, borderColor: '#4294DB', height: SCREEN_HEIGHT*.1, width: SCREEN_HEIGHT*.1, borderRadius: (SCREEN_HEIGHT*.1)/2, opacity: '30%'}}>
-                <TouchableOpacity style={{...styles.btnBack} } 
-                    onPress={onPress}>
-                    <Image style={{height: SCREEN_HEIGHT*.08, width: SCREEN_HEIGHT*.08}} source={{ uri: imgUrl }} />
-                </TouchableOpacity>
-            </View>
-            <Text style={{fontFamily: 'Poppins_300Light', fontSize: normalize(12) }}>{name}</Text>
-            <Text style={{fontFamily: 'Poppins_300Light', fontSize: normalize(10)}}>({translation})</Text>
-        </View>
-    )
-}
+  return (
+    <View style={{ ...Spacing.centerCenter }}>
+      <View style={styles.blueCircle}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
+          <Image style={styles.icon} source={{ uri: imgUrl }} />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.text}>{name}</Text>
+      <Text style={styles.text}>({translation})</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    btnBack: {
-        borderRadius: 40,
-        justifyContent:'center',
-        alignItems: 'center',
-        height: 80,
-        width: 80,
-        marginLeft: 15,
-        marginRight: 15,
-        marginTop: 10,
-        marginBottom: 10,
-    }
-})
+  button: {
+    ...Spacing.centerCenter,
+    ...Spacing.m10,
+    borderRadius: 40,
+    height: 80,
+    width: 80,
+  },
+  blueCircle: {
+    ...Spacing.centerCenter,
+    ...Spacing.m10,
+    ...Colors.borderSkyBlue,
+    borderWidth: 2,
+    height: SCREEN_HEIGHT * 0.1,
+    width: SCREEN_HEIGHT * 0.1,
+    borderRadius: (SCREEN_HEIGHT * 0.1) / 2,
+  },
+  text: {
+    ...Typography.light,
+    ...Typography.size12,
+  },
+  icon: {
+    height: SCREEN_HEIGHT * 0.08,
+    width: SCREEN_HEIGHT * 0.08,
+  },
+});
 
 export default RoundCustomButton;

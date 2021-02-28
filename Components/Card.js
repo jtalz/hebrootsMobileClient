@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Spacing } from '../styles';
 
-const Card = props => {
+const Card = (props) => {
     return (
         <View style={{...styles.whiteCard, ...props.style}}>
             {props.children}
@@ -11,9 +12,8 @@ const Card = props => {
 
 const styles = StyleSheet.create({
     whiteCard: {
-        flexDirection: "column",
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        ...Spacing.justifyStart,
+        ...Spacing.alignCenter,
         backgroundColor: "#fff",
         borderRadius: 2,
         shadowOpacity: 0.25,

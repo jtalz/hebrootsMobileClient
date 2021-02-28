@@ -1,102 +1,125 @@
-import React, { useEffect, useState } from 'react';
-import {TouchableOpacity, Text, Animated, StyleSheet} from 'react-native'
-import { normalize } from '../Actions/Normalize';
-import {SCREEN_HEIGHT, SCREEN_WIDTH} from '../Actions/ScreenDimensions'
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity, Text, Animated, StyleSheet } from "react-native";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
+import { Colors, Spacing, Typography } from "../styles/index";
 
 const appropriateCardOpacity = (visible, justSubmittedAndIsCorrect) => {
-    if (justSubmittedAndIsCorrect){
-        return new Animated.Value(1)
-    }else if(!visible){
-        return new Animated.Value(0)
-    }else{
-        return new Animated.Value(1)
-    }
-}
+  if (justSubmittedAndIsCorrect) {
+    return new Animated.Value(1);
+  } else if (!visible) {
+    return new Animated.Value(0);
+  } else {
+    return new Animated.Value(1);
+  }
+};
 
 const MatchingCard = ({ item, selectCard }) => {
-    
-    const { selected, visible, name, justSubmitted } = item;
+  const { selected, visible, name, justSubmitted } = item;
 
-    var disabled = !visible;
+  var disabled = !visible;
 
-    const justSubmittedAndIsCorrect = justSubmitted && !visible;
+  const justSubmittedAndIsCorrect = justSubmitted && !visible;
 
-    const justSubmittedAndIsIncorrect = justSubmitted && visible;
+  const justSubmittedAndIsIncorrect = justSubmitted && visible;
 
-    const cardOpacity = useState(appropriateCardOpacity(visible, justSubmittedAndIsCorrect))[0]
+  const cardOpacity = useState(
+    appropriateCardOpacity(visible, justSubmittedAndIsCorrect)
+  )[0];
 
-    const animatedValue = new Animated.Value(90)
+  const animatedValue = new Animated.Value(90);
 
-    const fadeCardOut = () => {
-        Animated.timing(cardOpacity, {
-            toValue: 0,
-            duration: 800,
-            useNativeDriver: true
-        }).start()
-    }
-    
-    const interpolateToWhite = () => {
-        Animated.timing(animatedValue, {
-            toValue: 255,
-            duration: 700, 
-            useNativeDriver: false
-        }).start()
-    }
-
-    const interpolateColor = animatedValue.interpolate({
-        inputRange: [0, 250],
-        outputRange: ['#F33232', 'rgb(250, 250, 250)']
-    })
-
-    const bgColor = {backgroundColor: appropriateCardColor(selected, justSubmittedAndIsCorrect, justSubmittedAndIsIncorrect)};
-
-    function appropriateCardColor(selected, justSubmittedAndIsCorrect, justSubmittedAndIsIncorrect){
-        if (justSubmittedAndIsCorrect){
-            return '#73D413'
-        }else if(justSubmittedAndIsIncorrect){
-            return interpolateColor;
-        }else if(selected){
-            return '#4294DB'
-        }else{
-            return 'white'
-        }
-    }
-
-    useEffect(()=> {
-        if( justSubmittedAndIsCorrect ){
-            fadeCardOut();
-        }else if( justSubmittedAndIsIncorrect ){
-            interpolateToWhite();
-        }
-    })
-
-    return (
-      <TouchableOpacity
-        style={{ ...styles.matchingCard }}
-        disabled={disabled}
-        onPress={() => selectCard(item)}
-      >
-        <Animated.View style={[{opacity: cardOpacity, width: '100%', height: '100%', borderRadius: SCREEN_HEIGHT/18, justifyContent: 'center'}, bgColor]}>
-            <Text style={{ fontFamily: "Rubik_300Light", fontSize: normalize(16), alignSelf: 'center' }}>
-            {name}
-            </Text>
-        </Animated.View>
-      </TouchableOpacity>
-    );
+  const fadeCardOut = () => {
+    Animated.timing(cardOpacity, {
+      toValue: 0,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
   };
 
-  const styles = StyleSheet.create({
-    matchingCard: {
-        height: SCREEN_HEIGHT / 12,
-        width: SCREEN_WIDTH / 3.4,
-        borderWidth: 2,
-        borderColor: '#e8e8e8',
-        borderRadius: SCREEN_HEIGHT/ 18,
-        marginVertical: 5,
-        marginHorizontal: 5,
-        justifyContent: 'center',
-        alignItems: 'center'
-      }
-  })
+  const interpolateToWhite = () => {
+    Animated.timing(animatedValue, {
+      toValue: 255,
+      duration: 700,
+      useNativeDriver: false,
+    }).start();
+  };
 
-  export default MatchingCard;
+  const interpolateColor = animatedValue.interpolate({
+    inputRange: [0, 250],
+    outputRange: [Colors.red, "rgb(250, 250, 250)"],
+  });
+
+  const bgColor = {
+    backgroundColor: appropriateCardColor(
+      selected,
+      justSubmittedAndIsCorrect,
+      justSubmittedAndIsIncorrect
+    ),
+  };
+
+  function appropriateCardColor(
+    selected,
+    justSubmittedAndIsCorrect,
+    justSubmittedAndIsIncorrect
+  ) {
+    if (justSubmittedAndIsCorrect) {
+      return Colors.green;
+    } else if (justSubmittedAndIsIncorrect) {
+      return interpolateColor;
+    } else if (selected) {
+      return Colors.hebrootsBlue;
+    } else {
+      return Colors.white;
+    }
+  }
+
+  useEffect(() => {
+    if (justSubmittedAndIsCorrect) {
+      fadeCardOut();
+    } else if (justSubmittedAndIsIncorrect) {
+      interpolateToWhite();
+    }
+  });
+
+  return (
+    <TouchableOpacity
+      style={styles.matchingCard}
+      disabled={disabled}
+      onPress={() => selectCard(item)}
+    >
+      <Animated.View
+        style={[
+          {
+            opacity: cardOpacity,
+            width: "100%",
+            height: "100%",
+            borderRadius: SCREEN_HEIGHT / 18,
+            justifyContent: "center",
+          },
+          bgColor,
+        ]}
+      >
+        <Text style={styles.text}>{name}</Text>
+      </Animated.View>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  matchingCard: {
+    height: SCREEN_HEIGHT / 12,
+    width: SCREEN_WIDTH / 3.4,
+    borderWidth: 2,
+    borderColor: Colors.lightGrey,
+    borderRadius: SCREEN_HEIGHT / 18,
+    ...Spacing.m5,
+    ...Spacing.centerCenter,
+  },
+  text: {
+    ...Typography.light,
+    ...Typography.size18,
+    alignSelf: "center",
+  },
+});
+
+export default MatchingCard;

@@ -1,137 +1,24 @@
 import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import { normalize } from "../Actions/Normalize";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions";
-import SmallYellowButton from "../Components/Buttons/SmallYellowButton";
+import { View, StyleSheet } from "react-native";
+import { SCREEN_WIDTH } from "../Actions/ScreenDimensions";
 import AuthContext from "../Actions/context/AuthContext";
-
-const LoginForm = ({
-  signUpInstead,
-  noLogin,
-  handleChange,
-  login,
-  noUserFound,
-}) => {
-  return (
-    <>
-      <View style={{ ...styles.container, flex: 0.8 }}>
-        <Text style={{ ...styles.title, ...styles.font }}>Sign in</Text>
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="email..."
-          onChangeText={(text) => handleChange("email", text)}
-        />
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="password..."
-          secureTextEntry={true}
-          onChangeText={(text) => handleChange("password", text)}
-        />
-        <SmallYellowButton name="Sign in" onClick={login} />
-        <Text
-          style={{
-            position: "absolute",
-            bottom: 0,
-            textAlign: "center",
-            color: "red",
-          }}
-        >
-          {noUserFound ? "We couldn't find a user with that combination" : ""}
-        </Text>
-      </View>
-      <View style={{ marginTop: 10 }}>
-        <TouchableOpacity onPress={() => noLogin()}>
-          <Text style={{ ...styles.underlyingText, ...styles.font }}>
-            continue without logging in
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => signUpInstead()}>
-          <Text style={{ ...styles.underlyingText, ...styles.font }}>
-            don't have an account? sign up
-          </Text>
-        </TouchableOpacity>
-        <Text style={{ ...styles.underlyingText, ...styles.font }}>
-          forgot password?
-        </Text>
-      </View>
-    </>
-  );
-};
-
-const RegisterForm = ({ loginInstead, noLogin, handleChange, register, noUserFound }) => {
-  return (
-    <>
-      <View style={{ ...styles.container, flex: 1 }}>
-        <Text style={{ ...styles.title, ...styles.font }}>Sign up</Text>
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="first name..."
-          onChangeText={(text) => handleChange("firstName", text)}
-        />
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="email..."
-          onChangeText={(text) => handleChange("email", text)}
-        />
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="password..."
-          secureTextEntry={true}
-          onChangeText={(text) => handleChange("password", text)}
-        />
-        <TextInput
-          style={{ ...styles.textBox, ...styles.font }}
-          placeholder="confirm password..."
-          secureTextEntry={true}
-          onChangeText={(text) => handleChange("confirmPassword", text)}
-        />
-        <SmallYellowButton name="Sign up" onClick={register} />
-        <Text
-          style={{
-            position: "absolute",
-            bottom: 0,
-            textAlign: "center",
-            color: "red",
-          }}
-        >
-          {noUserFound ? "Registration failed. A user with that email may already exist." : ""}
-        </Text>
-      </View>
-      <View style={{ marginTop: 10 }}>
-        <TouchableOpacity onPress={() => noLogin()}>
-          <Text style={{ ...styles.underlyingText, ...styles.font }}>
-            continue without logging in
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => loginInstead()}>
-          <Text style={{ ...styles.underlyingText, ...styles.font }}>
-            already have an account? sign in
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </>
-  );
-};
+import { Sizing, Spacing } from "../styles";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 const initialState = {
   loginStatus: "login",
   email: "",
   password: "",
-  confirmPassword: "",
-  firstName: "",
+  confirm_password: "",
+  first_name: "",
 };
 
 const LoginRegister = ({ noLogin, noUserFound }) => {
   const [state, setState] = useState(initialState);
 
   const { attemptRegister, attemptLogin } = React.useContext(AuthContext);
-  
+
   const toggleLoginStatus = () => {
     state.loginStatus == "login"
       ? setState({ ...state, loginStatus: "signUp" })
@@ -146,11 +33,11 @@ const LoginRegister = ({ noLogin, noUserFound }) => {
       case "password":
         setState({ ...state, password: text });
         break;
-      case "confirmPassword":
-        setState({ ...state, confirmPassword: text });
+      case "confirm_password":
+        setState({ ...state, confirm_password: text });
         break;
-      case "firstName":
-        setState({ ...state, firstName: text });
+      case "first_name":
+        setState({ ...state, first_name: text });
         break;
       default:
         console.log("no change handled");
@@ -159,14 +46,7 @@ const LoginRegister = ({ noLogin, noUserFound }) => {
   };
   //logStatus can be 'log in' or 'sign up' this case two different forms are rendered
   return (
-    <View
-      style={{
-        width: SCREEN_WIDTH / 1.5,
-        height: SCREEN_HEIGHT / 1.8,
-        borderRadius: 5,
-        justifyContent: "center",
-      }}
-    >
+    <View style={styles.container}>
       {state.loginStatus == "login" ? (
         <LoginForm
           signUpInstead={toggleLoginStatus}
@@ -186,8 +66,8 @@ const LoginRegister = ({ noLogin, noUserFound }) => {
             attemptRegister({
               email: state.email,
               password: state.password,
-              confirmPassword: state.confirmPassword,
-              firstName: state.firstName,
+              confirmPassword: state.confirm_password,
+              firstName: state.first_name,
             });
           }}
           noUserFound={noUserFound}
@@ -198,31 +78,11 @@ const LoginRegister = ({ noLogin, noUserFound }) => {
 };
 
 const styles = StyleSheet.create({
-  textBox: {
-    fontSize: normalize(14),
-    textAlign: "left",
-    width: SCREEN_WIDTH / 2,
-    borderBottomWidth: 1,
-    padding: 10
-  },
-  title: {
-    fontSize: normalize(20),
-  },
   container: {
-    alignItems: "center",
-    justifyContent: "space-around",
-    paddingVertical: 20,
-    //backgroundColor: 'rgba(81, 140, 189, 0.5)',
-    borderRadius: 2,
-  },
-  underlyingText: {
-    alignSelf: "center",
-    paddingTop: 10,
-    color: "white",
-    fontSize: normalize(12),
-  },
-  font: {
-    fontFamily: "Nunito_300Light",
+    ...Sizing.f1,
+    width: SCREEN_WIDTH / 1.5,
+    borderRadius: 5,
+    ...Spacing.justifyCenter,
   },
 });
 

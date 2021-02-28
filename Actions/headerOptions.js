@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from '../styles/index';
 import fonts from '../styles/fontStyle';
 import { normalize } from './Normalize';
 
@@ -13,7 +14,7 @@ const styleHeaderFor = (name) => {
 
 const styles = StyleSheet.create({
     headerBgColor: {
-        backgroundColor: '#4294DB',
+        ...Colors.bgHebroots,
     },
     headerTitle: {
         fontWeight: 'normal',

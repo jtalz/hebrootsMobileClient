@@ -8,18 +8,16 @@ import check_for_token from "../Actions/Authentication/check_for_token";
 import timedAnimation from "../Actions/Animations/timedAnimation";
 
 const Splash = ({ noLogin, noUserFound, login }) => {
-
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       attemptAutomaticSignIn();
-    }, 1000)
+    }, 1000);
   }, []);
 
   const attemptAutomaticSignIn = async () => {
-    await check_for_token()
-      .then((token) => {
-        token ? login(token) : animateLoginForms().start()
-      })
+    await check_for_token().then((token) => {
+      token ? login(token) : animateLoginForms().start();
+    });
   };
 
   //Animated components
@@ -31,18 +29,32 @@ const Splash = ({ noLogin, noUserFound, login }) => {
   const animateLoginForms = () => {
     const logoSlideUp = () => {
       setLogoSize(30);
-      return timedAnimation(logoY, 800, 1) 
+      return timedAnimation(logoY, 800, 1);
     };
-    const loginFadeIn = () => Animated.parallel([
+    const loginFadeIn = () =>
+      Animated.parallel([
         timedAnimation(loginContainerOpacity, 1000, 1),
-        timedAnimation(sloganOpacity, 1000, 0)
+        timedAnimation(sloganOpacity, 1000, 0),
       ]);
     return Animated.sequence([logoSlideUp(), loginFadeIn()]);
   };
 
   return (
     <View style={{ ...styles.container }}>
-      <ImageBackground source={require('../assets/SplashBackground-min.png')} style={styles.image}>
+      <ImageBackground
+        source={require("../assets/Ulpan.png")}
+        style={styles.image}
+      >
+        <View
+          style={{
+            position: "absolute",
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            zIndex: 1,
+            backgroundColor: "black",
+            opacity: 0.4,
+          }}
+        ></View>
         <Animated.View
           style={[
             {
@@ -55,6 +67,8 @@ const Splash = ({ noLogin, noUserFound, login }) => {
                 },
               ],
               zIndex: 1,
+              position: 'absolute',
+              alignSelf: 'center'
             },
           ]}
         >
@@ -63,9 +77,13 @@ const Splash = ({ noLogin, noUserFound, login }) => {
 
         <Animated.View
           style={{
-            position: "absolute",
+//            position: "absolute",
             opacity: loginContainerOpacity,
-            alignSelf: "center",
+            zIndex: 3,
+  //          bottom: SCREEN_HEIGHT/8,
+            flex: 1,
+            justifyContent: 'flex-end',
+            paddingTop: SCREEN_HEIGHT/4
           }}
         >
           <LoginRegister noLogin={noLogin} noUserFound={noUserFound} />
@@ -95,10 +113,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    alignItems: 'center'
   },
   image: {
     resizeMode: "cover",
     justifyContent: "center",
+    alignItems: 'center',
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
   },

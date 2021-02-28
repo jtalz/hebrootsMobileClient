@@ -17,7 +17,6 @@ const ExitModal = ({navigation, visibility, goFn}) => {
             {
               name: "No, I'd like to stay",
               callback: () => {
-                console.log('staying')
                 goFn();
               },
               btnType: 'secondary'

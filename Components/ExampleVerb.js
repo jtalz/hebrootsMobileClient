@@ -1,24 +1,35 @@
-import React, {useEffect, useState} from "react";
-import {TouchableOpacity, Text, StyleSheet} from 'react-native'
-import Conjugation from './Conjugation'
-import {requestExampleVerb} from '../Actions/APIRequests'
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import Conjugation from "./Conjugation";
+import { requestExampleVerb } from "../Actions/APIRequests";
+import { Spacing, Typography } from "../styles";
 
-const ExampleVerb = ({ fontSize, pattern_id, morphology, pattern, tense, form }) => {
-  
-    const [exampleVerb, setExampleVerb] = useState({infinitive: 'loading...', base_form: 'loading...'})
+const ExampleVerb = ({
+  fontSize,
+  pattern_id,
+  morphology,
+  pattern,
+  tense,
+  form,
+}) => {
+  const [exampleVerb, setExampleVerb] = useState({
+    infinitive: "loading...",
+    base_form: "loading...",
+  });
 
-    const displayNewExampleVerb = (pattern_id) => {
-        requestExampleVerb(pattern_id, morphology)
-          .then(exampleVerb => setExampleVerb(exampleVerb))
-    }
+  const displayNewExampleVerb = (pattern_id) => {
+    requestExampleVerb(pattern_id, morphology).then((exampleVerb) =>
+      setExampleVerb(exampleVerb)
+    );
+  };
 
-    useEffect(()=>{
-        displayNewExampleVerb(pattern_id)
-    },[])
+  useEffect(() => {
+    displayNewExampleVerb(pattern_id);
+  }, []);
 
-    return (
+  return (
     <TouchableOpacity
-      style={{ ...styles.centerCenter }}
+      style={styles.button}
       onPress={() => displayNewExampleVerb(pattern_id)}
     >
       <Conjugation
@@ -28,15 +39,20 @@ const ExampleVerb = ({ fontSize, pattern_id, morphology, pattern, tense, form })
         pattern={pattern}
         tense={tense}
       />
-      <Text>Tap for another</Text>
+      <Text style={styles.text}>Tap for another</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-    centerCenter: {
-        alignItems: 'center', justifyContent: 'center', padding: 5
-    }
-})
+  button: {
+    ...Spacing.centerCenter,
+    padding: 5,
+  },
+  text: {
+    ...Typography.light,
+    ...Typography.size10
+  }
+});
 
 export default ExampleVerb;

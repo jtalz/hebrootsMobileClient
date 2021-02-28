@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
+import { AntDesign } from "@expo/vector-icons";
 import {
   requestPracticeVerbs,
   requestVerbFromValue,
@@ -20,6 +21,7 @@ import organizeVerbsByType from "../../Actions/ObjectManipulations/OrganizePract
 import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
 import RoundCustomButton from "../../Components/Buttons/RoundCustomButton";
 import LoadingIndicator from "../../Components/LoadingIndicator";
+import { Colors, Typography } from "../../styles";
 import fonts from "../../styles/fontStyle";
 
 const UserProgress = ({ route, navigation }) => {
@@ -41,12 +43,12 @@ const UserProgress = ({ route, navigation }) => {
       .catch((err) => console.error(err));
   };
 
-  const PracticeTabs = ({ title, verbs }) => {
+  const PracticeTabs = ({ title, verbs, tense }) => {
     return (
       <View>
-        <PracticeTab title={title} tense={"Past"} verbs={verbs} />
-        <PracticeTab title={title} tense={"Present"} verbs={verbs} />
-        <PracticeTab title={title} tense={"Future"} verbs={verbs} />
+        <PracticeTab title={title} tense={tense} verbs={verbs} />
+        {/* <PracticeTab title={title} tense={"Present"} verbs={verbs} />
+        <PracticeTab title={title} tense={"Future"} verbs={verbs} /> */}
       </View>
     );
   };
@@ -93,8 +95,8 @@ const UserProgress = ({ route, navigation }) => {
   }
 
   const PracticeTab = ({ tense, title, verbs }) => {
-    const animatedHeight = new Animated.Value(0);
-    const [isOpen, setOpen] = useState(false);
+    const animatedHeight = new Animated.Value(200);
+    const [isOpen, setOpen] = useState(true);
 
     const renderQuickPlayButton = ({ item }) => {
       return (
@@ -141,16 +143,28 @@ const UserProgress = ({ route, navigation }) => {
             style={{
               height: SCREEN_HEIGHT / 15,
               padding: 5,
-              borderRadius: 5,
+              borderRadius: 10,
               alignItems: "center",
               justifyContent: "center",
               backgroundColor: "white",
-              margin: 10
+              borderColor: "#4294DB",
+              borderWidth: 1,
+              margin: 10,
             }}
           >
-            <Text style={{ fontFamily: 'Poppins_300Light', fontSize: normalize(12) }}>
-              {title} {tense} Tense
+            <Text
+              style={{
+                fontFamily: "Poppins_500Medium",
+                fontSize: normalize(14),
+                color: "#4294DB",
+                textAlign: 'right'
+              }}
+            >
+              {title}{/*  {tense} Tense */}
             </Text>
+            <View style={{position: 'absolute', right: 15}}>
+            <AntDesign name={isOpen ? 'down' : 'up'} color={Colors.skyBlue} size={20} />
+            </View>
           </View>
         </TapGestureHandler>
       );
@@ -193,15 +207,71 @@ const UserProgress = ({ route, navigation }) => {
       </Modal>
       <ScrollView>
         {state.organizedPracticeObjects ? (
-          Object.keys(state.organizedPracticeObjects).map((key, index) => {
-            return (
-              <PracticeTabs
-                key={index}
-                title={state.organizedPracticeObjects[key].name}
-                verbs={state.organizedPracticeObjects[key].verbs}
-              />
-            );
-          })
+          <>
+            <Text
+              style={{
+                ...Typography.regular,
+                ...Typography.size18,
+                ...Colors.txtMagenta,
+                ...Typography.taCenter,
+                marginVertical: 25,
+              }}
+            >
+              (Past Tense) עבר
+            </Text>
+            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
+              return (
+                <PracticeTab
+                  key={index}
+                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
+                  verbs={state.organizedPracticeObjects[key].verbs}
+                  tense={"Past"}
+                />
+              );
+            })}
+            <Text
+              style={{
+                ...Typography.regular,
+                ...Typography.size18,
+                ...Colors.txtMagenta,
+                ...Typography.taCenter,
+                marginVertical: 25,
+              }}
+            >
+              (Present Tense) הווה
+            </Text>
+            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
+              return (
+                <PracticeTab
+                  key={index}
+                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
+                  verbs={state.organizedPracticeObjects[key].verbs}
+                  tense={"Present"}
+                />
+              );
+            })}
+            <Text
+              style={{
+                ...Typography.regular,
+                ...Typography.size18,
+                ...Colors.txtMagenta,
+                ...Typography.taCenter,
+                marginVertical: 25,
+              }}
+            >
+              (Future Tense) עתיד
+            </Text>
+            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
+              return (
+                <PracticeTab
+                  key={index}
+                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
+                  verbs={state.organizedPracticeObjects[key].verbs}
+                  tense={"Future"}
+                />
+              );
+            })}
+          </>
         ) : (
           <LoadingIndicator />
         )}

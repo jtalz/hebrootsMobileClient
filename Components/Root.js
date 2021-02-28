@@ -1,41 +1,25 @@
-import React from 'react';
-import {Text, View } from 'react-native'
-import {PaalRoot, NifalRoot, PielRoot,HefilRoot, HitpaelRoot} from '../Actions/TextFormats/RootFormats'
+import React from "react";
+import { Text, View } from "react-native";
+import ROOT_TYPES from "../Constants/ROOT_TYPES";
 
-const Root = ({base_form, pattern}) => {
-    const root = generateRoot(base_form, pattern)
-    const getDottedNotation = () => {
-        try {
-            return root.getRootFormat()
-        }catch(err){
-        return <Text>{base_form}</Text>
-        }
+const Root = ({ base_form, pattern }) => {
+  const root = generateRoot(base_form, pattern);
+  const getDottedNotation = () => {
+    try {
+      return root.getRootFormat();
+    } catch (err) {
+      return <Text>{base_form}</Text>;
     }
-    return ( 
-        <View>
-            {
-                getDottedNotation()
-            }
-        </View>
-    );
-    
-    
   };
+  return <View>{getDottedNotation()}</View>;
+};
 
-  const ROOT_TYPES = {
-    A : PaalRoot,
-    B : NifalRoot,
-    C : PielRoot,
-    E : HitpaelRoot,
-    F : HefilRoot
-  }
-  
-  const generateRoot = (base_form, pattern) => {
-    for (const [patternCode, verbType] of Object.entries(ROOT_TYPES)) {
-        if(pattern == patternCode){
-            return new verbType(base_form)
-        }
+const generateRoot = (base_form, pattern) => {
+  for (const [patternCode, verbType] of Object.entries(ROOT_TYPES)) {
+    if (pattern == patternCode) {
+      return new verbType(base_form);
     }
   }
-  
-  export default Root;
+};
+
+export default Root;

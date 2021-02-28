@@ -1,4 +1,4 @@
-import { SCREEN_HEIGHT } from "../Actions/ScreenDimensions"
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../Actions/ScreenDimensions"
 
 export const width100 = {
     width: '100%'
@@ -11,3 +11,7 @@ export const screenHeight = {
 export const halfScreenHeight = {
     height: SCREEN_HEIGHT/2
 }
+
+export const screenWidth = {width: SCREEN_WIDTH}
+
+export const f1 = {flex: 1}

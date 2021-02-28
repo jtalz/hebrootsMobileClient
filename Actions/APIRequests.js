@@ -50,12 +50,14 @@ export const requestAllPatterns = async () => {
         const response_1 = await response.json()
         const patterns = await response_1.map(resp=> JSON.stringify(resp)).map(str=>JSON.parse(str))
         let patternsWTenses = [];
-        patterns.forEach((pattern, index)=>{
-            let past = duplicateAndAssignTense('Past', 'עבר', pattern);
-            let present = duplicateAndAssignTense('Present', 'הווה', pattern);
-            let future = duplicateAndAssignTense('Future', 'עתיד', pattern);
-            patternsWTenses.push(past, present, future)
-        })
+        [{en: 'Past', he: 'עבר'}, {en: 'Present', he: 'הווה'}, {en: 'Future', he:'עתיד'}]
+        .map((tense) => {
+                patterns.forEach((pattern, index)=>{
+                    let a = duplicateAndAssignTense(tense.en, tense.he, pattern);
+                    patternsWTenses.push(a)
+                })
+            }
+        )
         return patternsWTenses;
     }catch (error) {
         console.error("Pattern request error: ", error)
