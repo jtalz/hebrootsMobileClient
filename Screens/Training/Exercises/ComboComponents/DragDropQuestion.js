@@ -1,6 +1,5 @@
-import React, { useReducer, useState } from "react";
-import { View, Animated, StyleSheet, Text, SafeAreaView } from "react-native";
-import timedAnimation from "../../../../Actions/Animations/timedAnimation";
+import React, { useReducer } from "react";
+import { View, StyleSheet, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../../../Actions/ScreenDimensions";
 import _3DButton from "../../../../Components/Buttons/_3DButton";
 import MultipleChoices from "../../../../Containers/MultipleChoices";
@@ -58,7 +57,7 @@ const DragDropQuestion = React.memo(
         />
         <IncorrectAnswerModal
           onClick={next}
-          answer={state.verb}
+          answer={`${family[index].possessionInfo.possession} ${state.verb}`}
           visibility={state.questionStatus == "incorrect"}
         />
         <Text style={styles.instructions}>

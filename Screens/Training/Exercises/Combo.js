@@ -1,122 +1,33 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer } from "react";
 import { Animated, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import getGameplayWords from "../../../Actions/GetMethods/GetGameplayWords";
-import { normalize } from "../../../Actions/Normalize";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../../Actions/ScreenDimensions";
+import { SCREEN_WIDTH } from "../../../Actions/ScreenDimensions";
 import XButton from "../../../Components/Buttons/XButton";
 import LivesIndicator from "../../../Components/LivesIndicator";
-import DragDropQuestion from "./ComboComponents/DragDropQuestion";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import springAnimation from "../../../Actions/Animations/springAnimation";
-import WritingQuestion from "./ComboComponents/WritingQuestion";
-import MatchingQuestion from "./ComboComponents/MatchingQuestion";
 import WelcomeModal from "../../../Components/Modals/WelcomeModal";
 import ExitModal from "../../../Components/Modals/ExitModal";
 import LostLivesModal from "../../../Components/Modals/LostLivesModal";
 import CompletedExerciseModal from "../../../Components/Modals/CompletedExerciseModal";
-import { Typography } from "../../../styles";
-
-const createComboTrainingDataset = ({ family }) => {
-  //let typeCounter = 1;
-  let typeCounter;
-  const ctds = family.map((inflectionObj, index) => {
-    typeCounter = Math.floor(Math.random() * 3);
-    let question = {
-      type: typeCounter,
-      qComponent: getQComponent(typeCounter),
-    };
-    return question;
-  });
-  return ctds;
-};
-
-const getQComponent = (type) => {
-  if (type == 0) {
-    return DragDropQuestion;
-  } else if (type == 1) {
-    return WritingQuestion;
-  } else if (type == 2) {
-    return MatchingQuestion;
-  }
-};
-
-const getInitialState = ({ family }) => {
-  const verbFamily = getGameplayWords(JSON.parse(JSON.stringify(family)));
-  let trainingSet = createComboTrainingDataset({
-    family: verbFamily,
-  });
-  return {
-    verbFamily,
-    allQComponents: trainingSet,
-    progress: 0,
-    lives: 3,
-    slideValue: 0,
-    progressIncrementer: 100 / verbFamily.length,
-    modalVisibility: {
-      exit: false,
-      grade: false,
-      failed: false,
-      passed: false,
-      instructions: true,
-    },
-  };
-};
-
-const comboReducer = (prevState, action) => {
-  if (action.type == "updateProgress") {
-    return action.payload
-      ? {
-          ...prevState,
-          progress: prevState.progress + prevState.progressIncrementer,
-        }
-      : prevState.lives - 1 == 0
-      ? {
-          ...prevState,
-          lives: prevState.lives - 1,
-          modalVisibility: { ...prevState.modalVisibility, failed: true },
-        }
-      : {
-          ...prevState,
-          verbFamily: prevState.verbFamily.concat(
-            prevState.verbFamily[prevState.slideValue]
-          ),
-          allQComponents: prevState.allQComponents.concat(
-            prevState.allQComponents[prevState.slideValue]
-          ),
-          lives: prevState.lives - 1,
-        };
-  } else if (action.type == "nextSlide") {
-    return prevState.slideValue == prevState.verbFamily.length - 1
-      ? {
-          ...prevState,
-          modalVisibility: { ...prevState.modalVisibility, passed: true },
-        }
-      : { ...prevState, slideValue: prevState.slideValue + 1 };
-  }else if (action.type == "exit") {
-    return {
-      ...prevState,
-      modalVisibility: { ...prevState.modalVisibility, exit: true },
-    };
-  } else if (action.type == "closeModal") {
-    return {
-      ...prevState,
-      modalVisibility: {
-        exit: false,
-        grade: false,
-        failed: false,
-        passed: false,
-        instructions: false,
-      },
-    };
-  }
-};
+import { Colors, Typography } from "../../../styles";
+import {
+  trainingReducer,
+  getInitialTrainingState,
+} from "../../../Actions/Reducers/TrainingReducer";
 
 const Combo = ({ route, navigation }) => {
-  const { family, infinitive, tense_en, pattern, noun_phrase, translation } = route.params;
+  const {
+    family,
+    infinitive,
+    tense_en,
+    pattern,
+    noun_phrase,
+    translation,
+  } = route.params;
 
   const [state, dispatch] = useReducer(
-    comboReducer,
-    getInitialState({ family })
+    trainingReducer,
+    getInitialTrainingState({ family })
   );
 
   const horizontalContainer = useState(new Animated.Value(0))[0];
@@ -135,7 +46,7 @@ const Combo = ({ route, navigation }) => {
   };
 
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={styles.container}>
       <WelcomeModal
         goFn={closeModal}
         visibility={state.modalVisibility.instructions}
@@ -155,12 +66,8 @@ const Combo = ({ route, navigation }) => {
         visibility={state.modalVisibility.passed}
         navigation={navigation}
       />
-      <SafeAreaView style={styles.container}>
-        <View
-          style={{
-            ...styles.gameHeader,
-          }}
-        >
+      <SafeAreaView style={styles.main}>
+        <View style={styles.gameHeader}>
           <XButton onPress={() => dispatch({ type: "exit" })} />
           <ProgressBarAnimated
             width={SCREEN_WIDTH - 150}
@@ -171,31 +78,9 @@ const Combo = ({ route, navigation }) => {
           />
           <LivesIndicator nLives={state.lives} />
         </View>
-        <Text
-        style={{
-          alignSelf: "center",
-          ...Typography.light,
-          fontSize: normalize(20),
-        }}>
-          {infinitive}
-        </Text> 
-        <Text
-        style={{
-          alignSelf: "center",
-          ...Typography.light,
-          fontSize: normalize(12),
-        }}>
-          ({translation})
-        </Text> 
-        <Text
-          style={{
-            alignSelf: "center",
-            ...Typography.light,
-            fontSize: normalize(14),
-          }}
-        >
-          {tense_en.toLowerCase()} tense
-        </Text>
+        <Text style={styles.lgText}>{infinitive}</Text>
+        <Text style={styles.smText}>({translation})</Text>
+        <Text style={styles.smText}>{tense_en.toLowerCase()} tense</Text>
       </SafeAreaView>
       <Animated.View
         //horizontal={true}
@@ -237,10 +122,14 @@ const Combo = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    ...Colors.bgWhite,
+    flex: 1,
+  },
+  main: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     flex: 1,
-    backgroundColor: "white",
+    ...Colors.bgWhite,
   },
   gameHeader: {
     flex: 1,
@@ -248,25 +137,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: SCREEN_WIDTH,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
-  questionInstructions: {
-    fontSize: normalize(18),
-    ...Typography.light,
-    margin: 10,
-    width: SCREEN_WIDTH,
+  lgText: {
     alignSelf: "center",
-    textAlign: "left",
-    padding: 20,
+    ...Typography.light,
+    ...Typography.size18,
   },
-  solutionContainer: {
-    position: "absolute",
-    bottom: 0,
-    height: SCREEN_HEIGHT / 5,
-    left: 0,
-    width: SCREEN_WIDTH,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+  smText: {
+    alignSelf: "center",
+    ...Typography.light,
+    ...Typography.size12,
   },
 });
 

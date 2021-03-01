@@ -1,6 +1,5 @@
-import React, { useReducer, useState } from "react";
-import { View, Text, StyleSheet, Animated } from "react-native";
-import timedAnimation from "../../../../Actions/Animations/timedAnimation";
+import React, { useReducer } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import isCorrectConsonants from "../../../../Actions/CheckAnswer";
 import WritingQReducer from "../../../../Actions/Reducers/WritingQReducer";
 import SmallYellowButton from "../../../../Components/Buttons/SmallYellowButton";

@@ -79,7 +79,7 @@ class CardsCarousel extends Component {
       default:
         null;
     }
-
+    
     return (
       <View
         style={{

@@ -4,19 +4,23 @@ import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
 import { Colors, Spacing, Typography } from "../../styles";
 const RoundCustomButton = ({ name, onPress, imgUrl, translation }) => {
   return (
-    <View style={{ ...Spacing.centerCenter }}>
+    <View style={styles.container}>
       <View style={styles.blueCircle}>
         <TouchableOpacity style={styles.button} onPress={onPress}>
           <Image style={styles.icon} source={{ uri: imgUrl }} />
         </TouchableOpacity>
       </View>
       <Text style={styles.text}>{name}</Text>
-      <Text style={styles.text}>({translation})</Text>
+      <Text style={styles.smText}>({translation})</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: { 
+    ...Spacing.centerCenter,
+    marginHorizontal: 10
+  },
   button: {
     ...Spacing.centerCenter,
     ...Spacing.m10,
@@ -29,17 +33,21 @@ const styles = StyleSheet.create({
     ...Spacing.m10,
     ...Colors.borderSkyBlue,
     borderWidth: 2,
-    height: SCREEN_HEIGHT * 0.1,
-    width: SCREEN_HEIGHT * 0.1,
-    borderRadius: (SCREEN_HEIGHT * 0.1) / 2,
+    height: 80,
+    width: 80,
+    borderRadius: 40,
   },
   text: {
     ...Typography.light,
     ...Typography.size12,
   },
+  smText: {
+    ...Typography.light,
+    ...Typography.size10
+  },
   icon: {
-    height: SCREEN_HEIGHT * 0.08,
-    width: SCREEN_HEIGHT * 0.08,
+    height: 60,
+    width: 60,
   },
 });
 

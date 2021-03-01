@@ -1,28 +1,18 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   ScrollView,
-  Animated,
-  FlatList,
-  Modal,
-  ActivityIndicator,
 } from "react-native";
-import { TapGestureHandler, State } from "react-native-gesture-handler";
-import { AntDesign } from "@expo/vector-icons";
 import {
   requestPracticeVerbs,
   requestVerbFromValue,
 } from "../../Actions/APIRequests";
-import getRandomImg from "../../Actions/GetMethods/GetRandomImage";
-import { normalize } from "../../Actions/Normalize";
 import organizeVerbsByType from "../../Actions/ObjectManipulations/OrganizePracticeVerbs";
-import { SCREEN_HEIGHT } from "../../Actions/ScreenDimensions";
-import RoundCustomButton from "../../Components/Buttons/RoundCustomButton";
 import LoadingIndicator from "../../Components/LoadingIndicator";
-import { Colors, Typography } from "../../styles";
-import fonts from "../../styles/fontStyle";
+import { Colors, Spacing, Typography } from "../../styles";
+import QuickPlayTab from "../../Containers/QuickPlayTab";
 
 const UserProgress = ({ route, navigation }) => {
   const [state, setState] = useState({
@@ -41,16 +31,6 @@ const UserProgress = ({ route, navigation }) => {
         setState({ ...state, organizedPracticeObjects })
       )
       .catch((err) => console.error(err));
-  };
-
-  const PracticeTabs = ({ title, verbs, tense }) => {
-    return (
-      <View>
-        <PracticeTab title={title} tense={tense} verbs={verbs} />
-        {/* <PracticeTab title={title} tense={"Present"} verbs={verbs} />
-        <PracticeTab title={title} tense={"Future"} verbs={verbs} /> */}
-      </View>
-    );
   };
 
   const quickPlay = (verb, tense) => {
@@ -72,235 +52,75 @@ const UserProgress = ({ route, navigation }) => {
     });
   };
 
-  class QuickPlayButton extends Component {
-    shouldComponentUpdate(nextProps) {
-      if (nextProps.name !== this.props.name) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    render() {
+  const renderQuickPlayTabs = (tense) => {
+    return Object.keys(state.organizedPracticeObjects).map((key, index) => {
       return (
-        <View>
-          <RoundCustomButton
-            name={this.props.name}
-            translation={this.props.translation}
-            imgUrl={this.props.imgUrl}
-            onPress={this.props.onPress}
-          />
-        </View>
-      );
-    }
-  }
-
-  const PracticeTab = ({ tense, title, verbs }) => {
-    const animatedHeight = new Animated.Value(200);
-    const [isOpen, setOpen] = useState(true);
-
-    const renderQuickPlayButton = ({ item }) => {
-      return (
-        <QuickPlayButton
-          name={item.infinitive}
-          translation={item.translation}
-          imgUrl={getRandomImg()}
-          onPress={() => quickPlay(item, tense)}
+        <QuickPlayTab
+          key={index}
+          title={state.organizedPracticeObjects[key].name_he}
+          transliteration={state.organizedPracticeObjects[key].name}
+          verbs={state.organizedPracticeObjects[key].verbs}
+          tense={tense}
+          quickPlay={quickPlay}
         />
       );
-    };
-
-    const openPracticeTab = () => {
-      Animated.timing(animatedHeight, {
-        toValue: 200,
-        useNativeDriver: false,
-      }).start(() => {
-        setOpen(!isOpen);
-      });
-    };
-
-    const closePracticeTab = () => {
-      Animated.timing(animatedHeight, {
-        toValue: 0,
-        useNativeDriver: false,
-      }).start(() => {
-        setOpen(!isOpen);
-      });
-    };
-
-    const TabButton = ({ title, tense, isOpen }) => {
-      return (
-        <TapGestureHandler
-          onHandlerStateChange={({ nativeEvent }) =>
-            nativeEvent.state === State.ACTIVE
-              ? isOpen
-                ? closePracticeTab()
-                : openPracticeTab()
-              : null
-          }
-          maxDurationMs={1000}
-        >
-          <View
-            style={{
-              height: SCREEN_HEIGHT / 15,
-              padding: 5,
-              borderRadius: 10,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "white",
-              borderColor: "#4294DB",
-              borderWidth: 1,
-              margin: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Poppins_500Medium",
-                fontSize: normalize(14),
-                color: "#4294DB",
-                textAlign: 'right'
-              }}
-            >
-              {title}{/*  {tense} Tense */}
-            </Text>
-            <View style={{position: 'absolute', right: 15}}>
-            <AntDesign name={isOpen ? 'down' : 'up'} color={Colors.skyBlue} size={20} />
-            </View>
-          </View>
-        </TapGestureHandler>
-      );
-    };
-    return (
-      <View style={{ flexDirection: "column" }}>
-        <TabButton isOpen={isOpen} title={title} tense={tense} />
-        <Animated.View
-          style={[
-            styles.practiceTab,
-            {
-              height: animatedHeight,
-            },
-          ]}
-        >
-          <FlatList
-            data={verbs}
-            contentContainerStyle={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            horizontal={true}
-            renderItem={renderQuickPlayButton}
-            keyExtractor={(item) => item._id}
-            scrollEnabled={true}
-          />
-        </Animated.View>
-      </View>
-    );
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Modal visible={state.loading} transparent={true} animationType={"fade"}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <ActivityIndicator size={"large"} />
-          </View>
-        </View>
-      </Modal>
-      <ScrollView>
-        {state.organizedPracticeObjects ? (
-          <>
-            <Text
-              style={{
-                ...Typography.regular,
-                ...Typography.size18,
-                ...Colors.txtMagenta,
-                ...Typography.taCenter,
-                marginVertical: 25,
-              }}
-            >
-              (Past Tense) עבר
-            </Text>
-            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
-              return (
-                <PracticeTab
-                  key={index}
-                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
-                  verbs={state.organizedPracticeObjects[key].verbs}
-                  tense={"Past"}
-                />
-              );
-            })}
-            <Text
-              style={{
-                ...Typography.regular,
-                ...Typography.size18,
-                ...Colors.txtMagenta,
-                ...Typography.taCenter,
-                marginVertical: 25,
-              }}
-            >
-              (Present Tense) הווה
-            </Text>
-            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
-              return (
-                <PracticeTab
-                  key={index}
-                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
-                  verbs={state.organizedPracticeObjects[key].verbs}
-                  tense={"Present"}
-                />
-              );
-            })}
-            <Text
-              style={{
-                ...Typography.regular,
-                ...Typography.size18,
-                ...Colors.txtMagenta,
-                ...Typography.taCenter,
-                marginVertical: 25,
-              }}
-            >
-              (Future Tense) עתיד
-            </Text>
-            {Object.keys(state.organizedPracticeObjects).map((key, index) => {
-              return (
-                <PracticeTab
-                  key={index}
-                  title={`${state.organizedPracticeObjects[key].name_he} (${state.organizedPracticeObjects[key].name})`}
-                  verbs={state.organizedPracticeObjects[key].verbs}
-                  tense={"Future"}
-                />
-              );
-            })}
-          </>
-        ) : (
+      {state.loading ? (
+        <View>
           <LoadingIndicator />
-        )}
-      </ScrollView>
+          <Text style={styles.text}>Taking you to training...</Text>
+        </View>
+      ) : (
+        <ScrollView>
+          {state.organizedPracticeObjects ? (
+            <>
+              <View style={styles.titleRow}>
+                <Text style={styles.text}>Past Tense</Text>
+                <Text style={styles.text}>עבר</Text>
+              </View>
+              {renderQuickPlayTabs("Past")}
+              <View style={styles.titleRow}>
+                <Text style={styles.text}>Present Tense</Text>
+                <Text style={styles.text}>הווה</Text>
+              </View>
+              {renderQuickPlayTabs("Present")}
+              <View style={styles.titleRow}>
+                <Text style={styles.text}>Future Tense</Text>
+                <Text style={styles.text}>עתיד</Text>
+              </View>
+              {renderQuickPlayTabs("Future")}
+            </>
+          ) : (
+            <LoadingIndicator />
+          )}
+        </ScrollView>
+      )}
     </View>
   );
 };
-//<Header><SearchBar onEnter={() => onSearch} /></Header>
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     width: "100%",
   },
-  intro: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginRight: 10,
+  titleRow: {
+    ...Spacing.row,
+    ...Spacing.justifyAround,
+    ...Spacing.alignCenter,
+    paddingHorizontal: 25,
   },
-  listItem: {
-    alignItems: "center",
-    padding: 5,
-    marginVertical: 5,
-    marginHorizontal: 8,
-  },
-  practiceTab: {
-    height: 10,
+  text: {
+    ...Typography.regular,
+    ...Typography.size18,
+    ...Colors.txtMagenta,
+    ...Typography.taCenter,
+    marginVertical: 25,
   },
   centeredView: {
     flex: 1,
