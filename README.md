@@ -1,16 +1,21 @@
 # Hebroots
 
-Expo snack: https://snack.expo.io/@jtalz97/6d38ef
-Some example usage: 
-![](https://user-images.githubusercontent.com/31594943/106532972-3d01ee80-64bf-11eb-951e-6b73b6f5155c.gif)
-![](https://user-images.githubusercontent.com/31594943/106533071-6cb0f680-64bf-11eb-9357-a3634bfdca73.gif)
-![](https://user-images.githubusercontent.com/31594943/106533108-84887a80-64bf-11eb-9611-83e9c9ff8041.gif)
-
 ## Introduction
 
 The purpose of this software is to provide Hebrew language students with an efficient and enjoyable way of practicing verb conjugations. 
 <!-- Hebroots recognizes the difficulties of learning verb conjugations and leverages its tabular nature together with mobile technology to teach it in the most effective, accessible way possible.  -->
 <!---In addition, developers may access the API which provides data relating to over 100k conjugated Hebrew verbs and related information. --->
+
+## Demo
+Expo snack: https://snack.expo.io/@jtalz97/6d38ef
+
+Here are some friendly GIFs to give you a gist of what this looks like: 
+![](https://user-images.githubusercontent.com/31594943/111044002-eff52e80-8413-11eb-99b5-feb20251bb55.gif)
+![](https://user-images.githubusercontent.com/31594943/111043984-cb995200-8413-11eb-8120-57f8361b79d0.gif)
+![](https://user-images.githubusercontent.com/31594943/111043979-c50ada80-8413-11eb-9197-e83b549ce47f.gif)
+![](https://user-images.githubusercontent.com/31594943/111043866-0a7ad800-8413-11eb-8816-04bca9ebb611.gif)
+![](https://user-images.githubusercontent.com/31594943/111043920-6c3b4200-8413-11eb-8e32-b1d0a8110e7c.gif)
+![](https://user-images.githubusercontent.com/31594943/111043891-35652c00-8413-11eb-9fc0-8f4f5f051bd4.gif)
 
 ## For Students
 ### What are verb conjugations?
