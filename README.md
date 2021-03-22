@@ -105,7 +105,7 @@ Pattern: Pi’el
 Tense: Past  
 Infinitive form: ---ל  
 Example: לדבר (to speak)  
-Example (ד.ב.ר) | Conjugation | Pronoun | Translation (pronoun + conjugation) 
+Example (ד.ב.ר) | ConjugationText | Pronoun | Translation (pronoun + conjugation) 
 ------- | ----------- | ------- | ----------
 דיברתי | י--תי- | אני | I spoke
 דיברת | י--ת- | אתה | You (m.) spoke

@@ -1,34 +1,27 @@
-import "react-native-gesture-handler";
 import React, { useReducer, useMemo } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Splash from "./Screens/Splash";
-import PatternStack from "./Navigators/TabStacks/PatternStack";
-import SearchStack from "./Navigators/TabStacks/SearchStack";
-import SettingsScreen from "./Navigators/TabStacks/SettingsScreen";
-import TrainingStack from "./Navigators/TabStacks/TrainingStack";
-import AuthContext from "./Actions/context/AuthContext";
-import { requestLogin, requestRegister } from "./Actions/APIRequests";
-import store_token from "./Actions/Authentication/store_token";
-import {
-  authenticationReducer,
-  initialAuthState,
-} from "./Actions/Reducers/AuthenticationReducer";
-import can_load_fonts from "./Actions/LoadFonts";
 import { AppLoading } from "expo";
-import remove_token from "./Actions/Authentication/remove_token";
-import HebrootsTabNav from "./Navigators/HebrootsTabNav";
+import {
+  AuthContext,
+  can_load_fonts,
+  initialAuthState,
+  remove_token,
+  requestLogin,
+  requestRegister,
+  store_token,
+  authenticationReducer,
+} from "./src/services";
+import { RootNavigator } from "./src/navigations/tabs";
 
-const showSplash_ = (userToken, continueWithoutSignin) => {
-  if (userToken !== null || continueWithoutSignin !== false) return false;
-  else return true;
-};
-const Tab = createBottomTabNavigator();
 const App = () => {
   const [state, dispatch] = useReducer(authenticationReducer, initialAuthState);
 
   const login = (token) => {
     dispatch({ type: "LOGIN", token });
+  };
+
+  const storeTokenLogin = (token) => {
+    store_token(token).then((success) => login(token));
   };
 
   const authContext = useMemo(
@@ -47,42 +40,32 @@ const App = () => {
             : dispatch({ type: "NO_USER_FOUND" })
         );
       },
+      autoLogin: (token) => {
+        login(token);
+      },
       signOut: () => {
         remove_token().then((res) => dispatch({ type: "LOGOUT" }));
       },
-      signInAgain: () => {
+      backToSplash: () => {
         dispatch({ type: "BACK2SPLASH" });
       },
+      skipLogin: () => {
+        dispatch({ type: "SKIPLOGIN" });
+      },
+      noUserFound: state.noUserFound,
     }),
     []
   );
-
-  const storeTokenLogin = (token) => {
-    store_token(token).then((success) => login(token));
-  };
 
   return can_load_fonts() ? (
     <AppLoading />
   ) : (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {showSplash_(state.userToken, state.continueWithoutSignin) ? (
-          <Splash
-            isSignedIn={state.userToken !== null}
-            noLogin={() => {
-              dispatch({ type: "NOLOGIN" });
-            }}
-            noUserFound={state.noUserFound}
-            login={login}
-          />
-        ) : (
-          <HebrootsTabNav Tab={Tab}>
-            <Tab.Screen name="Explore" component={SearchStack} />
-            <Tab.Screen name="Play" component={TrainingStack} />
-            <Tab.Screen name="Learn" component={PatternStack} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
-          </HebrootsTabNav>
-        )}
+        <RootNavigator
+          userToken={state.userToken}
+          skipSignin={state.skipSignin}
+        />
       </NavigationContainer>
     </AuthContext.Provider>
   );

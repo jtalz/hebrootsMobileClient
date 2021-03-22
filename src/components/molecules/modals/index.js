@@ -1,0 +1,7 @@
+export { default as CompletedExerciseModal } from './CompletedExercise'
+export { default as CorrectAnswerModal } from './CorrectAnswer'
+export { default as ExitModal } from './Exit'
+export { default as IncorrectAnswerModal } from './IncorrectAnswer'
+export { default as IntroModal } from './Intro'
+export { default as LostLivesModal } from './LostLives'
+export { default as WelcomeModal } from './Welcome'
