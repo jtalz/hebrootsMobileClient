@@ -75,8 +75,9 @@ const QuickPlayScreen = ({ route, navigation }) => {
       {/* <IntroModal visibility={state.introModal} goFn={() => closeIntro()} /> */}
       {state.loading ? (
         <View style={styles.centeredView}>
-          <LoadingIndicator />
+          <Bird birdType="Old" size="Medium" style={{ marginBottom: 50 }} />
           <Text style={styles.text}>Taking you to training...</Text>
+          <LoadingIndicator />
         </View>
       ) : state.organizedPracticeObjects ? (
         <ScrollView style={{}}>
@@ -114,6 +115,8 @@ const QuickPlayScreen = ({ route, navigation }) => {
         </ScrollView>
       ) : (
         <View style={styles.centeredView}>
+          <Bird birdType="Old" size="Medium" style={{ marginBottom: 50 }} />
+          <Text style={styles.text}>We'll be ready in a second...</Text>
           <LoadingIndicator />
         </View>
       )}

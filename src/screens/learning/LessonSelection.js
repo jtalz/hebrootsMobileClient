@@ -51,7 +51,7 @@ const LessonSelectionScreen = ({ navigation, route }) => {
                     pattern_id: item._id,
                     transliteration: item.transliteration,
                     type: item.type,
-                    subtopic: item.tense_en.toUpperCase(),
+                    tense: item.tense_en.toUpperCase(),
                   })
                 }
               />
@@ -60,7 +60,11 @@ const LessonSelectionScreen = ({ navigation, route }) => {
             scrollEnabled={true}
           />
         ) : (
+          <View style={styles.centeredView}>
+          <Bird birdType="Old" size="Medium" style={{ marginBottom: 50 }} />
+          <Text style={styles.instructions}>We'll be ready in a second...</Text>
           <LoadingIndicator />
+        </View>
         )}
       </Animatable.View>
     </SafeAreaView>
@@ -99,6 +103,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     ...Colors.txtMagenta,
     marginVertical: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

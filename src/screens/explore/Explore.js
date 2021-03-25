@@ -12,7 +12,7 @@ import {
   navigateToTraining,
   navigateToPattern
 } from "../../services";
-import { exploreStyles } from "../../styles";
+import { Colors, exploreStyles } from "../../styles";
 
 const ExploreScreen = ({ navigation }) => {
   const [state, dispatch] = useReducer(
@@ -60,7 +60,7 @@ const ExploreScreen = ({ navigation }) => {
             )
           }
           disabled={state.tableStatus == "Loading"}
-          backgroundColor="#73D413"
+          backgroundColor={Colors.purple}
         />
         <StadiumButton
           name="Lesson"
@@ -71,11 +71,11 @@ const ExploreScreen = ({ navigation }) => {
               aspects: state.tableData.pattern.aspects,
               infinitive_form: state.tableData.pattern.infinitive_form,
               pattern_id: state.tableData.pattern._id,
-              subtopic: getTenseFromActiveIndex(state.activeIndex),
+              tense: getTenseFromActiveIndex(state.activeIndex),
             })
           }
           disabled={state.tableStatus == "Loading"}
-          backgroundColor="#4294DB"
+          backgroundColor="#DCAB43"
         />
       </View>
     </SafeAreaView>

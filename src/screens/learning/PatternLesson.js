@@ -8,9 +8,9 @@ import {
   ScrollView,
   SafeAreaView,
 } from "react-native";
-import { StadiumButton } from "../../components/atoms";
+import { Bird, StadiumButton } from "../../components/atoms";
 import { ExampleVerb } from "../../components/molecules";
-import { Colors, Sizing } from "../../styles/index.js";
+import { Colors, Sizing, Typography } from "../../styles/index.js";
 
 const PatternLessonScreen = ({ route, navigation }) => {
   const {
@@ -20,7 +20,7 @@ const PatternLessonScreen = ({ route, navigation }) => {
     infinitive_form,
     pattern_id,
     transliteration,
-    subtopic,
+    tense,
   } = route.params;
 
   const Lesson = () => {
@@ -34,13 +34,15 @@ const PatternLessonScreen = ({ route, navigation }) => {
             backgroundColor: "white",
           }}
         >
+          <Bird birdType='Standard' size='SmallPlus' style={{marginVertical: 20}} />
           <View style={{ marginBottom: 20, ...styles.margin5 }}>
             <Text style={styles.title}>
               Let's learn about {transliteration} (
-              <Text style={{ ...styles.hebrewText }}>{name}</Text>)!
+              <Text style={{ ...styles.hebrewText }}>{name}</Text>) in the{" "}
+              {tense.toLowerCase()} tense!
             </Text>
           </View>
-
+                
           <View style={{ ...styles.margin5 }}>
             <Text
               style={{
@@ -165,7 +167,10 @@ const PatternLessonScreen = ({ route, navigation }) => {
               name="Continue"
               backgroundColor={Colors.hebrootsBlue}
               onClick={() =>
-                navigation.navigate("ExampleExplore", { pattern_id, subtopic })
+                navigation.navigate("ExampleExplore", {
+                  pattern_id,
+                  subtopic: tense,
+                })
               }
             />
           </View>
@@ -207,7 +212,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   lessonText: {
-    fontFamily: "Nunito_200ExtraLight",
+    ...Typography.light,
     fontSize: 18,
     lineHeight: 30,
   },
@@ -216,8 +221,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   title: {
-    fontFamily: "Nunito_400Regular",
-    fontSize: 26,
+    ...Typography.light,
+    ...Typography.size18,
     fontWeight: "400",
   },
   row: {

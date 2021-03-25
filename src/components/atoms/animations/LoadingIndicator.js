@@ -1,11 +1,11 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { Sizing, Spacing } from "../../../styles";
+import { Colors, Sizing, Spacing } from "../../../styles";
 
 const LoadingIndicator = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" />
+      <ActivityIndicator size="large" color={Colors.hebrootsBlue} />
     </View>
   );
 };

@@ -1,4 +1,4 @@
-export const purple = '#F194FF'
+export const purple = '#B342DB'
 
 export const red = '#F33232'
 
