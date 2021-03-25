@@ -84,5 +84,4 @@ export const conjugationTableReducer = (state, action) => {
       root: ''
     },
     activeIndex: 0,
-    introModal: true
   }

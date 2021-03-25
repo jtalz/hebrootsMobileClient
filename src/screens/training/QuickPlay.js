@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { Bird, LoadingIndicator } from "../../components/atoms";
+import { IntroModal, QuickPlayRow } from "../../components/molecules";
 import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
-import { LoadingIndicator } from "../../components/atoms";
-import { QuickPlayRow } from "../../components/molecules";
-import { requestPracticeVerbs, organizeVerbsByType, requestVerbConjugations } from "../../services";
-import { Colors, Spacing, Typography } from "../../styles";
+  requestPracticeVerbs,
+  organizeVerbsByType,
+  requestVerbConjugations,
+} from "../../services";
+import { Colors, Sizing, Spacing, Typography } from "../../styles";
 
 const QuickPlayScreen = ({ route, navigation }) => {
   const [state, setState] = useState({
     organizedPracticeObjects: false,
     loading: false,
+    introModal: false,
   });
 
   useEffect(() => {
     setPracticeVerbs();
   }, []);
 
+  const closeIntro = () => setState({ ...state, introModal: false });
+
   const setPracticeVerbs = () => {
     requestPracticeVerbs()
       .then((practiceVerbs) => organizeVerbsByType(practiceVerbs.practiceVerbs))
       .then((organizedPracticeObjects) =>
-        setState({ ...state, organizedPracticeObjects })
+        setState({ ...state, organizedPracticeObjects, introModal: true })
       )
       .catch((err) => console.error(err));
   };
@@ -48,11 +50,16 @@ const QuickPlayScreen = ({ route, navigation }) => {
     });
   };
 
+  const HorizontalLine = ({ txtWidth }) => (
+    <View style={styles.horizontalLine} />
+  );
+
   const renderQuickPlayTabs = (tense) => {
     return Object.keys(state.organizedPracticeObjects).map((key, index) => {
       return (
         <QuickPlayRow
           key={index}
+          index={index}
           title={state.organizedPracticeObjects[key].name_he}
           transliteration={state.organizedPracticeObjects[key].name}
           verbs={state.organizedPracticeObjects[key].verbs}
@@ -65,35 +72,50 @@ const QuickPlayScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* <IntroModal visibility={state.introModal} goFn={() => closeIntro()} /> */}
       {state.loading ? (
-        <View>
+        <View style={styles.centeredView}>
           <LoadingIndicator />
           <Text style={styles.text}>Taking you to training...</Text>
         </View>
-      ) : (
-        <ScrollView>
-          {state.organizedPracticeObjects ? (
-            <>
-              <View style={styles.titleRow}>
-                <Text style={styles.text}>Past Tense</Text>
-                <Text style={styles.text}>עבר</Text>
-              </View>
-              {renderQuickPlayTabs("Past")}
-              <View style={styles.titleRow}>
-                <Text style={styles.text}>Present Tense</Text>
-                <Text style={styles.text}>הווה</Text>
-              </View>
-              {renderQuickPlayTabs("Present")}
-              <View style={styles.titleRow}>
-                <Text style={styles.text}>Future Tense</Text>
-                <Text style={styles.text}>עתיד</Text>
-              </View>
-              {renderQuickPlayTabs("Future")}
-            </>
-          ) : (
-            <LoadingIndicator />
-          )}
+      ) : state.organizedPracticeObjects ? (
+        <ScrollView style={{}}>
+          <>
+            <View style={styles.title}>
+              <Text style={styles.text}>Try out your skills</Text>
+              <Text style={styles.textSmall}>
+                Start by opening any of the following tabs. Then select a verb.
+              </Text>
+              <Bird
+                birdType="Old"
+                size="SmallPlus"
+                style={{ marginVertical: 15 }}
+              />
+            </View>
+            <View style={styles.titleRow}>
+              <HorizontalLine />
+              <Text style={styles.text}>Past Tense (עבר)</Text>
+              <HorizontalLine />
+            </View>
+            {renderQuickPlayTabs("Past")}
+            <View style={styles.titleRow}>
+              <HorizontalLine />
+              <Text style={styles.text}>Present Tense (הווה)</Text>
+              <HorizontalLine />
+            </View>
+            {renderQuickPlayTabs("Present")}
+            <View style={styles.titleRow}>
+              <HorizontalLine />
+              <Text style={styles.text}>Future Tense (עתיד)</Text>
+              <HorizontalLine />
+            </View>
+            {renderQuickPlayTabs("Future")}
+          </>
         </ScrollView>
+      ) : (
+        <View style={styles.centeredView}>
+          <LoadingIndicator />
+        </View>
       )}
     </View>
   );
@@ -105,24 +127,35 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: "100%",
   },
+  title: {
+    ...Spacing.justifyAround,
+    ...Spacing.alignCenter,
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+  },
   titleRow: {
     ...Spacing.row,
     ...Spacing.justifyAround,
     ...Spacing.alignCenter,
-    paddingHorizontal: 25,
   },
   text: {
-    ...Typography.regular,
-    ...Typography.size18,
+    ...Typography.light,
+    ...Typography.size16,
     ...Colors.txtMagenta,
     ...Typography.taCenter,
-    marginVertical: 25,
+    marginVertical: 5,
+  },
+  textSmall: {
+    ...Typography.light,
+    ...Typography.size12,
+    ...Colors.txtMagenta,
+    ...Typography.taCenter,
+    marginVertical: 5,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -138,6 +171,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  horizontalLine: {
+    borderBottomColor: Colors.magenta,
+    borderBottomWidth: 1,
+    width: Sizing.SCREEN_WIDTH / 5,
   },
 });
 

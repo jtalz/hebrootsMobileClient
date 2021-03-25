@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     ...Spacing.row,
   },
   text: {
-    ...Typography.regular,
-    ...Typography.size16,
+    ...Typography.light,
+    ...Typography.size14,
     color: Colors.skyBlue,
     textAlign: "right",
   },

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, FlatList, StyleSheet, View, SafeAreaView } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { LessonButton, LoadingIndicator } from "../../components/atoms";
+import { Bird, LessonButton, LoadingIndicator } from "../../components/atoms";
 import { requestAllPatterns } from "../../services";
 import { Typography, Colors, Spacing, Sizing } from "../../styles/index";
 
@@ -18,11 +18,6 @@ const LessonSelectionScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.instructions}>
-          Let's learn about one of the following topics
-        </Text>
-      </View>
       <Animatable.View
         animation="fadeIn"
         direction="alternate"
@@ -34,6 +29,15 @@ const LessonSelectionScreen = ({ navigation, route }) => {
             contentContainerStyle={styles.buttonContainer}
             horizontal={false}
             numColumns={1}
+            ListHeaderComponent={
+              <View style={styles.header}>
+                <Text style={styles.instructions}>Learn about binyaanim</Text>
+                <Text style={styles.subStructions}>
+                  The following options will provide you with custom videos and
+                  lessons
+                </Text>
+              </View>
+            }
             renderItem={({ item }) => (
               <LessonButton
                 name={`${item.name} (${item.transliteration})`}
@@ -71,21 +75,30 @@ const styles = StyleSheet.create({
     ...Colors.whiteBg,
   },
   header: {
-    flex: 0.5,
+    height: Sizing.SCREEN_HEIGHT / 4,
     ...Spacing.justifyCenter,
     ...Spacing.alignCenter,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGrey
+    borderBottomColor: Colors.lightGrey,
   },
   buttonContainer: {
     ...Spacing.alignEnd,
   },
   instructions: {
     ...Typography.textAlignCenter,
-    ...Typography.regular,
+    ...Typography.light,
     ...Typography.size16,
     paddingHorizontal: 50,
     ...Colors.txtMagenta,
+    marginVertical: 5,
+  },
+  subStructions: {
+    ...Typography.textAlignCenter,
+    ...Typography.light,
+    ...Typography.size12,
+    paddingHorizontal: 50,
+    ...Colors.txtMagenta,
+    marginVertical: 5,
   },
 });
 

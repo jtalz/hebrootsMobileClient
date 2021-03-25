@@ -3,7 +3,6 @@ import compose from "./compose";
 import getNRandomUniqueElements from "./getNRandomUniqueElements";
 import shuffleArray from "./shuffleArray";
 
-
 const getDeck = (deck) => deck;
 
 const getFreshDeck = (data) => {

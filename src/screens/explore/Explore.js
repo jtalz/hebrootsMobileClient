@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from "react";
-import { SafeAreaView, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { Card, SearchBarInput, StadiumButton } from "../../components/atoms";
 import { IntroModal } from "../../components/molecules";
 import { StudySection } from "../../components/templates";
@@ -26,15 +26,14 @@ const ExploreScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={exploreStyles.container}>
-      <IntroModal
-        visibility={state.introModal}
-        goFn={() => dispatch({ type: "closeIntro" })}
-      />
+      <View style={exploreStyles.title}>
+        <Text style={exploreStyles.textSmall}>Find complete verb tables. Scroll right.</Text>
+      </View>
       <View style={exploreStyles.searchArea}>
         <Card
           style={{
             width: "90%",
-            height: 50,
+            height: 45,
             borderRadius: 25,
             borderColor: "#2B78EC",
             borderWidth: 1,

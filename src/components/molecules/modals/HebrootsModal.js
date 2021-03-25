@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     ...Typography.textAlignCenter,
-    ...Typography.regular,
+    ...Typography.light,
     ...Typography.size14,
     ...Colors.txtMagenta,
     ...Spacing.p5,

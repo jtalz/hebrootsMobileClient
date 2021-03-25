@@ -41,9 +41,9 @@ const getRandomImg = () => {
   return imageLinks[randomIndex]
 }
 
-const QuickPlayRow = ({ tense, title, verbs, transliteration, quickPlay }) => {
-  const animatedHeight = new Animated.Value(160);
-  const [isOpen, setOpen] = useState(true);
+const QuickPlayRow = ({ tense, title, verbs, transliteration, quickPlay, index }) => {
+  const animatedHeight = index == 0 ? new Animated.Value(160) : new Animated.Value(0);
+  const [isOpen, setOpen] = index == 0 ? useState(true) : useState(false);
 
   const renderQuickPlayButton = ({ item }) => {
     return (

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     color: Colors.skyBlue,
   },
   settingsText: {
-    ...Typography.regular,
+    ...Typography.light,
     ...Typography.size12,
   },
   optionRow: {

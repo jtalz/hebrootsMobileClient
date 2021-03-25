@@ -1,4 +1,7 @@
 import { StyleSheet } from "react-native";
+import { txtMagenta } from "./colors";
+import { alignCenter, justifyAround } from "./spacing";
+import { light, size12, taCenter } from "./typography";
 
 const exploreStyles = StyleSheet.create({
     container: {
@@ -9,8 +12,7 @@ const exploreStyles = StyleSheet.create({
       },
       searchArea: {
         flex: 0.8,
-        marginTop: 20,
-        marginBottom: 10,
+        marginVertical: 0,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: 'center'
@@ -26,6 +28,20 @@ const exploreStyles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
         textAlign: "center",
+      },
+      textSmall: {
+        ...light,
+        ...size12,
+        ...txtMagenta,
+        ...taCenter,
+        marginVertical: 5,
+      },
+      title: {
+        ...justifyAround,
+        ...alignCenter,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        marginTop: 10
       },
 })
 

@@ -19,7 +19,7 @@ const SearchBarInput = (props) => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        placeholder="search for a verb..."
+        placeholder="try searching for a verb..."
         onChangeText={(text) => onChangeText(text)}
         underlineColorAndroid="transparent"
         value={value}

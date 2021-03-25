@@ -69,9 +69,9 @@ const AppNavigator = () => {
         },
       }}
     >
-      <Tab.Screen name="Explore" component={SearchStack} />
       <Tab.Screen name="Play" component={TrainingStack} />
       <Tab.Screen name="Learn" component={PatternStack} />
+      <Tab.Screen name="Explore" component={SearchStack} />
       <Tab.Screen name="Settings" component={SettingsStack} />
     </Tab.Navigator>
   );

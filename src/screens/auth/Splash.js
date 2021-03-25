@@ -39,7 +39,7 @@ const Splash = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../../assets/Ulpan.png")}
+        source={{uri: "https://user-images.githubusercontent.com/31594943/112531398-e8237b80-8d7d-11eb-9efa-6ce3b11e2238.png"}}
         style={styles.image}
       >
         <View style={styles.overlay}></View>

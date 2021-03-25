@@ -33,14 +33,15 @@ const Bird = ({ size, birdType, style }) => {
         //backgroundColor: Colors.lightGrey,
         borderRadius: 40,
         marginHorizontal: 10,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        ...style,
       }}
     >
       <Image
         style={{
           ...styles[size],
           resizeMode: "contain",
-          ...style,
+          
         }}
         source={{ uri }}
       />
