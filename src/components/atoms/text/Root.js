@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import ROOT_TYPES from "../../../constants/ROOT_TYPES";
+import { Typography } from "../../../styles";
 
 const RootText = ({ base_form, pattern }) => {
   const root = generateRoot(base_form, pattern);
@@ -8,7 +9,7 @@ const RootText = ({ base_form, pattern }) => {
     try {
       return root.getRootFormat();
     } catch (err) {
-      return <Text>{base_form}</Text>;
+      return <Text style={{...Typography.size16, ...Typography.regular}}>{base_form}</Text>;
     }
   };
   return <View>{getDottedNotation()}</View>;

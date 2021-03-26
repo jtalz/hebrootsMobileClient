@@ -23,7 +23,7 @@ const PatternStack = () => {
         component={PatternLessonScreen}
       />
       <Stack.Screen
-        options={styleHeaderFor("Pattern Conjugations")}
+        options={styleHeaderFor("Examples")}
         name="ExampleExplore"
         component={ExampleExploreScreen}
       />

@@ -1,6 +1,6 @@
 export { default as requestAllPatterns } from './allPatterns'
 export { default as requestExampleVerb } from './exampleVerb'
-export { default as requestinfinitiveTranslation } from './infinitiveTranslation'
+export { default as requestInfinitiveTranslation } from './infinitiveTranslation'
 export { default as requestLogin } from './login'
 export { default as requestPracticeVerbs } from './practiceVerbs'
 export { default as requestRandomVerb } from './randomVerb'

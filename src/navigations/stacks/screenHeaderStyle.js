@@ -6,7 +6,8 @@ const styleHeaderFor = (name) => {
                 title: name, 
                 headerStyle: styles.headerBgColor, 
                 headerTintColor: '#fff', 
-                headerTitleStyle: styles.headerTitle
+                headerTitleStyle: styles.headerTitle,
+                headerBackTitle: ' '
             }
 }
 

@@ -10,7 +10,6 @@ import { ConjugationTableHeader, ConjugationTableRow } from "../../molecules";
 
 const ConjugationTable = ({ item, index }) => {
   var { pattern, tense, root, translatedInfinitive } = item;
-
   return (
     <View style={styles.container}>
       <Card style={styles.card}>
@@ -40,6 +39,7 @@ const ConjugationTable = ({ item, index }) => {
 
 const styles = StyleSheet.create({
   container: {
+    height: "95%",
     marginRight: 3,
     marginLeft: 5,
   },
@@ -47,6 +47,8 @@ const styles = StyleSheet.create({
     flex: 1,
     shadowColor: "black",
     borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 10,
   },
   listContent: {
     width: Sizing.SCREEN_WIDTH / 1.15,
