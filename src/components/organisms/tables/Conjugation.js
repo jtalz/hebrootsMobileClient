@@ -40,15 +40,12 @@ const ConjugationTable = ({ item, index }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "95%",
     marginRight: 3,
     marginLeft: 5,
   },
   card: {
     flex: 1,
     shadowColor: "black",
-    paddingTop: 15,
-    paddingBottom: 10,
     borderRadius: 15,
   },
   listContent: {

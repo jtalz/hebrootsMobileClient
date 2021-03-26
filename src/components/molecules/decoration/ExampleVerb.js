@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { Spacing, Typography } from "../../../styles";
 import { requestExampleVerb } from "../../../services";
 import { ConjugationText } from "../../atoms";
@@ -18,6 +18,10 @@ const ExampleVerb = ({
   });
 
   const displayNewExampleVerb = (pattern_id) => {
+    setExampleVerb({
+      infinitive: "loading...",
+      base_form: "loading...",
+    })
     requestExampleVerb(pattern_id, morphology).then((exampleVerb) =>
       setExampleVerb(exampleVerb)
     );
@@ -28,7 +32,7 @@ const ExampleVerb = ({
   }, []);
 
   return (
-    <TouchableOpacity
+   exampleVerb[form] == 'loading...' ? <ActivityIndicator /> : <TouchableOpacity
       style={styles.button}
       onPress={() => displayNewExampleVerb(pattern_id)}
     >

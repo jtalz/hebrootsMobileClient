@@ -4,15 +4,24 @@ import { StadiumButton } from "../../components/atoms";
 import { StudySection } from "../../components/templates";
 import {
   conjugationTableReducer,
-  initialState,
   setNewExampleVerb,
-  navigateToTraining
+  navigateToTraining,
+  conjugationTableInitialState,
 } from "../../services";
-import { Typography, Colors, Spacing, exploreStyles, Sizing } from "../../styles";
+import {
+  Typography,
+  Colors,
+  Spacing,
+  exploreStyles,
+  Sizing,
+} from "../../styles";
 
 const ExampleExploreScreen = ({ route, navigation }) => {
   const { pattern_id, subtopic } = route.params;
-  const [state, dispatch] = useReducer(conjugationTableReducer, initialState);
+  const [state, dispatch] = useReducer(
+    conjugationTableReducer,
+    conjugationTableInitialState
+  );
 
   useEffect(() => {
     setNewExampleVerb(pattern_id, dispatch);
@@ -22,7 +31,13 @@ const ExampleExploreScreen = ({ route, navigation }) => {
     <SafeAreaView style={exploreStyles.container}>
       <View style={styles.top}>
         <Text style={styles.instructions}>
-          Use this to review then move on to try out your skills
+          Remember that the letters in{" "}
+          <Text style={{ color: Colors.magenta, ...Typography.regular }}>
+            magenta   </Text>{" "}
+          are interchangable while the letters in{" "}
+          <Text style={{ color: Colors.green, ...Typography.regular }}>
+            green</Text>{" "}
+          will almost always stay the same.
         </Text>
       </View>
       <View style={styles.main}>
@@ -57,26 +72,26 @@ const ExampleExploreScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   top: {
-    flex: 1,
-    marginVertical: 5,
-    ...Spacing.centerCenter,
+    flex: 2,
+    paddingHorizontal: 10,
+    ...Spacing.centerCenter
   },
   bottom: {
     flex: 1,
-    width: Sizing.SCREEN_WIDTH,
+    width: "90%",
     ...Spacing.row,
     ...Spacing.justifyAround,
     paddingHorizontal: 10,
   },
   main: {
-    flex: 6,
+    flex: 7,
     width: Sizing.SCREEN_WIDTH,
     ...Spacing.centerCenter,
   },
   instructions: {
     ...Typography.size14,
     textAlign: "center",
-    ...Typography.regular,
+    ...Typography.light,
   },
 });
 

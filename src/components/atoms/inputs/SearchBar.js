@@ -23,7 +23,7 @@ const SearchBarInput = (props) => {
         onChangeText={(text) => onChangeText(text)}
         underlineColorAndroid="transparent"
         value={value}
-        onEndEditing={() => props.onEnter(value)}
+        onSubmitEditing={() => props.onEnter(value)}
       />
       <TouchableOpacity onPress={() => onChangeText("")}>
         <Text style={styles.text}>X</Text>

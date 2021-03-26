@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
   blueCircle: {
     ...Spacing.centerCenter,
     ...Spacing.m10,
-    ...Colors.borderSkyBlue,
-    borderWidth: 2,
+    borderColor: Colors.green,
+    borderWidth: 3,
     height: 80,
     width: 80,
     borderRadius: 40,

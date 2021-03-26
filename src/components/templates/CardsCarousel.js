@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 15,
     ...Spacing.row,
     ...Spacing.centerCenter,
-    ...Spacing.p5
+    paddingHorizontal: 5
   },
   singleTense: {
     ...Spacing.row,

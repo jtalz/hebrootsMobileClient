@@ -34,7 +34,11 @@ const PatternLessonScreen = ({ route, navigation }) => {
             backgroundColor: "white",
           }}
         >
-          <Bird birdType='Standard' size='SmallPlus' style={{marginVertical: 20}} />
+          {/* <Bird
+            birdType="Standard"
+            size="SmallPlus"
+            style={{ marginVertical: 25 }}
+          /> */}
           <View style={{ marginBottom: 20, ...styles.margin5 }}>
             <Text style={styles.title}>
               Let's learn about {transliteration} (
@@ -42,7 +46,14 @@ const PatternLessonScreen = ({ route, navigation }) => {
               {tense.toLowerCase()} tense!
             </Text>
           </View>
-                
+          <Image
+            style={{ resizeMode: "contain", width: Sizing.SCREEN_WIDTH, height: Sizing.SCREEN_HEIGHT/4, alignSelf: 'center', marginVertical: 10 }}
+            source={{
+              uri:
+                "https://user-images.githubusercontent.com/31594943/112562751-626bf400-8dae-11eb-96a6-205008e5e657.png",
+            }}
+          />
+          
           <View style={{ ...styles.margin5 }}>
             <Text
               style={{
@@ -71,7 +82,7 @@ const PatternLessonScreen = ({ route, navigation }) => {
                 ...styles.lessonText,
               }}
             >
-              {transliteration} verbs are mostly {aspects[0]} meaning
+              {transliteration} verbs fall under the "{aspects[0]}" category
             </Text>
           </View>
 
@@ -86,7 +97,6 @@ const PatternLessonScreen = ({ route, navigation }) => {
               style={{
                 ...styles.lessonText,
                 ...styles.hebrewText,
-                fontSize: 24,
               }}
             >
               {infinitive_form}
@@ -144,8 +154,8 @@ const PatternLessonScreen = ({ route, navigation }) => {
 
           <View style={{ ...styles.margin5 }}>
             <Text style={styles.lessonText}>
-              Remember that the letters in green are interchangable while the
-              letters in blue will almost always stay the same.
+              Remember that the letters in <Text style={{color: Colors.magenta, ...Typography.regular}}>magenta</Text> are interchangable while the
+              letters in <Text style={{color: Colors.green, ...Typography.regular}}>green</Text> will almost always stay the same.
             </Text>
           </View>
           <View style={{ ...styles.margin5 }}>
@@ -156,23 +166,35 @@ const PatternLessonScreen = ({ route, navigation }) => {
           <View
             style={{
               flex: 1,
-              margin: 10,
-              width: "80%",
+              margin: 20,
+              paddingHorizontal: 10,
               flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              alignSelf: 'center',
+              width: "95%",
             }}
           >
             <StadiumButton
-              name="Continue"
+              name="Go back"
               backgroundColor={Colors.hebrootsBlue}
+              onClick={() =>
+                navigation.goBack()
+              }
+              //size={{width: Sizing.SCREEN_WIDTH/2}}
+            />
+            <StadiumButton
+              name="Continue"
+              backgroundColor={Colors.green}
               onClick={() =>
                 navigation.navigate("ExampleExplore", {
                   pattern_id,
                   subtopic: tense,
                 })
               }
+              //size={{width: Sizing.SCREEN_WIDTH/2}}
             />
+
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -202,23 +224,13 @@ const styles = StyleSheet.create({
     width: Sizing.SCREEN_WIDTH,
     flex: 1,
   },
-  textHeader: {
-    fontFamily: "Bodoni 72",
-    fontWeight: "normal",
-    fontSize: 24,
-    lineHeight: 30,
-    alignItems: "center",
-    textAlign: "center",
-    color: "black",
-  },
   lessonText: {
     ...Typography.light,
-    fontSize: 18,
+    ...Typography.size14,
     lineHeight: 30,
   },
   hebrewText: {
-    fontFamily: "Rubik_400Regular",
-    fontSize: 18,
+    ...Typography.size18,
   },
   title: {
     ...Typography.light,
