@@ -1,6 +1,5 @@
+![](https://user-images.githubusercontent.com/31594943/106532972-3d01ee80-64bf-11eb-951e-6b73b6f5155c.gif)
 # Hebroots
-
-https://user-images.githubusercontent.com/31594943/106532972-3d01ee80-64bf-11eb-951e-6b73b6f5155c.gif
 
 ## Introduction
 
